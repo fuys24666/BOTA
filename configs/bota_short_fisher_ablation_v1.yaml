@@ -1,0 +1,40 @@
+schema: bota-short-fisher-ablation-v1
+test_access_policy: forbidden
+output_root: outputs/bota_short_fisher_ablation_v1
+benchmark_config: configs/bota_short_benchmark_seed42_v3.yaml
+authority:
+  benchmark_name: bota_short_i02_seed42_v3
+  scenario: L8
+  original_run_name: bota_short_original_seed42_v3
+  exact_masked_run_name: bota_short_exact_masked_seed42_v3
+  formal_bota_run_name: bota_short_bota_seed42_v3
+protocol:
+  seed: 42
+  optimizer_steps: 200
+  batch_size: 16
+  arms: [T2_SourceOnly, T2_BlockEmpiricalFisher]
+  shared_canonical_trajectory: true
+  physical_optimizer_step_calls: 200
+  online_optimizer_steps: 0
+  source_only_gradient_response: deletion_source_only
+  fisher_gradient_response: deletion_source_plus_per_sample_block_empirical_fisher
+  authoritative_optimizer_steps_committed: 0
+evaluation:
+  split: Development
+  final_test: false
+  inference_batch_size: 4
+  bootstrap_resamples: 1000
+  bootstrap_seed: 42501
+decision:
+  parameter_relative_l2_material_margin: 0.02
+  behavioral_absolute_residual_material_margin: 0.02
+  auc_damage_noninferiority_margin: 0.001
+  log_loss_damage_noninferiority_margin: 0.002
+  single_seed_stability_claim_forbidden: true
+  posthoc_candidate_selection_forbidden: true
+runtime:
+  required_cuda_devices: 1
+  minimum_free_gib: 10.0
+  allocator_fraction: 0.88
+  hard_peak_reserved_gib: 14.0
+

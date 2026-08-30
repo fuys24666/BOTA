@@ -1,0 +1,75 @@
+schema: bota-if-p0-p1a-trajectory-transport-v1
+test_access_policy: forbidden
+experiment_root: outputs/ru1/i02s42v1
+base_config: outputs/ru1/i02s42v1/configs/base_t5.yaml
+train_data: outputs/ru1/i02s42v1/data/train.json
+raw_data: data/ml-1m/raw_data
+original_checkpoint: checkpoint/ml-1m-base-original-0.0005/model.pt
+output_root: outputs/bota_if_v1/p1_trajectory_transport_audits
+authority:
+  experiment_contract_sha256: 21057df5fe217c36d5d459355eedc062e4c9fd0e83bb9cd50a357b18ce7d7527
+  train_sha256: 05a3c1c3c880f0909685138b7fc6afa7b5ea2de86ff99cad5f12bb9dcd6e28d0
+  original_sha256: 2d064f5e448ae73ad12c66b794d722880f92aedd5d7542fe022652edabcf821f
+  train_samples: 60000
+coordinate:
+  target_modules: [q, v]
+  module_count: 72
+  lora_rank: 16
+  lora_alpha: 32
+  trainable_coordinate: B_only
+  initial_B: zero
+  fixed_a_source: deterministic_request_independent_random_orthonormal
+  fixed_a_seed: 42
+  transport_rank_per_module: 8
+  total_transport_rank: 576
+  transport_source: disjoint_full_train_calibration_batches
+schedule:
+  seed: 42
+  steps: 50
+  batch_size: 16
+  calibration_batches: 16
+  calibration_disjoint_from_training_window: true
+  users: [high_frequency, median_frequency, low_frequency]
+  user_selection_uses_outcomes: false
+optimizer:
+  name: AdamW
+  learning_rate: 0.001
+  betas: [0.9, 0.999]
+  eps: 1.0e-8
+  weight_decay: 0.01
+  scheduler: none
+  gradient_clipping: none
+transport:
+  curvature: per_sample_block_diagonal_empirical_fisher
+  variants: [T0_SGD, T1_AdamW_frozen_v, T2_AdamW_full_state]
+  primary: T2_AdamW_full_state
+  adamw_v_linearization: full_first_order_diagonal_state
+gates:
+  cosine_minimum: 0.8
+  norm_ratio_minimum: 0.5
+  norm_ratio_maximum: 2.0
+  relative_l2_maximum: 0.75
+  positive_module_fraction_minimum: 0.9
+  t2_must_beat_t0: true
+  t2_must_not_be_worse_than_t1: true
+runtime:
+  required_cuda_devices: 1
+  minimum_free_gib: 8.0
+  allocator_fraction: 0.88
+  hard_peak_reserved_gib: 14.0
+  physical_optimizer_step_limit: 200
+privacy:
+  persist_user_ids: false
+  persist_prompts: false
+  persist_tokens: false
+  persist_gradients: false
+  persist_parameters: false
+  persist_optimizer_state: false
+scientific_scope:
+  masked_reference: true
+  masked_slots_preserved: true
+  masked_batch_denominator_preserved: true
+  zero_authoritative_update: true
+  compacted_retrain_reference: false
+  certified_unlearning_claimed: false
+  historical_equivalence_claimed: false

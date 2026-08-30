@@ -1,0 +1,8 @@
+schema: bota-short-paper-v2
+test_access_policy: forbidden
+output_root: outputs/bota_short_multiseed_v3/seed42/paper
+source: {v1_config: configs/bota_short_benchmark_seed42_v3.yaml, v1_benchmark_name: bota_short_i02_seed42_v3}
+protocol: {seed: 42, window_samples: 3200, deleted_samples: 8, batch_size: 16, physical_microbatch: 4, gradient_accumulation: 4, learning_rate: 0.001, max_epochs: 100, patience: 5, min_delta: 0.0, validation_batch_size: 4, neggrad_steps: 200, neggrad_forget_weight: 0.2, pcgrad_steps: 200, pcgrad_projection: deterministic_symmetric_two_task}
+coordinate: {target_modules: [q, v], rank: 16, alpha: 32, trainable: B_only, initial_B: zero}
+evaluation: {split: Development, final_test: false, inference_batch_size: 4, bootstrap_resamples: 1000}
+runtime: {minimum_free_gib: 10.0, hard_peak_reserved_gib: 14.0}

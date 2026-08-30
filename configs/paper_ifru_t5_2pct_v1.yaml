@@ -1,0 +1,53 @@
+schema: paper-ifru-t5-direct-lora-2pct-v1
+development_only: true
+test_access_policy: forbidden
+experiment_root: outputs/ru1/i02s42v1
+experiment_contract_sha256: 21057df5fe217c36d5d459355eedc062e4c9fd0e83bb9cd50a357b18ce7d7527
+method_config: outputs/ru1/i02s42v1/configs/if_a2.yaml
+output_root: outputs/ru1/i02s42v1/models/IFRU-T5/runs
+method:
+  method_id: IFRU-T5-Direct-LoRA
+  source_algorithm: IFRU
+  direct_influence_only: true
+  spillover_term: zero
+  hessian_definition: full_train_empirical_risk
+  curvature_approximation: softmax_cross_entropy_ggn
+  forget_gradient_reduction: sample_mean
+  update_scale: k_over_n
+coordinate:
+  target_modules: [q, v]
+  rank: 16
+  alpha: 32
+  trainable: B_only
+  initial_B: zero
+  basis_source: forget_sample_mean_gradient
+curvature:
+  dataset: full_train
+  panel_samples: 4096
+  panel_seed: 42
+  batch_size: 8
+  reference_strategy: detached_same_forward
+  power_iterations: 12
+  convergence_tolerance: 0.0001
+  numerical_lower_bound: 1.0e-14
+  relative_damping_ratio: 0.01
+solver:
+  implementation: standard_conjugate_gradient
+  relative_residual_tolerance: 0.0001
+  absolute_residual_tolerance: 1.0e-10
+  max_iterations: 40
+  residual_explosion_factor: 1000.0
+  pap_absolute_tolerance: 1.0e-14
+runtime:
+  forget_batch_size: 16
+  allocator_fraction: 0.88
+  minimum_free_gib: 8.0
+  hard_cap_reserved_gib: 14.0
+  seed: 42
+forbidden:
+  - retrain_reference
+  - development_selection
+  - retain_projection
+  - trust_scale
+  - optimizer_step
+  - final_test

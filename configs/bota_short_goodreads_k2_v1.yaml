@@ -1,0 +1,60 @@
+schema: bota-short-benchmark-v1
+test_access_policy: forbidden
+output_root: outputs/bota_goodreads_k2_v1/short_benchmark
+source:
+  dataset: goodreads_comics
+  raw_data: data/goodreads/comics
+  train_json: outputs/bota_goodreads_v1/prepared/goodreads_comics_seed42_v1/train.json
+  development_json: outputs/bota_goodreads_v1/prepared/goodreads_comics_seed42_v1/development.json
+  train_user_ids: outputs/bota_goodreads_v1/prepared/goodreads_comics_seed42_v1/train_user_ids.json
+  development_user_ids: outputs/bota_goodreads_v1/prepared/goodreads_comics_seed42_v1/development_user_ids.json
+  raw_lineage_manifest: outputs/bota_goodreads_v1/prepared/goodreads_comics_seed42_v1/manifest.json
+  original_checkpoint: outputs/bota_goodreads_v1/recommendation_originals/goodreads_recommendation_original_seed42_v2/model
+  base_config: configs/bota_if/p1_trajectory_transport_goodreads_v1.yaml
+  trajectory_config: configs/bota_if/p3b_full_trajectory_v1.yaml
+protocol:
+  seed: 42
+  optimizer_steps: 200
+  batch_size: 16
+  interactions: 3200
+  expected_train_samples: 48687
+  expected_development_samples: 20000
+  request_users: 2
+  minimum_development_samples_per_user: 10
+  require_one_window_exposure_per_user: true
+  scenarios:
+    - {id: K2, composition: {low: 2, middle: 0, high: 0}}
+  frequency_rule: global_train_frequency_then_user_hash_equal_count_terciles
+  selection_fields: [train_user_frequency, window_exposure, development_user_count]
+  selection_uses_labels_or_predictions: false
+coordinate:
+  target_modules: [q, v]
+  rank: 16
+  alpha: 32
+  trainable: B_only
+  initial_B: zero
+  fixed_a_seed: 42
+optimizer:
+  name: AdamW
+  learning_rate: 0.001
+  betas: [0.9, 0.999]
+  eps: 1.0e-8
+  weight_decay: 0.01
+  scheduler: none
+methods:
+  Original-Short: {kind: fixed_ab_canonical, optimizer_steps_per_scenario: 200}
+  Retrain-Short: {kind: fixed_ab_masked, optimizer_steps_per_scenario: 200}
+  IFRU-Short-LoRA: {kind: ifru_fixed_ab, online_optimizer_steps: 0, curvature_panel_samples: 512, cg_max_iterations: 40}
+  SISA-Short-T5: {kind: sisa, shards: 4, slices: 4, epochs_per_slice: 1}
+  RecEraser-Adapter-Short: {kind: receraser, shards: 4, epochs_per_slice: 1}
+  BOTA-T2-Short: {kind: bota_t2, optimizer_steps_per_scenario: 200, online_optimizer_steps: 0}
+evaluation:
+  split: Development
+  final_test: false
+  inference_batch_size: 4
+  bootstrap_resamples: 1000
+runtime:
+  required_cuda_devices: 1
+  minimum_free_gib: 10.0
+  allocator_fraction: 0.88
+  hard_peak_reserved_gib: 14.0

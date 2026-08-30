@@ -1,0 +1,90 @@
+schema: bota-if-p3b-full-trajectory-v1
+test_access_policy: forbidden
+experiment_root: outputs/ru1/i02s42v1
+output_root: outputs/ru1/i02s42v1/models/BOTA-IF/runs
+authority:
+  experiment_manifest_sha256: 82cfa976a628bb118e28c744ca1114b782958b2b7bb44b3dceea8549b3530197
+  experiment_contract_sha256: 21057df5fe217c36d5d459355eedc062e4c9fd0e83bb9cd50a357b18ce7d7527
+  original_sha256: 2d064f5e448ae73ad12c66b794d722880f92aedd5d7542fe022652edabcf821f
+  train_sha256: 05a3c1c3c880f0909685138b7fc6afa7b5ea2de86ff99cad5f12bb9dcd6e28d0
+  retain_sha256: 05916534afd498fa045f89c66b37ef050398cb7971d113994b13f5f8f3724723
+  development_sha256: 0bef6939ed80b8a3c861bb62cac55f29ae6d7bb026b1faf833530974c7e43431
+  selected_user_order_sha256: 156cd3445a86a108b30c6f9bf5094a7edb653bf2af04b89010c5fdc9db525431
+  p3a_run: outputs/bota_if_v1/p3a_transactional_feasibility_runs/bota_if_p3a_i02s42v1_seed0_v1
+  p3a_report_sha256: 1afaa2201cf5515110f23954279e8baef59252fb8444b4834eee98a360f332c9
+  p3a_manifest_sha256: fc43c74a2ab2260744d6f474d131d389b540f7c44256612e2d99d1a9400bd5df
+  p3a_run_state_sha256: 6a04e25eb9eeba2a40e80077bfe9ad2be3a9491ace800cfd71c4ee9de1cc90c3
+trajectory:
+  seed: 42
+  training_samples: 60000
+  batch_size: 16
+  optimizer_steps: 3750
+  epochs: 1
+  users: 1025
+  transport_chunk_users: 96
+  transport_chunks: 11
+  variants: [T1_AdamW_frozen_v, T2_AdamW_full_state]
+  primary: T2_AdamW_full_state
+  storage_dtype: float16
+  full_training_trajectory: true
+coordinate:
+  target_modules: [q, v]
+  module_count: 72
+  lora_rank: 16
+  lora_alpha: 32
+  trainable_coordinate: B_only
+  initial_B: zero
+  fixed_a_seed: 42
+optimizer:
+  name: AdamW
+  learning_rate: 0.001
+  betas: [0.9, 0.999]
+  eps: 1.0e-8
+  weight_decay: 0.01
+  scheduler: none
+  gradient_clipping: none
+request:
+  source: frozen_ratio_experiment_selected_users
+  users: 8
+  interaction_ratio: 0.020966666666666668
+  proxy: T1_T2_relative_difference
+  proxy_threshold: 0.75
+  threshold_transferred_from_independent_50step_validation: true
+  development_used_for_routing: false
+  rejected_route: IF-A2-Fast_or_Retain-Retrain
+references:
+  matched_masked_optimizer_steps: 3750
+  compacted_retain_optimizer_steps: 3672
+  compacted_retain_samples: 58742
+  development_used_for_training: false
+evaluation:
+  split: Development
+  path: outputs/ru1/i02s42v1/data/development.json
+  samples: 20000
+  smoke_samples: 32
+  full_comparison_entrypoint: scripts/paper/run_ratio_unlearning_evaluation_v1.ps1
+  final_test: false
+runtime:
+  required_cuda_devices: 1
+  minimum_free_gib: 10.0
+  allocator_fraction: 0.88
+  hard_peak_reserved_gib: 14.0
+  maximum_physical_optimizer_steps: 48672
+  resume_only_from_paused_chunk_boundary: true
+privacy:
+  persist_raw_user_ids: false
+  persist_prompts: false
+  persist_tokens: false
+  persist_gradients: false
+  persist_optimizer_state: false
+  influence_bank_is_sensitive_local_artifact: true
+scientific_scope:
+  method_name: BOTA-IF-AdamW-Transport
+  hessian_or_cg_online: false
+  online_optimizer_steps: 0
+  online_backward_calls: 0
+  certified_unlearning_claimed: false
+  exact_retrain_equivalence_claimed: false
+  primary_reference: same_initialization_compacted_retain_adapter
+  contextual_legacy_baselines_are_not_paired_training_lineages: true
+  test_access: false

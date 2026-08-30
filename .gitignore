@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environments and editors
+.venv/
+venv/
+env/
+.idea/
+.vscode/
+*.code-workspace
+
+# Local data and model artifacts
+data/*
+!data/README.md
+checkpoints/*
+!checkpoints/README.md
+pretrained_models/*
+!pretrained_models/README.md
+outputs/
+artifacts/
+tmp/
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+*.npz
+*.npy
+
+# Generated reports and logs
+*.log
+*.out
+*.csv
+*.tsv
+wandb/
+runs/
+
+# Secrets and machine-local overrides
+.env
+.env.*
+!.env.example
+configs/local/
+*.local.yaml
+*.local.yml
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

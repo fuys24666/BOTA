@@ -1,0 +1,28 @@
+schema: bota-short-online-latency-v1
+test_access_policy: forbidden
+output_root: outputs/bota_short_latency_v1
+source:
+  benchmark_config: configs/bota_short_benchmark_seed42_v3.yaml
+  benchmark_name: bota_short_i02_seed42_v3
+  bota_run_name: bota_short_bota_seed42_v3
+protocol:
+  seed: 42
+  scenarios: [L8, L4M4]
+  trajectory_optimizer_steps: 200
+  transport: T2_AdamW_full_state
+  warmup_iterations: 20
+  measurement_iterations: 1000
+  percentiles: [50, 95]
+  percentile_method: linear
+  bank_dtype: float32
+  publication_semantics: fsync_files_then_atomic_directory_rename
+  reload_validation: exact_tensor_equality_every_iteration
+  scenario_order: alternating_first_scenario
+privacy:
+  persist_raw_user_ids: false
+  persist_prompt_or_token_data: false
+  persist_latency_scalars: true
+runtime:
+  minimum_free_gib_for_bank_build: 10.0
+  allocator_fraction: 0.88
+  hard_peak_reserved_gib: 14.0

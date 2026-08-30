@@ -1,0 +1,20 @@
+schema: bota-goodreads-comics-preparation-v1
+test_access_policy: forbidden
+output_root: outputs/bota_goodreads_v1/prepared
+source:
+  books: data/goodreads/comics/goodreads_books_comics_graphic.json.gz
+  interactions: data/goodreads/comics/goodreads_interactions_comics_graphic.json.gz
+protocol:
+  seed: 42
+  selected_users: 2000
+  minimum_explicit_interactions: 21
+  history_length: 10
+  development_targets_per_user: 10
+  maximum_train_targets_per_user: 40
+  positive_rating_minimum: 4
+  chronology: date_updated_then_review_id
+  selection: sha256_seeded_user_sample
+privacy:
+  persist_raw_user_ids: false
+  persist_review_text: false
+  persist_prompts: true

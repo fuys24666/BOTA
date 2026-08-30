@@ -1,0 +1,21 @@
+schema: bota-short-t012-behavior-ablation-v1
+test_access_policy: forbidden
+output_root: outputs/bota_short_t012_behavior_ablation_v1
+benchmark_config: configs/bota_short_benchmark_v1.yaml
+protocol:
+  optimizer_steps: 200
+  batch_size: 16
+  variants: [T0_SGD, T1_AdamW_frozen_v, T2_AdamW_full_state]
+  scenarios: [L8, L4M4]
+  paired_reference_optimizer_steps: 200
+  physical_optimizer_step_calls: 400
+  authoritative_optimizer_steps_committed: 0
+evaluation:
+  split: Development
+  final_test: false
+  inference_batch_size: 4
+  bootstrap_resamples: 1000
+  bootstrap_seed: 42012
+runtime:
+  required_cuda_devices: 1
+  hard_peak_reserved_gib: 14.0

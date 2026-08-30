@@ -1,0 +1,89 @@
+schema: bota-if-p2b-full-module-adamw-transport-v1
+test_access_policy: forbidden
+base_config: outputs/ru1/i02s42v1/configs/base_t5.yaml
+train_data: outputs/ru1/i02s42v1/data/train.json
+raw_data: data/ml-1m/raw_data
+original_checkpoint: checkpoint/ml-1m-base-original-0.0005/model.pt
+output_root: outputs/bota_if_v1/p2b_full_module_adamw_transport_audits
+authority:
+  predecessor_run: outputs/bota_if_v1/p2a_user_sparse_module_oracle_audits/bota_if_p2a_i02s42v1_seed42_v1
+  predecessor_report_sha256: dc6dfec5b31e2df0a945f6b9f53ef023481ea2fc46b074cc211d94ba1300a75e
+  predecessor_manifest_sha256: c1d2e74c9294d7a2fb259f2b9070821c6e6f3fcc4c716421a2b98c567b7a6213
+  predecessor_run_state_sha256: b2054d9eb73d083515d893d9b3e97ef2dd0d3addf51865ab3baeaa1c138c77f0
+  train_sha256: 05a3c1c3c880f0909685138b7fc6afa7b5ea2de86ff99cad5f12bb9dcd6e28d0
+  original_sha256: 2d064f5e448ae73ad12c66b794d722880f92aedd5d7542fe022652edabcf821f
+coordinate:
+  target_modules: [q, v]
+  module_count: 72
+  lora_rank: 16
+  lora_alpha: 32
+  trainable_coordinate: B_only
+  initial_B: zero
+  fixed_a_seed: 42
+  transport_coordinate: full_qv_lora_b
+  transport_dimension: 884736
+  shared_low_rank_coordinate_used: false
+  module_truncation_used: false
+schedule:
+  seed: 42
+  steps: 50
+  batch_size: 16
+  users: [high_frequency, median_frequency, low_frequency]
+  exact_predecessor_train_order_required: true
+  exact_predecessor_user_roles_required: true
+optimizer:
+  name: AdamW
+  learning_rate: 0.001
+  betas: [0.9, 0.999]
+  eps: 1.0e-8
+  weight_decay: 0.01
+  scheduler: none
+  gradient_clipping: none
+transport:
+  curvature: per_sample_block_diagonal_empirical_fisher
+  variants: [T0_SGD, T1_AdamW_frozen_v, T2_AdamW_full_state]
+  primary: T2_AdamW_full_state
+  state_dtype: float32_formal_parameter_dtype
+  full_v_linearization: true
+quantization:
+  formats: [float16, bfloat16]
+  source: full_precision_authority_vector
+  dequantize_to: float32
+  fp16_relative_l2_maximum: 0.001
+  bf16_relative_l2_maximum: 0.01
+  cosine_minimum: 0.9999
+  quantized_vectors_persisted: false
+gates:
+  cosine_minimum: 0.8
+  norm_ratio_minimum: 0.5
+  norm_ratio_maximum: 2.0
+  relative_l2_maximum: 0.75
+  positive_module_fraction_minimum: 0.9
+  t2_must_beat_t0: true
+  t2_must_not_be_worse_than_t1: true
+runtime:
+  required_cuda_devices: 1
+  minimum_free_gib: 8.0
+  allocator_fraction: 0.88
+  hard_peak_reserved_gib: 14.0
+  physical_optimizer_step_limit: 200
+privacy:
+  persist_user_ids: false
+  persist_prompts: false
+  persist_tokens: false
+  persist_gradients: false
+  persist_parameters: false
+  persist_optimizer_state: false
+  persist_bank_vectors: false
+scientific_scope:
+  full_module_transport_only: true
+  masked_reference: true
+  masked_slots_preserved: true
+  masked_batch_denominator_preserved: true
+  zero_authoritative_update: true
+  compacted_retrain_reference: false
+  certified_unlearning_claimed: false
+  historical_equivalence_claimed: false
+  development_access: false
+  retrain_access: false
+  test_access: false
