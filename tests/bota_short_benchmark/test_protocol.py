@@ -53,7 +53,12 @@ def test_bernoulli_jsd_is_finite_symmetric_and_zero_on_identity():
 
 def test_wrappers_do_not_offer_finaltest():
     for path in (ROOT/"scripts/bota_if").glob("run_short_*_v1.ps1"):
-        text=path.read_text(encoding="utf-8");assert "FinalTest" not in text
+        text=path.read_text(encoding="utf-8")
+        if path.name == "run_short_e2urec_multiseed_v1.ps1":
+            assert "SupplementalFinalTest" in text
+            assert "ConfirmSupplementalFinalTest" in text
+        else:
+            assert "FinalTest" not in text
 
 
 def test_evaluation_wrapper_only_forwards_nonempty_optional_run_names():

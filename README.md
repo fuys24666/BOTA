@@ -27,6 +27,8 @@ src/bota_short_benchmark Main benchmark, evaluation and latency code
 src/bota_if/             BOTA trajectory transport kernels
 src/paper_baselines/     SISA and RecEraser implementations
 src/paper_ratio_suite/   IFRU implementation used in the comparison
+src/paper_e2urec_fair_pair_v2/
+                         E2URec fair-pair loss used by the adapted baseline
 src/diagnostics/         Minimal shared T5/LoRA runtime dependencies
 tests/                   Curated unit and synthetic tests
 docs/                    Artifact layout and release notes
@@ -43,7 +45,12 @@ The following are deliberately excluded:
 - FinalTest predictions or any user-level identifiers;
 - the manuscript source, local research notes, failed-run ledgers and exploratory audits.
 
-See [docs/ARTIFACTS.md](docs/ARTIFACTS.md) for the required local layout. The data preparation follows the text-to-text recommendation setup of [E2URec](https://github.com/justarter/E2URec); users must comply with the original dataset and model licenses.
+See [docs/ARTIFACTS.md](docs/ARTIFACTS.md) for the required local layout and
+[docs/EXPERIMENT_PROTOCOL.md](docs/EXPERIMENT_PROTOCOL.md) for the centralized
+data, optimizer, baseline-budget and timing specification. The data preparation
+follows the text-to-text recommendation setup of
+[E2URec](https://github.com/justarter/E2URec); users must comply with the
+original dataset and model licenses.
 
 ## Environment
 
@@ -124,7 +131,7 @@ Replace `L8` with `L4M4` for the mixed low/middle-frequency request. The same la
 
 ### 3. Run baselines
 
-Formal entry points are provided for IFRU, NegGrad, PCGrad, SISA, RecEraser, FullControl-P5 and Retain-Retrain-P5 in `scripts/bota_if/`. Each launcher exposes its parameters through PowerShell help, for example:
+Formal entry points are provided for IFRU, E2URec, NegGrad, PCGrad, SISA, RecEraser, FullControl-P5 and Retain-Retrain-P5 in `scripts/bota_if/`. Each launcher exposes its parameters through PowerShell help, for example:
 
 ```powershell
 Get-Help ./scripts/bota_if/run_short_ifru_v1.ps1 -Detailed
@@ -152,6 +159,58 @@ FinalTest is intentionally a separate, explicit one-time step:
 ```
 
 Do not use FinalTest for model selection or hyperparameter tuning.
+
+### 5. Reproduce the E2URec row
+
+E2URec is adapted to the same registered L8/L4M4 requests and fixed-A,
+trainable-B LoRA coordinate. It starts from each seed's completed
+`Original-Short` model. Train all six seed/scenario conditions and aggregate
+Development first:
+
+```powershell
+foreach ($Seed in 41, 42, 43) {
+  ./scripts/bota_if/run_short_e2urec_multiseed_v1.ps1 `
+    -Mode Full `
+    -Seed $Seed `
+    -Scenario All `
+    -RunName "bota_short_e2urec_seed${Seed}_v1"
+}
+
+./scripts/bota_if/run_short_e2urec_multiseed_v1.ps1 `
+  -Mode EvaluateDevelopment `
+  -RunName bota_short_e2urec_multiseed_development_v1
+```
+
+The paper added E2URec after the primary FinalTest was complete. Its
+baseline-only supplemental FinalTest reuses the frozen Original and
+Exact-Masked predictions from that primary run and performs new inference only
+for E2URec:
+
+```powershell
+$PrimaryFinal = "bota_short_multiseed_finaltest_ml1m_seed41_43_v3_recovery1"
+$E2URecDev = "bota_short_e2urec_multiseed_development_v1"
+$E2URecFinal = "bota_short_e2urec_supplemental_finaltest_v1"
+
+./scripts/bota_if/run_short_e2urec_multiseed_v1.ps1 `
+  -Mode SupplementalFinalTestPreflight `
+  -DevelopmentRunName $E2URecDev `
+  -PrimaryFinalTestRunName $PrimaryFinal
+
+./scripts/bota_if/run_short_e2urec_multiseed_v1.ps1 `
+  -Mode EvaluateSupplementalFinalTest `
+  -RunName $E2URecFinal `
+  -DevelopmentRunName $E2URecDev `
+  -PrimaryFinalTestRunName $PrimaryFinal `
+  -ConfirmSupplementalFinalTest
+
+./scripts/bota_if/run_short_e2urec_multiseed_v1.ps1 `
+  -Mode AnalyzeSupplementalFinalTest `
+  -RunName $E2URecFinal
+```
+
+If your primary FinalTest has another run name, change only
+`$PrimaryFinal`. The supplemental evaluator validates its manifest and
+prediction hashes before reusing it.
 
 ## Online latency and Fisher ablation
 

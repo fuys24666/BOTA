@@ -15,12 +15,25 @@ outputs/ru1/i02s42v1/data/train.json                  60,000 training prompts
 outputs/ru1/i02s42v1/data/retain.json                 retained training prompts
 outputs/ru1/i02s42v1/data/forget.json                 deletion prompts
 outputs/ru1/i02s42v1/data/development.json            20,000 Development prompts
-outputs/ru1/i02s42v1/data/test.json                   held-out FinalTest prompts
+data/ml-1m/proc_data/data/test/test_10_simple.json    held-out FinalTest prompts
 ```
 
 The Original checkpoint used in the audited experiments is approximately 892 MB and therefore must be distributed through a release asset, model hub or institutional archive rather than ordinary Git. The text-to-text preprocessing lineage follows [E2URec](https://github.com/justarter/E2URec). The upstream repository contains the MovieLens preprocessing notebooks and prompt conversion scripts; it does not remove the need to obtain MovieLens under its own terms.
 
 The seed-41/42/43 experiments use the same frozen data and recommendation Original, while changing the fixed LoRA-A seed and stochastic run seed through the supplied configs.
+
+The main three-seed FinalTest evaluator validates
+`data/ml-1m/proc_data/data/test/test_10_simple.json` against a deterministic
+replay from `ratings.dat` before inference. The E2URec supplemental evaluator
+also requires the completed primary FinalTest directory under:
+
+```text
+outputs/bota_short_multiseed_finaltest_v3/evaluations/<primary-finaltest-run-name>/
+```
+
+Pass `<primary-finaltest-run-name>` with
+`-PrimaryFinalTestRunName`; the reported experiment used
+`bota_short_multiseed_finaltest_ml1m_seed41_43_v3_recovery1`.
 
 ## GoodReads comics
 
