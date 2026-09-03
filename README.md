@@ -250,4 +250,4 @@ Please cite the BOTA paper once its public preprint record is available. The fin
 
 ## License
 
-A source-code license has not yet been selected. Add an explicit `LICENSE` before making the GitHub repository public; without one, reuse rights are not granted automatically.
+This project is released under the MIT License. See [LICENSE](LICENSE) for details.
