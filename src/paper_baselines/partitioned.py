@@ -226,8 +226,8 @@ def _new_local_model(root:Path,config:dict[str,Any],kind:str,device:torch.device
     return clean_lora_model(root/config["sources"]["original"]["path"],config["lora"],device)
 
 
-def execute(root:Path,config_path:Path,run_name:str,kind:str,resume:bool,partition_seed_override:int|None=None)->dict[str,Any]:
-    config=load_config(config_path,SCHEMAS[kind]);validate_partition_config(config,kind);audit=partitioned_budget(config,kind);partition_seed=int(partition_seed_override if partition_seed_override is not None else config["protocol"].get("partition_seed",config["seed"]));pre=preflight(root,config_path,kind,formal=True,partition_seed_override=partition_seed);contract=pre["contract"]
+def execute(root:Path,config_path:Path,run_name:str,kind:str,resume:bool,partition_seed_override:int|None=None,formal:bool=True)->dict[str,Any]:
+    config=load_config(config_path,SCHEMAS[kind]);validate_partition_config(config,kind);audit=partitioned_budget(config,kind);partition_seed=int(partition_seed_override if partition_seed_override is not None else config["protocol"].get("partition_seed",config["seed"]));pre=preflight(root,config_path,kind,formal=formal,partition_seed_override=partition_seed);contract=pre["contract"]
     full=json.loads((root/config["sources"]["train"]["path"]).read_text(encoding="utf-8"));forget_rows=json.loads((root/config["sources"]["forget"]["path"]).read_text(encoding="utf-8"));development_rows=json.loads((root/config["sources"]["development"]["path"]).read_text(encoding="utf-8"));train_entities,development_entities,identity_authority=_verified_short_benchmark_entity_ids(root,config,full,development_rows);split_disjointness=assert_interaction_disjoint(full,development_rows,train_entities,development_entities);forget=set(locate_subset_rows(full,forget_rows));shards=config["protocol"]["shards"]
     partition=sisa_partition(full,shards,config["protocol"].get("slices",1),partition_seed) if kind=="sisa" else {shard:{0:[]} for shard in range(shards)}
     if kind=="receraser":

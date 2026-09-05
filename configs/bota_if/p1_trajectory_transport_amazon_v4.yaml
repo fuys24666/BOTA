@@ -1,0 +1,20 @@
+schema: bota-if-p0-p1a-trajectory-transport-v1
+test_access_policy: forbidden
+experiment_root: outputs/bota_amazon_movies_tv_v4
+base_config: outputs/ru1/i02s42v1/configs/base_t5.yaml
+train_data: outputs/bota_amazon_movies_tv_v4/prepared/amazon_movies_tv_newusers_seed42_v4/train.json
+raw_data: data/Amazon_Reviews_2023_Movies_and_TV
+original_checkpoint: outputs/bota_amazon_movies_tv_v3/originals/amazon_movies_tv_titles_original_p5_seed42_v3/model
+output_root: outputs/bota_amazon_movies_tv_v4/runtime
+coordinate:
+  lora_rank: 16
+  lora_alpha: 32
+  fixed_a_seed: 42
+optimizer:
+  name: AdamW
+  learning_rate: 0.001
+  betas: [0.9, 0.999]
+  eps: 1.0e-8
+  weight_decay: 0.01
+  scheduler: none
+

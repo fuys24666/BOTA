@@ -1,0 +1,32 @@
+schema: bota-amazon-movies-tv-small-preparation-v1
+test_access_policy: forbidden
+output_root: outputs/bota_amazon_movies_tv_v1/prepared
+source:
+  reviews: data/Amazon_Reviews_2023_Movies_and_TV/raw/review_categories/Movies_and_TV.jsonl
+  metadata: data/Amazon_Reviews_2023_Movies_and_TV/raw/meta_categories/meta_Movies_and_TV.jsonl.gz
+  metadata_sha256: 0afbb248ddb00c012c3e2c1e68505b7cd28b02a2c83fb4421ff0c71ad5a48b8d
+protocol:
+  seed: 42
+  hash_sample_modulus: 1000
+  hash_sample_buckets: 50
+  selected_users: 256
+  minimum_explicit_interactions: 25
+  history_length: 10
+  development_targets_per_user: 5
+  maximum_train_targets_per_user: 20
+  positive_rating_minimum: 4
+  chronology: timestamp_then_parent_asin_then_source_row_hash
+  selection: eligible_users_sha256_ordered
+privacy:
+  persist_raw_user_ids: false
+  persist_raw_item_ids: false
+  persist_review_text: false
+  persist_review_title: false
+  persist_prompts: true
+scientific_scope:
+  exploratory_small_scale_only: true
+  real_item_titles_from_official_metadata: true
+  development_only: true
+  final_test_created: false
+  test_accessed: false
+

@@ -34,15 +34,24 @@ def load_config(path: Path) -> dict[str, Any]:
     if protocol["optimizer_steps"] != 200 or protocol["batch_size"] != 16 or protocol["interactions"] != 3200:
         raise ValueError("short-window budget changed")
     legacy = {"L8": {"low": 8, "middle": 0, "high": 0}, "L4M4": {"low": 4, "middle": 4, "high": 0}, "L3M3H2": {"low": 3, "middle": 3, "high": 2}}
-    cardinality = {
-        "K2": {"low": 2, "middle": 0, "high": 0},
-        "K4": {"low": 4, "middle": 0, "high": 0},
-    }
+    cardinality_ids = {"K2": 2, "K4": 4}
     actual = {row["id"]: row["composition"] for row in protocol["scenarios"]}
     registered_short_subset = set(actual) == {"L8", "L4M4"} and all(actual[key] == legacy[key] for key in actual)
-    if actual != legacy and not registered_short_subset and not (len(actual) == 1 and next(iter(actual.items())) in cardinality.items()):
+    registered_cardinality = bool(actual) and set(actual) <= set(cardinality_ids) and all(
+        sum(map(int, composition.values())) == cardinality_ids[scenario]
+        and set(composition) == {"low", "middle", "high"}
+        for scenario, composition in actual.items()
+    )
+    if actual != legacy and not registered_short_subset and not registered_cardinality:
         raise ValueError("request registry definition changed")
-    if protocol["request_users"] != sum(next(iter(actual.values())).values()) or protocol["selection_uses_labels_or_predictions"] is not False:
+    request_counts = {sum(map(int, composition.values())) for composition in actual.values()}
+    configured_request_users = protocol["request_users"]
+    valid_request_users = (
+        configured_request_users == next(iter(request_counts))
+        if len(request_counts) == 1
+        else sorted(map(int, configured_request_users)) == sorted(request_counts)
+    )
+    if not valid_request_users or protocol["selection_uses_labels_or_predictions"] is not False:
         raise ValueError("request registry definition changed")
     if value["evaluation"] != {"split": "Development", "final_test": False, "inference_batch_size": 4, "bootstrap_resamples": 1000}:
         raise ValueError("Development-only evaluation changed")
@@ -91,25 +100,34 @@ def freeze_registry(root: Path, config: dict[str, Any]) -> dict[str, Any]:
     ordered_users = sorted(global_counts, key=lambda user: (global_counts[user], hashlib.sha256(f"p3c1-tercile:{user}".encode()).hexdigest()))
     cut1, cut2 = len(ordered_users) // 3, 2 * len(ordered_users) // 3; terciles = {"low": ordered_users[:cut1], "middle": ordered_users[cut1:cut2], "high": ordered_users[cut2:]}
     pools: dict[str, list[int]] = {}
+    require_one = bool(protocol.get("require_one_window_exposure_per_user", True))
+    exposure_minimum = int(protocol.get("minimum_window_exposure_per_user", 1))
+    exposure_maximum = int(protocol.get("maximum_window_exposure_per_user", 1 if require_one else protocol["interactions"]))
+    selection_offsets = protocol.get("selection_offset_by_role", {"low": 0, "middle": 0, "high": 0})
+    if set(selection_offsets) != {"low", "middle", "high"} or any(not isinstance(value, int) or value < 0 for value in selection_offsets.values()):
+        raise ValueError("invalid outcome-blind pool offsets")
+    if exposure_minimum < 1 or exposure_maximum < exposure_minimum or (require_one and (exposure_minimum, exposure_maximum) != (1, 1)):
+        raise ValueError("invalid frozen window-exposure range")
     for role in ("low", "middle", "high"):
-        pool = [int(user) for user in terciles[role] if window_counts[int(user)] == 1 and development_counts[int(user)] >= protocol["minimum_development_samples_per_user"]]
-        pool.sort(key=lambda user: hashlib.sha256(f"bota-short-pool:{protocol['seed']}:{role}:{user}".encode()).hexdigest())
+        pool = [int(user) for user in terciles[role] if exposure_minimum <= window_counts[int(user)] <= exposure_maximum and development_counts[int(user)] >= protocol["minimum_development_samples_per_user"]]
+        pool.sort(key=lambda user: ((0 if require_one else window_counts[user]), hashlib.sha256(f"bota-short-pool:{protocol['seed']}:{role}:{user}".encode()).hexdigest()))
         pools[role] = pool
-    required = {role: max(int(row["composition"][role]) for row in protocol["scenarios"]) for role in ("low", "middle", "high")}
+    required = {role: int(selection_offsets[role]) + max(int(row["composition"][role]) for row in protocol["scenarios"]) for role in ("low", "middle", "high")}
     if any(len(pools[role]) < required[role] for role in required):
         raise RuntimeError("insufficient outcome-blind users for frozen scenarios")
     scenarios = []
     for row in protocol["scenarios"]:
         selected: list[tuple[str, int]] = []
         for role in ("low", "middle", "high"):
-            selected.extend((role, user) for user in pools[role][:int(row["composition"][role])])
+            start = int(selection_offsets[role]); count = int(row["composition"][role])
+            selected.extend((role, user) for user in pools[role][start:start + count])
         users = [user for _, user in selected]; slots = [position for position, index in enumerate(order) if int(user_ids[index]) in set(users)]
         train_indices = [order[position] for position in slots]
-        requested = int(protocol["request_users"])
-        if len(users) != requested or len(slots) != requested or len(set(users)) != requested:
-            raise RuntimeError(f"scenario {row['id']} does not contain the frozen number of one-exposure users")
+        requested = sum(map(int, row["composition"].values()))
+        if len(users) != requested or len(set(users)) != requested or not slots or (require_one and len(slots) != requested):
+            raise RuntimeError(f"scenario {row['id']} does not contain the frozen number of eligible users")
         public = [_public_member(user, role, global_counts, window_counts, development_counts, protocol["seed"]) for role, user in selected]
-        scenarios.append({"id": row["id"], "composition": row["composition"], "users": users, "forget_window_positions": slots, "forget_train_indices": train_indices, "public_members": public, "request_hash": canonical_hash(public), "deleted_interactions": requested, "window_interactions": 3200, "actual_window_ratio": requested / 3200})
+        scenarios.append({"id": row["id"], "composition": row["composition"], "users": users, "forget_window_positions": slots, "forget_train_indices": train_indices, "public_members": public, "request_hash": canonical_hash(public), "deleted_interactions": len(slots), "requested_users": requested, "require_one_window_exposure_per_user": require_one, "window_exposure_range": [exposure_minimum, exposure_maximum], "selection_offset_by_role": selection_offsets, "window_interactions": 3200, "actual_window_ratio": len(slots) / 3200})
     public_scenarios = [{key: value for key, value in row.items() if key != "users"} for row in scenarios]
     return {"schema": SCHEMA, "seed": protocol["seed"], "order": order, "order_sha256": canonical_hash(order), "batch_order_sha256": canonical_hash([order[start:start + 16] for start in range(0, 3200, 16)]), "scenarios": scenarios, "public_scenarios": public_scenarios, "registry_sha256": canonical_hash(public_scenarios), "global_train_samples": len(user_ids), "development_samples": len(development_user_ids), "train_lineage": replay, "selection_uses_labels_or_predictions": False, "test_accessed": False}
 

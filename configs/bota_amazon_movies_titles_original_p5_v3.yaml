@@ -1,17 +1,17 @@
-schema: bota-goodreads-recommendation-original-v1
+schema: bota-amazon-movies-tv-titles-original-p5-v3
 test_access_policy: forbidden
-output_root: outputs/bota_goodreads_v1/recommendation_originals
+output_root: outputs/bota_amazon_movies_tv_v3/originals
 source:
   pretrained_model: pretrained_models/t5-base
   pretrained_model_sha256: 328d2922d333f4a46d3a3317289d7fbcefe36f8e24a91a325c5bfe7d2301e15e
-  prepared_root: outputs/bota_goodreads_v1/prepared/goodreads_comics_seed42_v1
-  prepared_manifest_sha256: f6748c455fd72dd340d8da8f336f0e3f1d988964851d0d4b927610700a96acf2
-  train_json: outputs/bota_goodreads_v1/prepared/goodreads_comics_seed42_v1/train.json
-  train_sha256: 9877ae55b0d5f42ceaebbaaee65953ac9260a79ac7fa2820370bf8e12b7efc03
-  development_json: outputs/bota_goodreads_v1/prepared/goodreads_comics_seed42_v1/development.json
-  development_sha256: 9a54f89dabc25f582149ab0b75dbd0b8463aa5ddacae908eb50ce9988a59c717
-  train_samples: 48687
-  development_samples: 20000
+  prepared_root: outputs/bota_amazon_movies_tv_v1/prepared/amazon_movies_tv_titles_seed42_v2
+  prepared_manifest_sha256: ceeea210bc826ee427b279c9296f13da222fefbac1079776916616ab9ed704db
+  train_json: outputs/bota_amazon_movies_tv_v1/prepared/amazon_movies_tv_titles_seed42_v2/train.json
+  train_sha256: 6d9abcb566c7fae04b2ac3c0aaf1cd5ea048e3b137ea2843dc7e8d91ca92edca
+  development_json: outputs/bota_amazon_movies_tv_v1/prepared/amazon_movies_tv_titles_seed42_v2/development.json
+  development_sha256: 1c47e7ba622eef8a920451a057e6cf36a12daf114f642085ac8318f5686eaf50
+  train_samples: 4415
+  development_samples: 1280
 coordinate:
   target_modules: [q, v]
   module_count: 72
@@ -49,8 +49,10 @@ runtime:
   allocator_fraction: 0.88
   hard_peak_reserved_gib: 14.0
 scientific_scope:
-  full_goodreads_training_split: true
+  exploratory_small_scale_only: true
+  real_item_titles_from_official_metadata: true
   development_only_selection: true
   final_test_access: false
   recommendation_original_not_unlearning_model: true
-  parameter_efficient_training_then_deterministic_weight_merge: true
+  formal_dataset_claim: false
+

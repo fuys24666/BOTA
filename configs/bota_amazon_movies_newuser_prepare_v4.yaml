@@ -1,0 +1,36 @@
+schema: bota-amazon-movies-tv-newuser-preparation-v4
+test_access_policy: forbidden
+output_root: outputs/bota_amazon_movies_tv_v4/prepared
+source:
+  reviews: data/Amazon_Reviews_2023_Movies_and_TV/raw/review_categories/Movies_and_TV.jsonl
+  metadata: data/Amazon_Reviews_2023_Movies_and_TV/raw/meta_categories/meta_Movies_and_TV.jsonl.gz
+  metadata_sha256: 0afbb248ddb00c012c3e2c1e68505b7cd28b02a2c83fb4421ff0c71ad5a48b8d
+  historical_prepared_manifest: outputs/bota_amazon_movies_tv_v1/prepared/amazon_movies_tv_titles_seed42_v2/manifest.json
+  historical_prepared_manifest_sha256: ceeea210bc826ee427b279c9296f13da222fefbac1079776916616ab9ed704db
+protocol:
+  seed: 42
+  hash_sample_modulus: 1000
+  hash_sample_buckets: 50
+  selected_users: 1024
+  historical_users: 256
+  adaptation_users: 768
+  minimum_explicit_interactions: 25
+  history_length: 10
+  development_targets_per_user: 5
+  maximum_train_targets_per_user: 20
+  positive_rating_minimum: 4
+  chronology: timestamp_then_parent_asin_then_source_row_hash
+  cohort_selection: eligible_users_sha256_ordered_first_256_historical_next_768_new
+privacy:
+  persist_raw_user_ids: false
+  persist_raw_item_ids: false
+  persist_review_text: false
+  persist_review_title: false
+  persist_prompts: true
+scientific_scope:
+  exploratory_operating_range_only: true
+  historical_and_adaptation_users_disjoint: true
+  development_only: true
+  final_test_created: false
+  test_accessed: false
+

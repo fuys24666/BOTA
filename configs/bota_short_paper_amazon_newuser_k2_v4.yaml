@@ -1,9 +1,9 @@
 schema: bota-short-paper-v2
 test_access_policy: forbidden
-output_root: outputs/bota_goodreads_k2_v1/short_paper_v2
+output_root: outputs/amz_v4/paper_k2
 source:
-  v1_config: configs/bota_short_goodreads_k2_v1.yaml
-  v1_benchmark_name: goodreads_k2_short_seed42_v1
+  v1_config: configs/bota_short_amazon_movies_newuser_k2k4_v4.yaml
+  v1_benchmark_name: amz_new_k2k4_s42_v4
 protocol:
   seed: 42
   window_samples: 3200
@@ -34,3 +34,4 @@ evaluation:
 runtime:
   minimum_free_gib: 10.0
   hard_peak_reserved_gib: 14.0
+

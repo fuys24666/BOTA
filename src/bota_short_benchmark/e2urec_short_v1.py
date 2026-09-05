@@ -140,7 +140,8 @@ def _one(root: Path, seed: int, scenario: dict[str, Any], stage: Path, original_
             raise RuntimeError("Original-Short coordinate binding mismatch")
         _freeze(original)
         forget = list(map(int, scenario["forget_train_indices"])); forget_set = set(forget); retain = [int(index) for index in registry["order"] if int(index) not in forget_set]
-        if len(forget) != 8 or len(retain) != 3192:
+        deleted_interactions = int(scenario["deleted_interactions"])
+        if len(forget) != deleted_interactions or len(retain) != 3200 - deleted_interactions:
             raise RuntimeError("registered short request cardinality mismatch")
         teacher_history, teacher_seconds = _train_teacher(augmented, augmented_parameters, dataset, forget, device, tokenizer.pad_token_id, seed)
         _freeze(augmented)
@@ -150,7 +151,8 @@ def _one(root: Path, seed: int, scenario: dict[str, Any], stage: Path, original_
         atomic_json(scenario_dir / "teacher_history.json", teacher_history); atomic_json(scenario_dir / "student_history.json", student_history)
         phase = timing_record(scenario=scenario_id, initialization_seconds=0., offline_construction_seconds=teacher_seconds, online_compute_seconds=student_seconds, adapter_publication_seconds=publication_seconds, end_to_end_seconds=time.perf_counter() - started, details={"teacher_training_seconds": teacher_seconds, "student_training_seconds": student_seconds})
         atomic_json(scenario_dir / "phase_timing.json", phase)
-        manifest = {"schema": SCHEMA, "method_id": METHOD_ID, "scenario_id": scenario_id, "request_hash": scenario["request_hash"], "model_type": "if_a2_fixed_ab", "artifact": artifact, "source_original_run_manifest_sha256": source_hash, "teacher_optimizer_steps": TEACHER_STEPS, "student_optimizer_steps": STUDENT_STEPS, "forget_warmup_steps": 1, "joint_steps": 999, "deleted_interactions": 8, "coordinate": "fixed_A_trainable_B", "phase_timing": phase, "test_accessed": False}
+        warmup_steps = math.ceil(deleted_interactions / EFFECTIVE_BATCH)
+        manifest = {"schema": SCHEMA, "method_id": METHOD_ID, "scenario_id": scenario_id, "request_hash": scenario["request_hash"], "model_type": "if_a2_fixed_ab", "artifact": artifact, "source_original_run_manifest_sha256": source_hash, "teacher_optimizer_steps": TEACHER_STEPS, "student_optimizer_steps": STUDENT_STEPS, "forget_warmup_steps": warmup_steps, "joint_steps": STUDENT_STEPS - warmup_steps, "deleted_interactions": deleted_interactions, "coordinate": "fixed_A_trainable_B", "phase_timing": phase, "test_accessed": False}
         atomic_json(scenario_dir / "scenario_manifest.json", manifest); return manifest
     finally:
         del current, original, augmented; gc.collect(); torch.cuda.empty_cache()

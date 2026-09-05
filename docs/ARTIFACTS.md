@@ -35,23 +35,35 @@ Pass `<primary-finaltest-run-name>` with
 `-PrimaryFinalTestRunName`; the reported experiment used
 `bota_short_multiseed_finaltest_ml1m_seed41_43_v3_recovery1`.
 
-## GoodReads comics
+## Amazon Reviews 2023: Movies and TV
 
-Required inputs begin with the public GoodReads comics interactions under:
+Download the official Movies and TV review and metadata files from the
+[Amazon Reviews 2023 project](https://amazon-reviews-2023.github.io/) and place
+them at the exact paths below:
 
 ```text
-data/goodreads/comics/
+data/Amazon_Reviews_2023_Movies_and_TV/raw/review_categories/Movies_and_TV.jsonl
+data/Amazon_Reviews_2023_Movies_and_TV/raw/meta_categories/meta_Movies_and_TV.jsonl.gz
 pretrained_models/t5-base/
+outputs/ru1/i02s42v1/configs/base_t5.yaml
 ```
 
-The release launchers create or expect:
+The metadata archive used in the paper has SHA-256
+`0afbb248ddb00c012c3e2c1e68505b7cd28b02a2c83fb4421ff0c71ad5a48b8d`.
+The unified launcher creates the following lineage:
 
 ```text
-outputs/bota_goodreads_v1/prepared/goodreads_comics_seed42_v1/
-outputs/bota_goodreads_v1/recommendation_originals/goodreads_recommendation_original_seed42_v2/model/
+outputs/bota_amazon_movies_tv_v1/prepared/amazon_movies_tv_titles_seed42_v2/
+outputs/bota_amazon_movies_tv_v3/originals/amazon_movies_tv_titles_original_p5_seed42_v3/
+outputs/bota_amazon_movies_tv_v4/prepared/amazon_movies_tv_newusers_seed42_v4/
+outputs/amz_v4/k2k4/
+outputs/amz_v4/k2_all_evaluation/amz_new_k2_all_eval_s42_v4/
 ```
 
-GoodReads configs contain prepared-data and Original-model hashes from the paper lineage. A fresh preprocessing run should be treated as a new lineage if those hashes differ.
+The first 256 eligible users form the historical recommendation cohort. The
+next 768 users form a disjoint adaptation cohort. Raw user and item identifiers
+are not written to the prepared artifacts. This experiment is Development-only;
+it neither creates nor accesses a FinalTest split.
 
 ## What may be hosted separately
 

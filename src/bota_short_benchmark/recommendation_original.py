@@ -1,7 +1,6 @@
-"""Train and atomically publish a GoodReads recommendation Original."""
+"""Shared trainer for an atomically published recommendation Original."""
 from __future__ import annotations
 
-import argparse
 import gc
 import json
 import math
@@ -23,16 +22,16 @@ from src.paper_baselines.common import capture_rng, restore_rng, tensor_tree_has
 from src.paper_if_a2.artifacts import atomic_torch_save
 from src.paper_if_a2.common import atomic_json, canonical_hash, directory_hash, git_snapshot, safe_run_name, seed_everything, sha256_file
 
-SCHEMA = "bota-goodreads-recommendation-original-v1"
-MARKER = "BOTA_GOODREADS_RECOMMENDATION_ORIGINAL_V1_COMPLETED"
+SCHEMA = "bota-recommendation-original-v1"
+MARKER = "BOTA_RECOMMENDATION_ORIGINAL_V1_COMPLETED"
 
 
 def load_config(path: Path) -> dict[str, Any]:
     value = yaml.safe_load(path.read_text(encoding="utf-8"))
     if not isinstance(value, dict) or value.get("schema") != SCHEMA or value.get("test_access_policy") != "forbidden":
-        raise ValueError("invalid GoodReads recommendation Original config")
+        raise ValueError("invalid recommendation Original config")
     if value.get("coordinate") != {"target_modules": ["q", "v"], "module_count": 72, "rank": 16, "alpha": 32, "trainable": "B_only", "initial_B": "zero", "fixed_a_seed": 42}:
-        raise ValueError("GoodReads Original coordinate changed")
+        raise ValueError("recommendation Original coordinate changed")
     expected_training = {
         "seed": 42, "optimizer": "AdamW", "learning_rate": .001, "betas": [.9, .999], "eps": 1e-8,
         "weight_decay": .01, "effective_batch_size": 16, "physical_microbatch": 4, "gradient_accumulation": 4,
@@ -40,15 +39,15 @@ def load_config(path: Path) -> dict[str, Any]:
         "min_delta": 0., "development_batch_size": 4, "checkpoint_every_epochs": 1,
     }
     if value.get("training") != expected_training:
-        raise ValueError("GoodReads Original training protocol changed")
+        raise ValueError("recommendation Original training protocol changed")
     if value.get("publication", {}).get("merge_adapter_into_t5") is not True or value.get("scientific_scope", {}).get("final_test_access") is not False:
-        raise ValueError("GoodReads Original publication/split policy changed")
+        raise ValueError("recommendation Original publication/split policy changed")
     return value
 
 
 def early_stopping_transition(best: float, count: int, value: float, patience: int, min_delta: float) -> dict[str, Any]:
     if patience != 5 or min_delta != 0. or not math.isfinite(value):
-        raise ValueError("invalid GoodReads P5 state")
+        raise ValueError("invalid recommendation P5 state")
     improved = value < best - min_delta
     next_count = 0 if improved else count + 1
     return {"improved": improved, "best": value if improved else best, "count": next_count, "stop": bool(not improved and next_count >= patience)}
@@ -61,7 +60,7 @@ def _verify_sources(root: Path, config: dict[str, Any]) -> dict[str, Any]:
     train = root / source["train_json"]
     development = root / source["development_json"]
     if not model.is_dir() or not prepared.is_dir() or not train.is_file() or not development.is_file():
-        raise FileNotFoundError("GoodReads Original source is incomplete")
+        raise FileNotFoundError("recommendation Original source is incomplete")
     actual = {
         "pretrained_model_sha256": directory_hash(model),
         "prepared_manifest_sha256": sha256_file(prepared / "manifest.json"),
@@ -70,10 +69,10 @@ def _verify_sources(root: Path, config: dict[str, Any]) -> dict[str, Any]:
     }
     for key, digest in actual.items():
         if digest != source[key]:
-            raise ValueError(f"GoodReads Original source SHA mismatch: {key}")
+            raise ValueError(f"recommendation Original source SHA mismatch: {key}")
     train_rows = json.loads(train.read_text(encoding="utf-8")); development_rows = json.loads(development.read_text(encoding="utf-8"))
     if len(train_rows) != source["train_samples"] or len(development_rows) != source["development_samples"]:
-        raise ValueError("GoodReads Original source count mismatch")
+        raise ValueError("recommendation Original source count mismatch")
     return actual
 
 
@@ -83,12 +82,12 @@ def _parameter_values(names: Sequence[str], parameters: Sequence[torch.Tensor]) 
 
 def _load_values(names: Sequence[str], parameters: Sequence[torch.Tensor], values: dict[str, torch.Tensor]) -> None:
     if list(names) != list(values):
-        raise ValueError("GoodReads Original B tensor order mismatch")
+        raise ValueError("recommendation Original B tensor order mismatch")
     with torch.no_grad():
         for name, parameter in zip(names, parameters):
             value = values[name]
             if value.shape != parameter.shape or not torch.isfinite(value).all():
-                raise ValueError(f"invalid GoodReads Original B tensor: {name}")
+                raise ValueError(f"invalid recommendation Original B tensor: {name}")
             parameter.copy_(value.to(parameter))
 
 
@@ -117,7 +116,7 @@ def _validation_loss(model: torch.nn.Module, dataset: JsonPromptDataset, device:
     model.train()
     value = total / samples
     if samples != len(dataset) or not math.isfinite(value):
-        raise RuntimeError("invalid GoodReads Development loss")
+        raise RuntimeError("invalid recommendation Development loss")
     return value
 
 
@@ -176,15 +175,15 @@ def execute(root: Path, config_path: Path, run_name: str, resume: bool) -> dict[
     config = load_config(config_path); sources = _verify_sources(root, config); run_name = safe_run_name(run_name); destination, work = _paths(root, config, run_name)
     if destination.exists(): raise FileExistsError(destination)
     git = git_snapshot(root)
-    if not git["clean"]: raise RuntimeError("formal GoodReads Original training requires clean Git")
+    if not git["clean"]: raise RuntimeError("formal recommendation Original training requires clean Git")
     if not torch.cuda.is_available() or torch.cuda.device_count() != config["runtime"]["required_cuda_devices"]: raise RuntimeError("exactly one CUDA GPU required")
     torch.cuda.set_device(0); device = torch.device("cuda:0"); free, _ = torch.cuda.mem_get_info(device)
     if free / GIB < config["runtime"]["minimum_free_gib"]: raise RuntimeError("insufficient dedicated GPU memory")
     torch.cuda.set_per_process_memory_fraction(config["runtime"]["allocator_fraction"], device); torch.cuda.reset_peak_memory_stats()
     contract = {"schema": SCHEMA, "config_sha256": sha256_file(config_path), "sources": sources, "git": git, "run_name": run_name, "test_accessed": False}
     if resume:
-        if not work.is_dir() or not (work / "checkpoint.pt").is_file() or not (work / "contract.json").is_file(): raise FileNotFoundError("resumable GoodReads Original work state not found")
-        if json.loads((work / "contract.json").read_text(encoding="utf-8")) != contract: raise ValueError("GoodReads Original Resume contract mismatch")
+        if not work.is_dir() or not (work / "checkpoint.pt").is_file() or not (work / "contract.json").is_file(): raise FileNotFoundError("resumable recommendation Original work state not found")
+        if json.loads((work / "contract.json").read_text(encoding="utf-8")) != contract: raise ValueError("recommendation Original Resume contract mismatch")
     else:
         if work.exists(): raise FileExistsError(f"unfinished work exists; use Resume: {work}")
         work.mkdir(parents=True); atomic_json(work / "contract.json", contract)
@@ -198,7 +197,7 @@ def execute(root: Path, config_path: Path, run_name: str, resume: bool) -> dict[
         epoch = 0; total_steps = 0; best = float("inf"); best_epoch = 0; non_improving = 0; history = []; best_values = None
         if resume:
             saved = torch.load(work / "checkpoint.pt", map_location="cpu", weights_only=False)
-            if saved.get("contract_sha256") != canonical_hash(contract): raise ValueError("GoodReads Original checkpoint binding mismatch")
+            if saved.get("contract_sha256") != canonical_hash(contract): raise ValueError("recommendation Original checkpoint binding mismatch")
             _load_values(names, parameters, saved["values"]); optimizer.load_state_dict(saved["optimizer"]); restore_rng(saved["rng"])
             epoch = int(saved["epoch"]); total_steps = int(saved["total_steps"]); best = float(saved["best"]); best_epoch = int(saved["best_epoch"]); non_improving = int(saved["non_improving"]); history = saved["history"]; best_values = saved["best_values"]; elapsed_before = float(saved["elapsed_seconds"])
             (work / "INTERRUPTED").unlink(missing_ok=True)
@@ -220,7 +219,7 @@ def execute(root: Path, config_path: Path, run_name: str, resume: bool) -> dict[
             atomic_json(work / "run_state.json", {"schema": SCHEMA, "status": "RUNNING", "epoch": current_epoch, "optimizer_steps": total_steps, "best_epoch": best_epoch, "best_development_loss": best, "consecutive_non_improving_epochs": non_improving, "test_accessed": False})
             if transition["stop"]: break
         pilot_fixed_epoch = config.get("scientific_scope", {}).get("pilot_fixed_epoch_endpoint") is True
-        if best_values is None or (not pilot_fixed_epoch and non_improving < training["patience"]): raise RuntimeError("GoodReads Original did not reach the frozen endpoint")
+        if best_values is None or (not pilot_fixed_epoch and non_improving < training["patience"]): raise RuntimeError("recommendation Original did not reach the frozen endpoint")
         if pilot_fixed_epoch and history[-1]["epoch"] != training["maximum_epochs"]: raise RuntimeError("pilot Original did not reach the fixed epoch endpoint")
         _load_values(names, parameters, best_values); smoke_before = _smoke_logits(model, development, device, tokenizer.pad_token_id, publication["smoke_samples"]); adapter_state = {"schema": SCHEMA, "A": {name: value.detach().cpu() for name, value in bases.items()}, "B": best_values, "rank": 16, "alpha": 32, "base_model_sha256": sources["pretrained_model_sha256"], "test_accessed": False}
         adapter_dir = work / "adapter"; adapter_dir.mkdir(); atomic_torch_save(adapter_dir / "adapter_model.pt", adapter_state); atomic_json(adapter_dir / "adapter_config.json", {"schema": SCHEMA, "format": "fixed-A-B-LoRA-merged-source", "target_modules": ["q", "v"], "rank": 16, "alpha": 32, "trainable": "B_only", "test_accessed": False})
@@ -228,7 +227,7 @@ def execute(root: Path, config_path: Path, run_name: str, resume: bool) -> dict[
         if not torch.allclose(smoke_before, smoke_merged, atol=publication["smoke_atol"], rtol=publication["smoke_rtol"]): raise RuntimeError("fixed-A/B merge smoke mismatch")
         model.cpu(); gc.collect(); torch.cuda.empty_cache(); model_dir = work / publication["model_subdirectory"]; model.save_pretrained(model_dir, safe_serialization=True, max_shard_size="1GB"); tokenizer.save_pretrained(model_dir)
         merged_sha = tensor_tree_hash(model.state_dict()); del model; model = None; reload_model = load_legacy_model(model_dir).to(device).eval(); reload_sha = tensor_tree_hash(reload_model.state_dict()); smoke_reload = _smoke_logits(reload_model, development, device, tokenizer.pad_token_id, publication["smoke_samples"])
-        if merged_sha != reload_sha or not torch.allclose(smoke_merged, smoke_reload, atol=publication["smoke_atol"], rtol=publication["smoke_rtol"]): raise RuntimeError("published GoodReads Original reload mismatch")
+        if merged_sha != reload_sha or not torch.allclose(smoke_merged, smoke_reload, atol=publication["smoke_atol"], rtol=publication["smoke_rtol"]): raise RuntimeError("published recommendation Original reload mismatch")
         peak = torch.cuda.max_memory_reserved() / GIB; wall = elapsed_before + time.perf_counter() - started
         result = {"schema": SCHEMA, "status": "COMPLETED", "run_name": run_name, "model_path": str((destination / publication["model_subdirectory"]).resolve()), "model_directory_sha256": directory_hash(model_dir), "merged_parameter_sha256": merged_sha, "source_pretrained_sha256": sources["pretrained_model_sha256"], "train_samples": len(train), "development_samples": len(development), "best_epoch": best_epoch, "stopping_epoch": history[-1]["epoch"], "best_development_loss": best, "optimizer_steps": total_steps, "endpoint_rule": "fixed_epoch_pilot" if pilot_fixed_epoch else "development_patience_five", "coordinate_training": "fixed-A/B Q/V LoRA B-only", "deployment_representation": "LoRA delta merged into full T5 weights", "test_accessed": False}
         atomic_json(work / "training_history.json", history); atomic_json(work / "merge_report.json", {**merge, "premerge_smoke_sha256": tensor_tree_hash(smoke_before), "merged_smoke_sha256": tensor_tree_hash(smoke_merged), "reload_smoke_sha256": tensor_tree_hash(smoke_reload), "maximum_merge_absolute_error": float(torch.max(torch.abs(smoke_before - smoke_merged))), "maximum_reload_absolute_error": float(torch.max(torch.abs(smoke_merged - smoke_reload))), "within_tolerance": True, "test_accessed": False}); atomic_json(work / "timing.json", {"end_to_end_wall_seconds": wall, "training_and_development_seconds": sum(row["epoch_wall_seconds"] for row in history), "epochs": len(history), "optimizer_steps": total_steps, "test_accessed": False}); atomic_json(work / "original_manifest.json", result); atomic_json(work / "run_state.json", {"schema": SCHEMA, "status": "COMPLETED", "best_epoch": best_epoch, "stopping_epoch": history[-1]["epoch"], "optimizer_steps": total_steps, "peak_gpu_reserved_gib": peak, "test_accessed": False}); (work / "checkpoint.pt").unlink(); (work / "COMPLETED").write_text(MARKER + "\n", encoding="utf-8", newline="\n")
@@ -237,8 +236,8 @@ def execute(root: Path, config_path: Path, run_name: str, resume: bool) -> dict[
         return result
     except BaseException as error:
         if work.exists():
-            atomic_json(work / "run_state.json", {"schema": SCHEMA, "status": "INTERRUPTED", "reason": type(error).__name__, "message": str(error), "resume_allowed": (work / "checkpoint.pt").is_file(), "test_accessed": False}); (work / "INTERRUPTED").write_text("BOTA_GOODREADS_RECOMMENDATION_ORIGINAL_INTERRUPTED\n", encoding="utf-8", newline="\n")
-        raise RuntimeError(f"GoodReads Original interrupted; resumable evidence at {work}") from error
+            atomic_json(work / "run_state.json", {"schema": SCHEMA, "status": "INTERRUPTED", "reason": type(error).__name__, "message": str(error), "resume_allowed": (work / "checkpoint.pt").is_file(), "test_accessed": False}); (work / "INTERRUPTED").write_text("BOTA_RECOMMENDATION_ORIGINAL_INTERRUPTED\n", encoding="utf-8", newline="\n")
+        raise RuntimeError(f"recommendation Original interrupted; resumable evidence at {work}") from error
     finally:
         if model is not None: del model
         if optimizer is not None: del optimizer
@@ -248,25 +247,12 @@ def execute(root: Path, config_path: Path, run_name: str, resume: bool) -> dict[
 def analyze(root: Path, config_path: Path, run_name: str) -> dict[str, Any]:
     config = load_config(config_path); destination, _ = _paths(root, config, run_name)
     required = {"adapter", "model", "contract.json", "training_history.json", "merge_report.json", "timing.json", "original_manifest.json", "run_state.json", "COMPLETED", "manifest.json"}
-    if not destination.is_dir() or {path.name for path in destination.iterdir()} != required or (destination / "COMPLETED").read_text(encoding="utf-8") != MARKER + "\n": raise ValueError("invalid GoodReads Original run")
+    if not destination.is_dir() or {path.name for path in destination.iterdir()} != required or (destination / "COMPLETED").read_text(encoding="utf-8") != MARKER + "\n": raise ValueError("invalid recommendation Original run")
     manifest = json.loads((destination / "manifest.json").read_text(encoding="utf-8")); state = json.loads((destination / "run_state.json").read_text(encoding="utf-8")); result = json.loads((destination / "original_manifest.json").read_text(encoding="utf-8"))
     for name, expected in manifest.get("artifacts", {}).items():
         path = destination / name; actual = directory_hash(path) if path.is_dir() else sha256_file(path)
-        if actual != expected: raise ValueError(f"GoodReads Original artifact mismatch: {name}")
-    if state.get("status") != "COMPLETED" or state.get("test_accessed") is not False or result.get("test_accessed") is not False: raise ValueError("GoodReads Original completion invariant failed")
-    if directory_hash(destination / "model") != result["model_directory_sha256"]: raise ValueError("GoodReads Original model SHA mismatch")
+        if actual != expected: raise ValueError(f"recommendation Original artifact mismatch: {name}")
+    if state.get("status") != "COMPLETED" or state.get("test_accessed") is not False or result.get("test_accessed") is not False: raise ValueError("recommendation Original completion invariant failed")
+    if directory_hash(destination / "model") != result["model_directory_sha256"]: raise ValueError("recommendation Original model SHA mismatch")
     return {"status": "COMPLETED", "run_dir": str(destination), "model_path": result["model_path"], "model_directory_sha256": result["model_directory_sha256"], "best_epoch": result["best_epoch"], "stopping_epoch": result["stopping_epoch"], "optimizer_steps": result["optimizer_steps"], "best_development_loss": result["best_development_loss"], "test_accessed": False}
 
-
-def main() -> None:
-    parser = argparse.ArgumentParser(); parser.add_argument("--root", type=Path, default=Path.cwd()); parser.add_argument("--config", type=Path, default=Path("configs/bota_goodreads_recommendation_original_v1.yaml")); parser.add_argument("--mode", choices=["Preflight", "SyntheticDryRun", "Full", "Resume", "Analyze"], default="Preflight"); parser.add_argument("--run-name", default="")
-    args = parser.parse_args(); root = args.root.resolve(); config_path = (root / args.config).resolve() if not args.config.is_absolute() else args.config.resolve()
-    if args.mode in {"Full", "Resume", "Analyze"} and not args.run_name: parser.error(f"{args.mode} requires RunName")
-    if args.mode == "Preflight": result = preflight(root, config_path, args.run_name)
-    elif args.mode == "SyntheticDryRun": result = {"schema": SCHEMA, "real_model_loaded": False, "optimizer_constructed": False, "real_data_read": False, "test_accessed": False}
-    elif args.mode == "Analyze": result = analyze(root, config_path, args.run_name)
-    else: result = execute(root, config_path, args.run_name, resume=args.mode == "Resume")
-    print(json.dumps(result, indent=2, sort_keys=True))
-
-
-if __name__ == "__main__": main()

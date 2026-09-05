@@ -15,7 +15,21 @@ The primary protocol uses a frozen T5-base backbone, fixed-A/trainable-B Q/V LoR
 | L8 | 0.4934 ± 0.2287 | 48.131 ms |
 | L4M4 | 0.4804 ± 0.0995 | 48.503 ms |
 
-The repository also contains the principal baselines, the AdamW-state ablation, the empirical-Fisher ablation, repeated online-latency measurement, and the single-seed GoodReads K2 transfer experiment.
+The repository also contains the principal baselines, the AdamW-state ablation, the empirical-Fisher ablation, repeated online-latency measurement, and the single-seed Amazon Movies and TV new-user K2 dataset extension.
+
+| Amazon new-user K2 method | MAE to Exact | Local residual | AUC | LogLoss |
+|---|---:|---:|---:|---:|
+| Original | 0.004312 | 1.000000 | 0.797093 | 0.370971 |
+| Exact-Masked | 0.000000 | 0.000000 | 0.796956 | 0.370728 |
+| BOTA | **0.002341** | **0.542999** | 0.800265 | 0.366186 |
+| IFRU | 0.004391 | 1.018470 | 0.797104 | 0.370965 |
+| E2URec | 0.009714 | 2.252940 | 0.800625 | 0.392706 |
+| NegGrad | 0.239738 | 55.602730 | 0.651330 | 0.701075 |
+| PCGrad | 0.299722 | 69.514906 | 0.535671 | 2.606139 |
+| SISA | 0.159386 | 36.966706 | 0.625099 | 0.451486 |
+| RecEraser | 0.013763 | 3.192056 | **0.807195** | **0.360221** |
+
+These Amazon values are seed-42 Development results for one registered request. They support dataset extension but are not presented as multi-seed or FinalTest evidence. The frozen aggregate table and protocol summary are retained in [docs/AMAZON_K2_RESULTS.md](docs/AMAZON_K2_RESULTS.md).
 
 ## Repository layout
 
@@ -38,7 +52,7 @@ docs/                    Artifact layout and release notes
 
 The following are deliberately excluded:
 
-- MovieLens, GoodReads, or derived prompt data;
+- MovieLens, Amazon Reviews 2023, or derived prompt data;
 - T5-base weights and tokenizers;
 - the approximately 892 MB ML-1M recommendation Original checkpoint;
 - BOTA impact banks, Adapters, baseline checkpoints and evaluation outputs;
@@ -236,9 +250,33 @@ The source-only versus blockwise empirical-Fisher comparison is launched with:
   -RunName bota_short_fisher_ablation_l8_seed42_v1
 ```
 
-## GoodReads K2 transfer
+## Amazon Movies and TV new-user K2 extension
 
-GoodReads is included as a supplementary single-seed transfer experiment rather than a second primary benchmark. Prepare the public GoodReads comics data, train its recommendation Original, and then run the K2 protocol using the corresponding launchers in `scripts/bota_if/`. Exact paths and frozen authority fields are documented in [docs/ARTIFACTS.md](docs/ARTIFACTS.md).
+The supplementary dataset-extension experiment uses the Movies and TV category of [Amazon Reviews 2023](https://amazon-reviews-2023.github.io/). It first builds a 256-user historical cohort and trains its Development-selected P5 recommendation Adapter. A disjoint 768-user cohort is then used for the 200-step adaptation window. The registered K2 request contains one low-frequency and one middle-frequency user, each exposed twice in the window.
+
+Place the official review and metadata files as described in [docs/ARTIFACTS.md](docs/ARTIFACTS.md), then check the complete pipeline without loading the dataset or model:
+
+```powershell
+./scripts/bota_if/run_amazon_movies_newuser_k2_v4.ps1 -Mode Preflight
+```
+
+After committing the reproduction code so that the Git worktree is clean, run the historical Adapter, the disjoint new-user preparation, all nine endpoints and the Development evaluation with:
+
+```powershell
+./scripts/bota_if/run_amazon_movies_newuser_k2_v4.ps1 -Mode Full
+```
+
+The final aggregate report is written to:
+
+```text
+outputs/amz_v4/k2_all_evaluation/amz_new_k2_all_eval_s42_v4/report.md
+```
+
+Completed artifacts can be checked without rerunning training:
+
+```powershell
+./scripts/bota_if/run_amazon_movies_newuser_k2_v4.ps1 -Mode Analyze
+```
 
 ## Scientific scope
 

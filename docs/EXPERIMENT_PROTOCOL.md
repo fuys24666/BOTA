@@ -20,6 +20,16 @@ L8 deletes eight low-frequency users. L4M4 deletes four low- and four
 middle-frequency users. Frequency groups are defined from global training
 frequency; request selection does not inspect labels or predictions.
 
+The Amazon Reviews 2023 Movies and TV extension is separate from the primary
+ML-1M protocol. A deterministic seed-42 hash sample selects 256 historical
+users for P5 recommendation training and a disjoint 768-user cohort for short
+adaptation. Eligible users have at least 25 explicit interactions. Each prompt
+uses the ten preceding items; ratings of at least 4 are positive. The adaptation
+cohort contains 13,356 training and 3,840 Development prompts. Its K2 request
+contains one low-frequency and one middle-frequency user, each exposed twice
+in the frozen 3,200-example window. Local evaluation uses five Development
+examples per requested user. The Amazon experiment has no FinalTest split.
+
 ## Shared model and optimizer
 
 The backbone is T5-base. The primary short-window methods use Q/V LoRA with
@@ -70,6 +80,8 @@ and 1,000 measured requests per scenario.
 - E2URec six-condition and supplemental FinalTest:
   `scripts/bota_if/run_short_e2urec_multiseed_v1.ps1`
 - Repeated serving latency: `scripts/bota_if/run_short_online_latency_v1.ps1`
+- Amazon Movies and TV new-user K2 extension:
+  `scripts/bota_if/run_amazon_movies_newuser_k2_v4.ps1`
 
 See `README.md` for complete commands and `ARTIFACTS.md` for required local
 files.
