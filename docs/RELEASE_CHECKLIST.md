@@ -8,7 +8,8 @@
 - [x] Add a clean-environment GitHub Actions test workflow.
 - [x] Run the curated test suite locally (138 passed, 3 external-artifact skips;
   6 September 2026).
-- [ ] Confirm the GitHub Actions workflow passes on the public commit.
+- [x] Confirm the GitHub Actions workflow passes on the public repository
+  (6 September 2026).
 - [ ] Run all `SyntheticDryRun` and `Preflight` entry points from a clean clone.
 - [x] Search tracked source and documentation for usernames, absolute local
   paths, credentials and tokens (6 September 2026).
