@@ -8,6 +8,7 @@ import json
 import math
 import os
 import random
+import shutil
 import subprocess
 import uuid
 from dataclasses import asdict, dataclass
@@ -660,8 +661,11 @@ def _metrics_csv(rows: list[dict[str, Any]]) -> str:
 
 
 def _git_head(project_root: Path) -> str:
+    git = shutil.which("git")
+    if git is None:
+        raise RuntimeError("Git executable is unavailable on PATH")
     return subprocess.check_output(
-        ["C:\\Program Files\\Git\\cmd\\git.exe", "rev-parse", "HEAD"],
+        [git, "rev-parse", "HEAD"],
         cwd=project_root,
         text=True,
     ).strip()

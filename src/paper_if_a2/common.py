@@ -6,6 +6,7 @@ import json
 import math
 import os
 import random
+import shutil
 import socket
 import subprocess
 import time
@@ -82,7 +83,9 @@ def ensure_finite(value: Any) -> None:
 
 
 def git_snapshot(root: Path) -> dict[str, Any]:
-    git = r"C:\Program Files\Git\cmd\git.exe"
+    git = shutil.which("git")
+    if git is None:
+        raise RuntimeError("Git executable is unavailable on PATH")
     head = subprocess.run([git, "-C", str(root), "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
     status = subprocess.run([git, "-C", str(root), "status", "--porcelain=v1"], capture_output=True, text=True, check=True).stdout
     return {"head": head, "clean": not status.strip(), "status_sha256": hashlib.sha256(status.encode()).hexdigest()}

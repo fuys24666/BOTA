@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite the BOTA article when its public
+  bibliographic record becomes available and cite this repository as software.
+title: >-
+  BOTA: Offline Trajectory Amortization for Low-Latency Online User
+  Unlearning in Language-Model Recommenders
+type: software
+authors:
+  - family-names: Fu
+    given-names: Yusen
+    orcid: https://orcid.org/0009-0005-3403-3964
+    affiliation: School of Computer Science, The University of Sydney
+repository-code: https://github.com/fuys24666/BOTA
+license: MIT
+version: 1.0.0
+date-released: 2026-09-06

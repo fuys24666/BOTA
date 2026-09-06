@@ -78,21 +78,17 @@ def _normalized_path(value: str | Path) -> str:
 
 
 def _git_commit(project_root: Path) -> str:
-    candidates = [
-        shutil.which("git"),
-        r"C:\Program Files\Git\cmd\git.exe",
-    ]
-    for candidate in candidates:
-        if candidate and Path(candidate).is_file():
-            completed = subprocess.run(
-                [candidate, "rev-parse", "HEAD"],
-                cwd=project_root,
-                check=True,
-                capture_output=True,
-                text=True,
-            )
-            return completed.stdout.strip()
-    raise FileNotFoundError("git executable not found")
+    git = shutil.which("git")
+    if git is None:
+        raise FileNotFoundError("Git executable is unavailable on PATH")
+    completed = subprocess.run(
+        [git, "rev-parse", "HEAD"],
+        cwd=project_root,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return completed.stdout.strip()
 
 
 def _process_record() -> dict[str, Any]:

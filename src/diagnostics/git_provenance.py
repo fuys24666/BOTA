@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import subprocess
 from pathlib import Path
 from typing import Any, Iterable
@@ -9,18 +10,16 @@ from typing import Any, Iterable
 from src.diagnostics.t5_reconstructed_official import sha256_file
 
 
-GIT = Path("C:/Program Files/Git/cmd/git.exe")
-
-
 def git_provenance(project_root: Path) -> dict[str, Any]:
     root = project_root.resolve()
-    if not GIT.is_file():
-        raise RuntimeError(f"Git executable is unavailable: {GIT}")
+    git = shutil.which("git")
+    if git is None:
+        raise RuntimeError("Git executable is unavailable on PATH")
 
     def run(*arguments: str) -> str:
         try:
             return subprocess.run(
-                [str(GIT), *arguments], cwd=root, check=True,
+                [git, *arguments], cwd=root, check=True,
                 capture_output=True, text=True, encoding="utf-8",
             ).stdout
         except (OSError, subprocess.CalledProcessError) as error:

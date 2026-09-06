@@ -7,6 +7,7 @@ import json
 import os
 import random
 import shutil
+import subprocess
 import uuid
 from dataclasses import dataclass
 from pathlib import Path
@@ -307,10 +308,14 @@ def _source_run(config: dict[str, Any]) -> Path:
 
 
 def _git_head(project_root: Path) -> str:
-    head = (project_root / ".git" / "HEAD").read_text(encoding="utf-8").strip()
-    if head.startswith("ref: "):
-        return (project_root / ".git" / head[5:]).read_text(encoding="utf-8").strip()
-    return head
+    git = shutil.which("git")
+    if git is None:
+        raise RuntimeError("Git executable is unavailable on PATH")
+    return subprocess.check_output(
+        [git, "rev-parse", "--verify", "HEAD"],
+        cwd=project_root,
+        text=True,
+    ).strip()
 
 
 def experiment_contract(

@@ -1,6 +1,8 @@
 # BOTA
 
-Official reproduction code for **BOTA: Blockwise Optimizer-Aware Trajectory Amortization for Zero-Optimizer-Step Online Unlearning in Language-Model Recommenders**.
+[![Tests](https://github.com/fuys24666/BOTA/actions/workflows/tests.yml/badge.svg)](https://github.com/fuys24666/BOTA/actions/workflows/tests.yml)
+
+Official reproduction code for **BOTA: Offline Trajectory Amortization for Low-Latency Online User Unlearning in Language-Model Recommenders**.
 
 BOTA moves user-specific deletion reconstruction into the offline adaptation trajectory. It extracts slot-preserving deletion sources, propagates them through the full first-order AdamW state, stores terminal user impact vectors, and answers supported online deletion requests by vector composition and durable Adapter publication. The online path performs no training forward pass, backward pass, Hessian-vector product, iterative solve, or optimizer step.
 
@@ -104,7 +106,7 @@ Synthetic mode checks argument routing without loading the real T5 model or data
 Run the curated tests with:
 
 ```powershell
-pytest -q
+python -m pytest -q
 ```
 
 ## Full MovieLens-1M workflow
@@ -284,7 +286,12 @@ BOTA approximates a matched, short-window, slot-preserving masked trajectory und
 
 ## Citation
 
-Please cite the BOTA paper once its public preprint record is available. The final BibTeX entry will be added here before archival release. The implementation also builds on the public E2URec text-to-text recommendation pipeline, which should be cited separately when its preprocessing or checkpoint lineage is used.
+GitHub exposes the software citation metadata in [CITATION.cff](CITATION.cff).
+Please cite the BOTA article once its public bibliographic record is available;
+the article DOI and final BibTeX entry will then be added here. The
+implementation also builds on the public E2URec text-to-text recommendation
+pipeline, which should be cited separately when its preprocessing or checkpoint
+lineage is used.
 
 ## License
 
