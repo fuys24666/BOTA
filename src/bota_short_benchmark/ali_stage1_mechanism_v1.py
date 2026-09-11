@@ -278,6 +278,14 @@ def preflight(
     benchmark = load_benchmark_config(benchmark_path)
     if int(benchmark["protocol"]["run_seed"]) != seed:
         raise ValueError("benchmark run-seed binding changed")
+    base = runner._base_t5_config(workspace, benchmark)
+    model_dir = Path(base["paths"]["model_dir"])
+    if not model_dir.is_absolute():
+        model_dir = workspace / model_dir
+    required_model_files = ("config.json", "pytorch_model.bin", "spiece.model", "tokenizer_config.json")
+    missing_model_files = [name for name in required_model_files if not (model_dir / name).is_file()]
+    if missing_model_files:
+        raise ValueError(f"local T5-base directory is incomplete: {missing_model_files}")
     benchmark_name = f"bota_short_i02_seed{seed}_v3"
     _, contract, registry = validate_prepared(workspace, benchmark, benchmark_name)
     scenario = behavior._scenario(registry, scenario_id)
@@ -306,6 +314,7 @@ def preflight(
         "benchmark_name": benchmark_name,
         "benchmark_config": str(benchmark_path),
         "benchmark_config_sha256": sha256_file(benchmark_path),
+        "local_model_dir": str(model_dir.resolve()),
         "seed": seed,
         "scenario": scenario_id,
         "request_hash": scenario["request_hash"],
@@ -381,6 +390,8 @@ def execute(
     source_before = sha256_file(source_checkpoint)
     started = time.perf_counter()
     model = None
+    original_working_directory = Path.cwd()
+    os.chdir(workspace)
     try:
         random.seed(seed)
         np.random.seed(seed)
@@ -668,6 +679,7 @@ def execute(
         shutil.rmtree(stage, ignore_errors=True)
         raise RuntimeError("Stage 1 mechanism run failed before atomic publication") from error
     finally:
+        os.chdir(original_working_directory)
         if model is not None:
             del model
         gc.collect()
