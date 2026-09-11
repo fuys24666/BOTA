@@ -86,6 +86,7 @@ def load_config(repo: Path, path: Path) -> dict[str, Any]:
         "protocol",
         "evaluation",
         "decision",
+        "formal_reproduction",
         "runtime",
     }
     if not isinstance(value, dict) or set(value) != required or value["schema"] != SCHEMA:
@@ -116,6 +117,14 @@ def load_config(repo: Path, path: Path) -> dict[str, Any]:
         raise ValueError("Stage 1 evaluation is not Development-only")
     if set(int(seed) for seed in value["benchmark_configs"]) != set(SEEDS):
         raise ValueError("Stage 1 benchmark registry changed")
+    if value["formal_reproduction"] != {
+        "exact_tensor_equality_required": False,
+        "cosine_minimum": 0.9999,
+        "relative_l2_maximum": 0.01,
+        "maximum_absolute_error": 0.001,
+        "scientific_selection_uses_this_gate": False,
+    }:
+        raise ValueError("Stage 1 formal-reproduction integrity gate changed")
     return value
 
 
@@ -452,8 +461,33 @@ def execute(
             torch.equal(candidates["FS_empirical_fisher"][name], formal_bota["B"][name])
             for name in names
         )
-        if not formal_bota_exact:
-            raise RuntimeError("Stage 1 FS+Fisher does not reproduce the formal BOTA adapter")
+        formal_delta = torch.cat(
+            [
+                (formal_bota["B"][name].float() - original_state["B"][name].float()).reshape(-1)
+                for name in names
+            ]
+        )
+        reconstructed_delta = torch.cat(
+            [
+                (candidates["FS_empirical_fisher"][name] - canonical[name]).reshape(-1)
+                for name in names
+            ]
+        )
+        formal_bota_alignment = p2b.vector_metrics(formal_delta, reconstructed_delta)
+        reproduction = config["formal_reproduction"]
+        formal_bota_reproduction_gate = bool(
+            formal_bota_alignment["finite"]
+            and formal_bota_alignment["cosine"] >= float(reproduction["cosine_minimum"])
+            and formal_bota_alignment["relative_l2_error"]
+            <= float(reproduction["relative_l2_maximum"])
+            and formal_bota_alignment["maximum_absolute_error"]
+            <= float(reproduction["maximum_absolute_error"])
+        )
+        if not formal_bota_reproduction_gate:
+            raise RuntimeError(
+                "Stage 1 FS+Fisher failed the numerical formal-BOTA reproduction gate: "
+                + json.dumps(formal_bota_alignment, sort_keys=True)
+            )
         del model, parameters, states, candidates
         model = None
         gc.collect()
@@ -555,6 +589,8 @@ def execute(
                 "parameter_transport": parameter_metrics,
                 "behavior": metric_rows,
                 "formal_bota_tensor_exact": formal_bota_exact,
+                "formal_bota_alignment": formal_bota_alignment,
+                "formal_bota_reproduction_gate_passed": formal_bota_reproduction_gate,
                 "test_accessed": False,
             },
         )
@@ -616,6 +652,9 @@ def execute(
                 "optimizer_state_sha256": optimizer_hash,
                 "rng_sha256": rng_hash,
                 "formal_bota_tensor_exact": formal_bota_exact,
+                "formal_bota_alignment": formal_bota_alignment,
+                "formal_bota_reproduction_gate_passed": formal_bota_reproduction_gate,
+                "formal_reproduction_is_scientific_selection_metric": False,
                 "known_seed42_result_disclosed": True,
                 "development_accessed": True,
                 "final_test_accessed": False,
@@ -635,6 +674,7 @@ def execute(
             "authoritative_optimizer_steps_committed": 0,
             "peak_reserved_gib": peak,
             "formal_bota_tensor_exact": formal_bota_exact,
+            "formal_bota_reproduction_gate_passed": formal_bota_reproduction_gate,
             "test_accessed": False,
         }
         atomic_json(stage / "run_state.json", state)
@@ -671,7 +711,8 @@ def execute(
             "seed": seed,
             "scenario": scenario_id,
             "arms": list(ARMS),
-            "formal_bota_tensor_exact": True,
+            "formal_bota_tensor_exact": formal_bota_exact,
+            "formal_bota_reproduction_gate_passed": True,
             "physical_optimizer_step_calls": 200,
             "test_accessed": False,
         }
@@ -707,7 +748,7 @@ def analyze(config: dict[str, Any], workspace: Path, run_name: str) -> dict[str,
     if (
         state.get("status") != "COMPLETED"
         or state.get("physical_optimizer_step_calls") != 200
-        or state.get("formal_bota_tensor_exact") is not True
+        or state.get("formal_bota_reproduction_gate_passed") is not True
         or metrics.get("test_accessed") is not False
     ):
         raise ValueError("Stage 1 evidence-state mismatch")
@@ -719,6 +760,7 @@ def analyze(config: dict[str, Any], workspace: Path, run_name: str) -> dict[str,
         "seed": state["seed"],
         "scenario": state["scenario"],
         "parameter_transport": metrics["parameter_transport"],
+        "formal_bota_alignment": metrics["formal_bota_alignment"],
         "behavior": metrics["behavior"],
         "test_accessed": False,
     }

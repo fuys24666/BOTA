@@ -70,7 +70,11 @@ the complete machine-readable aggregates and decision record.
 - The BOTA code repository must be clean for a formal run.
 - The experiment workspace may remain dirty; its Git state is recorded but is
   not used as the code authority.
-- The FS+Fisher reconstruction must exactly reproduce the existing formal BOTA
-  adapter or the run aborts before publication.
+- Exact tensor equality with the existing formal BOTA adapter is recorded but
+  is not required because the formal run propagated the 12-user union whereas
+  each Stage 1 run propagates one 8-user request. The numerical reproduction
+  gate requires cosine at least 0.9999, relative L2 error at most 0.01 and
+  maximum absolute error at most 0.001. This integrity gate is not used for
+  scientific arm selection.
 - All outputs are staged and atomically published only after integrity checks.
 - The launcher and evaluator do not construct or access a FinalTest loader.

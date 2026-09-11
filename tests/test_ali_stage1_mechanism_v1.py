@@ -29,6 +29,13 @@ def test_config_binds_amendment_and_forbids_finaltest() -> None:
     assert value["evaluation"]["split"] == "Development"
     assert value["evaluation"]["final_test"] is False
     assert value["protocol"]["arms"] == list(ARMS)
+    assert value["formal_reproduction"] == {
+        "exact_tensor_equality_required": False,
+        "cosine_minimum": 0.9999,
+        "relative_l2_maximum": 0.01,
+        "maximum_absolute_error": 0.001,
+        "scientific_selection_uses_this_gate": False,
+    }
 
 
 def test_default_run_names_are_unique() -> None:

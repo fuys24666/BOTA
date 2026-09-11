@@ -32,6 +32,12 @@ decision:
   fisher_removal_requires_both_scenarios: true
   fm_promotion_requires_lower_residual_both_scenarios: true
   tie_breaking_precedence: [FS_source_only, FS_empirical_fisher, FM_source_only]
+formal_reproduction:
+  exact_tensor_equality_required: false
+  cosine_minimum: 0.9999
+  relative_l2_maximum: 0.01
+  maximum_absolute_error: 0.001
+  scientific_selection_uses_this_gate: false
 runtime:
   required_cuda_devices: 1
   minimum_free_gib: 10.0
