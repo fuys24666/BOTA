@@ -3,10 +3,12 @@ from __future__ import annotations
 from pathlib import Path
 
 import yaml
+import torch
 
 from src.bota_short_benchmark.ali_stage2_stronger_signal_v1 import (
     REQUEST_SIZES,
     STRATA,
+    _same_tensor_map,
     build_request_registry,
 )
 
@@ -77,3 +79,10 @@ def test_launcher_runs_amendment_validation_before_formal_execution() -> None:
     assert 'if($Mode -eq "Full")' in text
     assert "validate_ali_stage0_amendment01_v1.py" in text
     assert "ali_stage2_stronger_signal_v1" in text
+
+
+def test_fixed_a_check_uses_a_coordinate_keys_not_b_parameter_names() -> None:
+    left = {"encoder.q.A": torch.tensor([1.0]), "encoder.v.A": torch.tensor([2.0])}
+    right = {"encoder.q.A": torch.tensor([1.0]), "encoder.v.A": torch.tensor([2.0])}
+    assert _same_tensor_map(left, right)
+    assert not _same_tensor_map(left, {"encoder.q.B": torch.tensor([1.0])})

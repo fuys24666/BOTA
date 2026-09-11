@@ -337,6 +337,14 @@ def _artifact_bytes(path: Path) -> int:
     return sum(item.stat().st_size for item in path.rglob("*") if item.is_file())
 
 
+def _same_tensor_map(
+    left: dict[str, torch.Tensor], right: dict[str, torch.Tensor]
+) -> bool:
+    return list(left) == list(right) and all(
+        torch.equal(left[name].detach().cpu(), right[name].detach().cpu()) for name in right
+    )
+
+
 def _fmt(value: Any, digits: int = 6) -> str:
     return "NA" if value is None else f"{float(value):.{digits}f}"
 
@@ -409,9 +417,7 @@ def execute(repo: Path, workspace: Path, config_path: Path, run_name: str) -> di
         )
         initialization_seconds = time.perf_counter() - initialization_started
         bases_cpu = {name: value.detach().cpu().clone() for name, value in bases.items()}
-        if list(bases_cpu) != list(original_state["A"]) or any(
-            not torch.equal(bases_cpu[name], original_state["A"][name]) for name in bases_cpu
-        ):
+        if not _same_tensor_map(bases_cpu, original_state["A"]):
             raise RuntimeError("Stage 2 generated fixed-A coordinate changed")
         trajectory_initial_rng = capture_rng()
         canonical_started = time.perf_counter()
@@ -477,9 +483,7 @@ def execute(repo: Path, workspace: Path, config_path: Path, run_name: str) -> di
             model, exact_names, exact_parameters, exact_bases, _, exact_tokenizer, exact_data, exact_users = runner._model_context(
                 workspace, benchmark, base_registry, device, original_state["A"]
             )
-            if list(exact_names) != list(names) or any(
-                not torch.equal(exact_bases[name].detach().cpu(), bases_cpu[name]) for name in names
-            ):
+            if list(exact_names) != list(names) or not _same_tensor_map(exact_bases, bases_cpu):
                 raise RuntimeError("Stage 2 paired Exact-Masked coordinate mismatch")
             restore_rng(trajectory_initial_rng)
             exact_started = time.perf_counter()
