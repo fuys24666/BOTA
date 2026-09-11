@@ -1,0 +1,41 @@
+schema: bota-ali-stage1-mechanism-v1
+test_access_policy: forbidden
+parent_amendment:
+  path: configs/ali_stage0_amendment01_v1.json
+  amendment_id: ali-stage0-amendment-01-mechanism-signal-equal-billing-v1
+  sha256: 30d679a5356a10f1dac64e45bc0fb5c0a2d831f7f02dc306725c2e55e287c434
+output_root: outputs/ali_stage1_mechanism_v1
+benchmark_configs:
+  41: configs/bota_short_benchmark_seed41_v3.yaml
+  42: configs/bota_short_benchmark_seed42_v3.yaml
+  43: configs/bota_short_benchmark_seed43_v3.yaml
+protocol:
+  seeds: [41, 42, 43]
+  scenarios: [L8, L4M4]
+  arms: [FM_source_only, FS_source_only, FS_empirical_fisher]
+  optimizer_steps: 200
+  batch_size: 16
+  shared_canonical_trajectory: true
+  online_optimizer_steps: 0
+  authoritative_optimizer_steps_committed: 0
+evaluation:
+  split: Development
+  final_test: false
+  inference_batch_size: 4
+  bootstrap_resamples: 1000
+  bootstrap_seed: 43100
+decision:
+  residual_noninferiority_margin: 0.02
+  relative_l2_noninferiority_margin: 0.02
+  overall_auc_damage_max: 0.005
+  overall_logloss_damage_max: 0.01
+  fisher_removal_requires_both_scenarios: true
+  fm_promotion_requires_lower_residual_both_scenarios: true
+  tie_breaking_precedence: [FS_source_only, FS_empirical_fisher, FM_source_only]
+runtime:
+  required_cuda_devices: 1
+  minimum_free_gib: 10.0
+  allocator_fraction: 0.88
+  hard_peak_reserved_gib: 14.0
+  code_repository_must_be_clean: true
+  experiment_workspace_may_be_dirty: true
