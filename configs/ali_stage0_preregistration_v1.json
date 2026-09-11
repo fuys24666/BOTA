@@ -1,0 +1,114 @@
+{
+  "schema": "bota-ali-stage0-preregistration-v1",
+  "preregistration_id": "ali-feedback-attack-sequential-scale-v1",
+  "frozen_date": "2026-09-11",
+  "status": "FROZEN_BEFORE_NEW_EXPERIMENTS",
+  "scope": {
+    "dataset": "MovieLens-1M",
+    "split": "Development",
+    "test_access_policy": "forbidden",
+    "final_test_may_be_accessed": false,
+    "seeds": [41, 42, 43],
+    "request_seed": 42,
+    "scenarios": {
+      "L8": {"low_frequency_users": 8, "middle_frequency_users": 0, "deleted_slots": 8},
+      "L4M4": {"low_frequency_users": 4, "middle_frequency_users": 4, "deleted_slots": 8}
+    },
+    "adaptation_window": {
+      "ordered_interactions": 3200,
+      "optimizer_steps": 200,
+      "batch_size": 16,
+      "physical_microbatch": 4,
+      "gradient_accumulation": 4
+    },
+    "coordinate": {
+      "backbone": "T5-base",
+      "target_modules": ["q", "v"],
+      "lora_rank": 16,
+      "lora_alpha": 32,
+      "trainable_coordinate": "LoRA-B only",
+      "lora_a": "fixed deterministic"
+    }
+  },
+  "frozen_source_files": {
+    "configs/bota_short_benchmark_seed41_v3.yaml": "32e20d9e92daa36ac5d15e1e6dca85cafc49fe3967470b31f1afb511ed818f9c",
+    "configs/bota_short_benchmark_seed42_v3.yaml": "9d64df16fbd5e2092c9718d000fac15f11f0473cb6eabe02bc7e4f6d839c4f33",
+    "configs/bota_short_benchmark_seed43_v3.yaml": "53effde8212a9595387c2fe73809ee3e840568ae57918a73fb48483794626486",
+    "configs/bota_short_paper_seed41_v3.yaml": "8f8029dacde3dc9bce687612f6b893dfbc4166a7d7bef91457945c070399d079",
+    "configs/bota_short_paper_seed42_v3.yaml": "4a502b1cf6fe32feb6e9bfed96d8d789a90438891a2438fb5e8f8943407a5d98",
+    "configs/bota_short_paper_seed43_v3.yaml": "c287e77ee83514bf7942603ece2e94c9139a6e635d614c66b9709cf54b068f17",
+    "src/diagnostics/t5_zero_training_analysis.py": "741c55fe350580d5e6e39175005f7e11d3d3d996f67ac2e2a06b3eb4bc177fe4"
+  },
+  "method_registry": {
+    "Original": {"role": "canonical endpoint", "artifact_kind": "fixed_ab_adapter"},
+    "Exact-Masked": {"role": "primary matched-local counterfactual", "artifact_kind": "fixed_ab_adapter"},
+    "Retain-Retrain-P5": {"role": "separate converged retain-only sensitivity reference", "artifact_kind": "fixed_ab_adapter"},
+    "FullControl-P5": {"role": "anchor for Retain-Retrain-P5", "artifact_kind": "fixed_ab_adapter"},
+    "BOTA": {"role": "primary approximate method", "artifact_kind": "fixed_ab_adapter"},
+    "IFRU": {"role": "influence-function baseline", "artifact_kind": "fixed_ab_adapter"},
+    "E2URec": {"role": "teacher-guided baseline", "artifact_kind": "fixed_ab_adapter"},
+    "NegGrad": {"role": "gradient-ascent baseline", "artifact_kind": "fixed_ab_adapter"},
+    "PCGrad": {"role": "projected-gradient baseline", "artifact_kind": "fixed_ab_adapter"},
+    "SISA": {"role": "partitioned full-model baseline", "artifact_kind": "four_shard_ensemble"},
+    "RecEraser": {"role": "partitioned adapter baseline", "artifact_kind": "four_shard_ensemble"}
+  },
+  "attack_verification": {
+    "analysis_split": "Development",
+    "model_selection_from_attack_results": false,
+    "primary_population": "forget users under the matched-user protocol",
+    "primary_score": "negative_answer_loss",
+    "primary_statistic": "pooled matched-user ROC-AUC",
+    "required_companion_statistic": "macro user-level ROC-AUC",
+    "secondary_scores": ["confidence", "negative_entropy", "absolute_yes_no_margin"],
+    "bootstrap": {"unit": "authoritative user", "resamples": 2000, "confidence": 0.95, "seed": 42},
+    "utility_guardrails": {"overall_auc_damage_max": 0.005, "overall_logloss_damage_max": 0.01},
+    "reference_signal_rule": {
+      "quantity": "absolute_attack_advantage(Original) - absolute_attack_advantage(Exact-Masked)",
+      "minimum_point_difference": 0.02,
+      "require_user_cluster_bootstrap_ci_lower_above_zero": true
+    },
+    "bota_primary_rule": {
+      "quantity": "absolute ROC-AUC gap to Exact-Masked",
+      "must_be_smaller_than_gap_from_original_to_exact_masked": true,
+      "require_user_cluster_bootstrap_improvement_ci_lower_above_zero": true
+    },
+    "retain_retrain_policy": "Report separately as a sensitivity endpoint; do not pool it with the Exact-Masked denominator.",
+    "reporting_policy": "Report all preregistered attacks, seeds and scenarios, including null or adverse results."
+  },
+  "sequential_verification": {
+    "status": "protocol frozen; implementation not yet run",
+    "composition_semantics": "Recompose the cumulative registered-user union from the same canonical endpoint at every request.",
+    "forbidden_semantics": "Do not treat blind addition to the previously published adapter as the primary sequential algorithm.",
+    "cumulative_request_sizes": [1, 2, 4, 8],
+    "order_families": ["low_first", "middle_first", "alternating", "deterministic_hash_order"],
+    "primary_reference": "Exact-Masked replay of the same cumulative user union",
+    "primary_metric": "local residual to Exact-Masked",
+    "required_secondary_metrics": ["AUC", "log_loss", "forget-user MIA", "retain-user utility", "request-stage wall time", "order sensitivity"],
+    "failure_rule": "If the two-user cumulative result is not closer to Exact-Masked than Original or is materially order-dependent, retain one-shot-only scope."
+  },
+  "scale_verification": {
+    "status": "representation audit frozen; large-bank execution not yet run",
+    "bank_sizes": [12, 32, 64, 128, 256],
+    "advance_only_after_previous_size_passes": true,
+    "representations": ["FP32", "FP16", "INT8_per_vector", "INT8_per_block", "topq_sparse", "shared_low_rank"],
+    "shared_low_rank_ranks": [4, 8, 16, 32, 64],
+    "required_metrics": ["artifact_bytes", "bytes_per_user", "build_wall_time", "peak_gpu_reserved", "load_time", "composition_time", "local_residual", "AUC", "log_loss", "MIA"],
+    "minimum_storage_reduction": 16.0,
+    "maximum_relative_residual_increase": 0.10,
+    "construction_policy": "User chunking may reduce peak memory but must not be reported as reducing total O(KTd) work.",
+    "failure_rule": "If effective rank grows approximately linearly with K or no representation reaches 16x reduction within the residual guardrail, retain registered-set prototype scope."
+  },
+  "amendment_policy": {
+    "allowed_without_amendment": [
+      "fixing a runtime exception without changing numerical semantics",
+      "adding logging, hashes or invariant checks",
+      "changing only output location or machine-local paths"
+    ],
+    "requires_dated_amendment": [
+      "changing a primary metric, threshold, attack, seed, scenario or reference endpoint",
+      "selecting a method checkpoint or hyperparameter using attack outcomes",
+      "accessing FinalTest",
+      "suppressing a preregistered method or adverse result"
+    ]
+  }
+}

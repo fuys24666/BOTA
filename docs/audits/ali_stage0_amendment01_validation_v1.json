@@ -1,0 +1,30 @@
+{
+  "schema": "bota-ali-stage0-amendment-validation-v1",
+  "amendment_id": "ali-stage0-amendment-01-mechanism-signal-equal-billing-v1",
+  "validation_date": "2026-09-11",
+  "status": "PASS",
+  "finaltest_accessed": false,
+  "experiment_outputs_read": false,
+  "validated_files": {
+    "configs/ali_stage0_amendment01_v1.json": "30d679a5356a10f1dac64e45bc0fb5c0a2d831f7f02dc306725c2e55e287c434",
+    "docs/ALI_STAGE0_AMENDMENT01.md": "7b3abaf4b5193ee8864102b7943ffcd56a84154854ce7934748b0b650e353e20",
+    "scripts/bota_if/validate_ali_stage0_amendment01_v1.py": "b299d5012cd275f45c96161ddd97f54ad5f11b6b8b341bdb578ea355289e4e2c",
+    "tests/test_ali_stage0_amendment01_v1.py": "0c566d557a011d0643f8d6a98738cc41671437ae71321c33906d55a92e80656d"
+  },
+  "parent_binding": {
+    "configs/ali_stage0_preregistration_v1.json": "4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0",
+    "docs/ALI_STAGE0_PREREGISTRATION.md": "f2347a20dbd2cbd53abcc07184e3831b850fbd2ddb155ecb20307399eefa2f23",
+    "docs/audits/ali_stage0_artifact_audit_v1.json": "d9c1dff9cd636c59a14081a31709e4b08f656e4b10de98b597fddee3a736a3ec",
+    "docs/audits/ALI_STAGE0_ARTIFACT_AUDIT.md": "0572909959a9173d8e483d855f662800db9bf910db2cc1409b676b2c763bd794"
+  },
+  "checks": {
+    "independent_validator": "PASS",
+    "targeted_tests": "10 passed",
+    "development_only": true,
+    "finaltest_forbidden": true,
+    "primary_contracts_unchanged": true,
+    "known_seed42_results_disclosed": true,
+    "secondary_analyses_labeled": true,
+    "mechanism_frozen_before_attack": true
+  }
+}

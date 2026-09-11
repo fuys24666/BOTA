@@ -1,0 +1,169 @@
+{
+  "schema": "bota-ali-stage0-amendment-v1",
+  "amendment_id": "ali-stage0-amendment-01-mechanism-signal-equal-billing-v1",
+  "amendment_number": 1,
+  "frozen_date": "2026-09-11",
+  "status": "FROZEN_BEFORE_AMENDED_EXPERIMENTS",
+  "parent_preregistration": {
+    "path": "configs/ali_stage0_preregistration_v1.json",
+    "preregistration_id": "ali-feedback-attack-sequential-scale-v1",
+    "sha256": "4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0",
+    "policy": "The parent preregistration remains unchanged and authoritative for its primary attack, sequential and scale contracts."
+  },
+  "bound_stage0_records": {
+    "docs/ALI_STAGE0_PREREGISTRATION.md": "f2347a20dbd2cbd53abcc07184e3831b850fbd2ddb155ecb20307399eefa2f23",
+    "docs/audits/ali_stage0_artifact_audit_v1.json": "d9c1dff9cd636c59a14081a31709e4b08f656e4b10de98b597fddee3a736a3ec",
+    "docs/audits/ALI_STAGE0_ARTIFACT_AUDIT.md": "0572909959a9173d8e483d855f662800db9bf910db2cc1409b676b2c763bd794"
+  },
+  "reason_for_amendment": [
+    "A known seed-42 ablation shows that full-state transport improves parameter reconstruction but not every behavioral residual relative to first-moment transport.",
+    "The empirical-Fisher correction improved the known seed-42 L8 residual by 0.0179, below the previously stated 0.02 materiality threshold.",
+    "The independently stopped Retain-Retrain-P5 sensitivity endpoints expose a target mismatch rather than establish equivalence to converged retraining.",
+    "The registered one-exposure ML-1M requests have a small Original-to-Exact-Masked deletion effect, motivating a separately labeled stronger-signal analysis before attack interpretation."
+  ],
+  "known_before_freeze": {
+    "policy": "These observations are retrospective context and must not be described as prospectively preregistered evidence.",
+    "seed42_transport_ablation": {
+      "L8": {
+        "FM": {"relative_l2": 0.2929, "local_residual": 0.4318},
+        "FS": {"relative_l2": 0.2596, "local_residual": 0.3856}
+      },
+      "L4M4": {
+        "FM": {"relative_l2": 0.2908, "local_residual": 0.6629},
+        "FS": {"relative_l2": 0.2785, "local_residual": 0.7064}
+      }
+    },
+    "seed42_response_correction": {
+      "scenario": "L8",
+      "source_only_fs_residual": 0.4035,
+      "corrected_fs_residual": 0.3856,
+      "absolute_residual_improvement": 0.0179,
+      "materiality_threshold": 0.02
+    },
+    "three_seed_p5_sensitivity_already_observed": true
+  },
+  "unchanged_primary_contracts": {
+    "attack_verification": true,
+    "sequential_verification": true,
+    "scale_verification": true,
+    "original_primary_scenarios": ["L8", "L4M4"],
+    "finaltest_access_remains_forbidden": true,
+    "adverse_and_null_results_remain_reportable": true
+  },
+  "mechanism_stabilization": {
+    "evidence_class": "confirmatory extension with disclosed seed-42 prior observation",
+    "analysis_split": "Development",
+    "finaltest_access": false,
+    "seeds": [41, 42, 43],
+    "scenarios": ["L8", "L4M4"],
+    "shared_requirements": [
+      "same canonical trajectory",
+      "same registered request",
+      "same fixed LoRA-B coordinate",
+      "same evaluation rows",
+      "no checkpoint selection from attack or FinalTest outcomes"
+    ],
+    "arms": {
+      "FM_source_only": "First-moment AdamW transport with the response operator disabled.",
+      "FS_source_only": "Full-state AdamW transport with the response operator disabled.",
+      "FS_empirical_fisher": "Full-state AdamW transport with the currently reported blockwise empirical-Fisher correction."
+    },
+    "required_metrics": [
+      "local_residual",
+      "absolute_counterfactual_error_EU",
+      "delta_cosine",
+      "norm_ratio",
+      "relative_l2",
+      "AUC",
+      "log_loss",
+      "build_wall_time",
+      "artifact_bytes"
+    ],
+    "reporting": {
+      "unit": "seed-by-scenario cell",
+      "show_all_six_cells": true,
+      "summary": "mean and sample standard deviation across seeds for each scenario",
+      "no_significance_claim_from_three_seeds": true
+    },
+    "selection_rules": {
+      "fisher_removal": {
+        "select_FS_source_only_if": [
+          "For each scenario, mean local_residual(FS_source_only) - mean local_residual(FS_empirical_fisher) is at most 0.02.",
+          "For each scenario, mean relative_l2(FS_source_only) - mean relative_l2(FS_empirical_fisher) is at most 0.02.",
+          "The existing utility guardrails are satisfied."
+        ],
+        "otherwise": "Retain FS_empirical_fisher and describe the correction as secondary and non-uniform rather than a standalone innovation."
+      },
+      "fm_promotion": {
+        "select_FM_source_only_if": [
+          "FM_source_only has a lower mean local residual than the selected FS arm in both L8 and L4M4.",
+          "For each scenario, mean relative_l2(FM_source_only) - mean relative_l2(selected FS arm) is at most 0.02.",
+          "FM_source_only satisfies the existing utility guardrails."
+        ],
+        "otherwise": "Keep the selected FS arm as the primary method and retain FM as a diagnostic restriction."
+      },
+      "tie_breaking_precedence": ["FS_source_only", "FS_empirical_fisher", "FM_source_only"],
+      "freeze_before_attack": "The selected arm is frozen before any new attack result is inspected. Any later change requires a new dated amendment."
+    }
+  },
+  "stronger_signal_secondary_analysis": {
+    "evidence_class": "secondary; cannot replace the parent L8 and L4M4 primary scenarios",
+    "analysis_split": "Development",
+    "finaltest_access": false,
+    "selection_seed": 42,
+    "eligibility": {
+      "minimum_development_examples_per_user": 10,
+      "exclude_primary_users": false,
+      "outcome_blind_selection": true,
+      "ordering": "ascending SHA256 of the public user association after eligibility and exposure stratification"
+    },
+    "request_sizes": [2, 4, 8],
+    "window_exposure_strata_per_user": {
+      "single": [1, 1],
+      "moderate": [2, 5],
+      "high": [8, null]
+    },
+    "required_endpoints": ["Original", "Exact-Masked", "frozen BOTA arm"],
+    "required_metrics": ["DU", "EU", "local_residual", "AUC", "log_loss"],
+    "adequate_effect_rule": {
+      "quantity": "DU",
+      "minimum_absolute_probability_effect": 0.001,
+      "interpretation": "Adequacy permits attack interpretation in this secondary scenario; it does not promote the scenario to primary status."
+    },
+    "reporting_policy": "Report every constructed request, including requests with weak effects or adverse BOTA movement."
+  },
+  "equal_billing_long_horizon": {
+    "evidence_class": "secondary reference-sensitivity experiment",
+    "analysis_split": "Development",
+    "finaltest_access": false,
+    "seeds": [41, 42, 43],
+    "scenarios": ["L8", "L4M4"],
+    "horizon_definition": "For each seed, take T_star from the already existing FullControl-P5 best Development checkpoint before running any amended masked or BOTA endpoint.",
+    "matched_schedule": [
+      "Original-T_star, Exact-Masked-T_star and BOTA-T_star use the same initialization.",
+      "They use exactly T_star optimizer steps, the same ordered sample slots and the same full-batch denominator.",
+      "Exact-Masked-T_star zeros registered-user slot weights without compacting retained data.",
+      "BOTA-T_star uses the mechanism arm frozen by the mechanism-stabilization experiment."
+    ],
+    "primary_reference_for_this_secondary_experiment": "Exact-Masked-T_star",
+    "required_metrics": ["DU", "EU", "local_residual", "delta_cosine", "relative_l2", "AUC", "log_loss", "wall_time"],
+    "retain_retrain_policy": "Retain-Retrain-P5 remains an independently stopped converged sensitivity endpoint and is not used as the denominator for the fixed-T_star local residual.",
+    "interpretation_rule": "Failure to move toward Exact-Masked-T_star limits BOTA to the validated 200-step horizon; success does not establish equivalence to independently converged retain-only retraining."
+  },
+  "execution_order": [
+    "mechanism_stabilization",
+    "stronger_signal_secondary_analysis",
+    "equal_billing_long_horizon",
+    "parent attack_verification",
+    "parent sequential_verification",
+    "parent scale_verification"
+  ],
+  "global_integrity_rules": [
+    "Do not access, regenerate or inspect FinalTest while developing or selecting amended protocols.",
+    "Do not suppress a seed, scenario, arm, metric, null result or adverse result named here.",
+    "Do not use attack outcomes to select the BOTA mechanism arm.",
+    "Do not relabel a secondary stronger-signal or long-horizon result as a parent primary result.",
+    "Runtime-only fixes, logging and machine-local path changes are allowed only when numerical semantics are unchanged.",
+    "Any change to an arm, threshold, seed, request-selection rule, endpoint, metric or decision rule requires a new dated amendment before the affected result is inspected."
+  ]
+}
