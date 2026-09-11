@@ -1,0 +1,45 @@
+schema: bota-ali-stage2-stronger-signal-v1
+test_access_policy: forbidden
+parent_amendment:
+  path: configs/ali_stage0_amendment01_v1.json
+  amendment_id: ali-stage0-amendment-01-mechanism-signal-equal-billing-v1
+  sha256: 30d679a5356a10f1dac64e45bc0fb5c0a2d831f7f02dc306725c2e55e287c434
+stage1_selection:
+  path: outputs/ali_stage1_mechanism_v1/summaries/ali_stage1_mechanism_summary_v1/summary.json
+  sha256: 4cf64b38dc619d9ef218469b4bc31b9cf64b9a0d4ab255fc846cfd7f86f2b315
+  selected_arm: FS_empirical_fisher
+benchmark_config: configs/bota_short_benchmark_seed42_v3.yaml
+output_root: outputs/ali_stage2_stronger_signal_v1
+protocol:
+  selection_seed: 42
+  optimizer_steps: 200
+  batch_size: 16
+  request_sizes: [2, 4, 8]
+  exposure_strata:
+    single: {minimum: 1, maximum: 1}
+    moderate: {minimum: 2, maximum: 5}
+    high: {minimum: 8, maximum: null}
+  minimum_development_examples_per_user: 10
+  exclude_primary_users: false
+  selection_uses_labels_or_predictions: false
+  ordering: ascending_sha256_public_user_association_within_stratum
+  endpoints: [Original, Exact-Masked, BOTA-FS-EmpiricalFisher]
+  report_every_request: true
+  online_optimizer_steps: 0
+evaluation:
+  split: Development
+  final_test: false
+  inference_batch_size: 4
+  bootstrap_resamples: 1000
+  bootstrap_seed: 44200
+decision:
+  adequate_effect_du_minimum: 0.001
+  secondary_only: true
+  may_replace_primary_scenarios: false
+runtime:
+  required_cuda_devices: 1
+  minimum_free_gib: 10.0
+  allocator_fraction: 0.88
+  hard_peak_reserved_gib: 14.0
+  code_repository_must_be_clean: true
+  experiment_workspace_may_be_dirty: true
