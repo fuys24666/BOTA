@@ -60,6 +60,13 @@ PAPER_TO_DISPLAY = {
 RUN_REQUIRED = {"COMPLETED", "manifest.json", "metrics.csv", "metrics.json", "per_sample_metrics.jsonl", "provenance.json", "report.md", "run_state.json"}
 
 
+class CollatingConcatDataset(ConcatDataset):
+    """Concatenate compatible prompt datasets while preserving their collator."""
+
+    def collate_fn(self, rows: list[dict[str, torch.Tensor]]) -> dict[str, torch.Tensor]:
+        return self.datasets[0].collate_fn(rows)
+
+
 def _json(path: Path) -> dict[str, Any]:
     value = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(value, dict): raise ValueError(f"expected JSON object: {path}")
@@ -197,7 +204,7 @@ def execute(repo: Path, workspace: Path, config_path: Path, seed: int, run_name:
             if set(member_users)!=set(users) or len(set(member_users))!=len(member_users): raise ValueError("member lineage differs from registered users")
             nonmember_indices=[i for i,u in enumerate(dev_users) if int(u) in set(users)]; nonmember_users=[dev_users[i] for i in nonmember_indices]
             if set(nonmember_users)!=set(users): raise ValueError("Development lacks a registered user")
-            forget=JsonPromptDataset(protocol_dir/"data"/sid/"forget.json",tokenizer); dataset=ConcatDataset([forget,Subset(development,nonmember_indices)]); indices=list(range(len(dataset)))
+            forget=JsonPromptDataset(protocol_dir/"data"/sid/"forget.json",tokenizer); dataset=CollatingConcatDataset([forget,Subset(development,nonmember_indices)]); indices=list(range(len(dataset)))
             predictions={}
             for paper_name in paper_eval.ORDER:
                 if paper_name=="FullControl-P5-Short": continue
