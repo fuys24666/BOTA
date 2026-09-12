@@ -1,0 +1,52 @@
+{
+  "schema": "bota-ali-stage0-amendment-v1",
+  "amendment_id": "ali-stage0-amendment-03-stronger-signal-attack-v1",
+  "amendment_number": 3,
+  "frozen_date": "2026-09-12",
+  "status": "FROZEN_BEFORE_STAGE4A_EXECUTION",
+  "parent_amendment": {
+    "path": "configs/ali_stage0_amendment01_v1.json",
+    "amendment_id": "ali-stage0-amendment-01-mechanism-signal-equal-billing-v1",
+    "sha256": "30d679a5356a10f1dac64e45bc0fb5c0a2d831f7f02dc306725c2e55e287c434"
+  },
+  "frozen_parent_attack_result": {
+    "path": "docs/audits/ali_stage4_result_audit_v1.json",
+    "sha256": "9f8f0b792f88b7b10b9223909a6032ad1581fabee036f36b90545bcf3756be8a",
+    "interpretation": "The six parent L8/L4M4 attack cells remain negative and authoritative. Stage 4A is secondary and cannot replace them."
+  },
+  "frozen_stronger_signal_source": {
+    "stage2_run": "outputs/ali_stage2_stronger_signal_v1/runs/ali_stage2_stronger_signal_seed42_v1",
+    "manifest_sha256": "3d224547dc54244c11dcca99a8453f53e6946f2c300ff98acddcb8e8ca94ee1b",
+    "metrics_sha256": "97a7e47981cf5524921d6ff7383ca4db570f733feb00680f9ee3112356172060",
+    "request_registry_sha256": "c6868a621f44552b99ff86cb2f7820e423b75114c7d6fb8c733a338808c60e0e",
+    "selected_mechanism_arm": "FS_empirical_fisher",
+    "seed": 42
+  },
+  "stage4a_core": {
+    "evidence_class": "secondary_stronger_signal_attack",
+    "analysis_split": "Development",
+    "finaltest_access": false,
+    "models": ["Original", "Exact-Masked", "BOTA"],
+    "requests": ["single_k2", "single_k4", "single_k8", "moderate_k2", "moderate_k4", "moderate_k8", "high_k2", "high_k4", "high_k8"],
+    "report_every_request": true,
+    "primary_score": "negative_answer_loss",
+    "secondary_scores": ["confidence", "negative_entropy", "absolute_yes_no_margin"],
+    "primary_statistic": "pooled matched-user ROC-AUC",
+    "companion_statistic": "macro user-level ROC-AUC",
+    "bootstrap": {"unit": "authoritative user", "resamples": 2000, "confidence": 0.95, "seed": 42},
+    "member_population": "all frozen adaptation-window interactions of the requested users",
+    "nonmember_population": "Development interactions of the same requested users",
+    "adequate_effect_rule": {"quantity": "DU", "minimum": 0.001},
+    "eligible_request_ids_from_frozen_stage2": ["high_k4"],
+    "reference_signal_rule": {"minimum_point_difference": 0.02, "bootstrap_ci_lower_must_exceed_zero": true},
+    "bota_rule": {"gap_to_exact_must_be_smaller_than_original_gap": true, "bootstrap_improvement_ci_lower_must_exceed_zero": true},
+    "utility_guardrails": {"overall_auc_damage_max": 0.005, "overall_logloss_damage_max": 0.01}
+  },
+  "interpretation_rules": [
+    "All nine requests and all four attacks must be reported, including null and adverse results.",
+    "Only requests passing the previously frozen DU threshold may receive a formal attack interpretation; the frozen Stage 2 result identifies high_k4 as the sole eligible request.",
+    "No Stage 4A result may change the BOTA mechanism arm, attack score, threshold, request membership or utility guardrail.",
+    "A successful high_k4 result supports only a seed-42 secondary high-frequency K=4 operating regime.",
+    "A failed high_k4 reference-signal gate ends attack optimization under the current protocol."
+  ]
+}
