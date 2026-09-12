@@ -1,0 +1,54 @@
+{
+  "schema": "bota-ali-stage4a-result-audit-v1",
+  "status": "FROZEN_NEGATIVE_RESULT",
+  "frozen_date": "2026-09-12",
+  "experiment": "secondary stronger-signal matched-user MIA verification",
+  "analysis_split": "Development",
+  "final_test_accessed": false,
+  "test_accessed": false,
+  "completeness": {
+    "seed": 42,
+    "requests": 9,
+    "models": ["Original", "Exact-Masked", "BOTA"],
+    "attacks_per_model": 4,
+    "metric_rows": 108,
+    "all_requests_reported": true,
+    "validated_run_manifest": true
+  },
+  "decision": {
+    "sole_formally_interpretable_request": "high_k4",
+    "high_k4_du": 0.001146148799225352,
+    "high_k4_reference_signal": -0.0017126148705095545,
+    "high_k4_reference_ci": [-0.0027094152178821496, 0.0030000000000000027],
+    "high_k4_bota_gap_improvement": 0.0016290726817041468,
+    "high_k4_bota_gap_improvement_ci": [-0.00012693577050010285, 0.0029036004645760505],
+    "reference_signal_requests_passed": 0,
+    "bota_gap_improvement_requests_passed": 1,
+    "utility_guardrail_requests_passed": 9,
+    "formal_requests_passed": 0,
+    "formal_status": "FORMAL_FAIL",
+    "interpretation": "Even the sole request that passed the frozen DU gate lacked an adequate Original-to-Exact-Masked attack signal. BOTA was close to Exact-Masked and preserved utility, but no attack-based forgetting conclusion is permitted. Attack optimization stops under the frozen protocol."
+  },
+  "descriptive_exception": {
+    "request_id": "high_k8",
+    "du": 0.000798500108324606,
+    "bota_gap_improvement_pass": true,
+    "formal_interpretation_permitted": false,
+    "reason": "The request failed the previously frozen DU >= 0.001 eligibility gate."
+  },
+  "source_sha256": {
+    "manifest": "50eb0e53ae42e657a36736994b6ea4718a47512ec0338dac70baa6dcdb4e1481",
+    "metrics_csv": "ae01ac234efa4ba8d7ec204455540857559998be12393e3cb0ec4ac77d7954a5",
+    "metrics_json": "d0ab5a37fe02f4f46f5b83f6db494c3376e7d56a0826799cd6cfb49a081dda3a",
+    "per_sample_metrics": "3dd62c18cf7929bef253c9df456b0eed790accac3a02951c9ee0614f099f849c",
+    "provenance": "a762c0a18096737f239ad0a2d35df523aec05a5d2f72df877186eb48989f7888",
+    "report": "baac2a927629cd96fe86174af6feaa3e037468a7c7d98b9155f562b90619a386",
+    "run_state": "de122e656fe37246c2887f50c00ee00710dde328e258725299dbe48ef7accfee"
+  },
+  "integrity_rules": [
+    "The high_k4 formal failure and the eight weak-DU descriptive outcomes may not be suppressed.",
+    "The descriptive high_k8 improvement may not be promoted to formal evidence.",
+    "Stage 4A may not replace or reinterpret the negative parent Stage 4 result.",
+    "No later sequential or storage result may be used to resume attack optimization under this protocol."
+  ]
+}
