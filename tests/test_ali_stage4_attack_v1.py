@@ -3,6 +3,7 @@ from pathlib import Path
 import numpy as np
 
 from src.bota_short_benchmark.ali_stage4_attack_v1 import CollatingConcatDataset, DISPLAY, SCENARIOS, SEEDS, _arrays, synthetic
+from src.bota_short_benchmark.evaluation import _local_model_directory
 from src.diagnostics.t5_zero_training_analysis import ATTACKS
 
 
@@ -44,3 +45,9 @@ def test_runbook_has_offline_command() -> None:
     text = Path("docs/ALI_STAGE4_RUNBOOK.md").read_text(encoding="utf-8")
     assert "-Mode Full" in text and "-Seed All" in text
     assert "FinalTest is forbidden" in text
+
+
+def test_ensemble_model_path_is_resolved_under_workspace(tmp_path: Path) -> None:
+    model = tmp_path / "pretrained_models" / "t5-base"
+    model.mkdir(parents=True)
+    assert _local_model_directory(tmp_path, "pretrained_models/t5-base") == model.resolve()

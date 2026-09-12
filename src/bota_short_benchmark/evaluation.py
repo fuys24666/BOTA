@@ -60,6 +60,16 @@ def _release(model):
     if torch.cuda.is_available(): torch.cuda.empty_cache()
 
 
+def _local_model_directory(root: Path, configured: str | Path) -> Path:
+    path = Path(configured)
+    if not path.is_absolute():
+        path = root / path
+    path = path.resolve()
+    if not path.is_dir():
+        raise FileNotFoundError(f"local pretrained model directory not found: {path}")
+    return path
+
+
 def _single_predictions(model, dataset, indices: Sequence[int], device: torch.device, batch_size: int) -> dict[str, Any]:
     probabilities = []; labels = []; losses = []
     with torch.inference_mode():
@@ -71,8 +81,9 @@ def _single_predictions(model, dataset, indices: Sequence[int], device: torch.de
 def _ensemble_predictions(root: Path, config: dict[str, Any], scenario_manifest: dict[str, Any], dataset, indices, device, batch_size):
     component = Path(scenario_manifest["component_run"]); aggregation = json.loads((component / "aggregation.json").read_text(encoding="utf-8")); weights = list(map(float, aggregation["weights"])); n = len(indices); yes = torch.zeros(n, dtype=torch.float64); no = torch.zeros(n, dtype=torch.float64); target = None; masks = None; labels = None
     base = _base_t5_config(root, config)
+    model_directory = _local_model_directory(root, base["paths"]["model_dir"])
     for shard, weight in enumerate(weights):
-        if scenario_manifest["method_id"] == "SISA-Short-T5": model = T5ForConditionalGeneration.from_pretrained(Path(base["paths"]["model_dir"]), attn_implementation="eager").float(); kind = "full_model"
+        if scenario_manifest["method_id"] == "SISA-Short-T5": model = T5ForConditionalGeneration.from_pretrained(model_directory, attn_implementation="eager", local_files_only=True).float(); kind = "full_model"
         else: model = clean_lora_model(root / config["source"]["original_checkpoint"], {"r":16,"lora_alpha":32,"lora_dropout":.05,"target_modules":["q","v"]}, torch.device("cpu")); kind = "lora_adapter"
         state = torch.load(component / f"models/shard_{shard:02d}/final_state.pt", map_location="cpu", weights_only=True); load_trainable_state(model, state, kind); model = model.to(device).eval(); offset = 0
         with torch.inference_mode():
