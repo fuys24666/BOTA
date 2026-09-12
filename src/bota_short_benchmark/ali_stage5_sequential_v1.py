@@ -135,6 +135,10 @@ def _same_prediction_order(*rows:dict[str,Any])->bool:
     return all(row["gold_label"]==rows[0]["gold_label"] and row["sample_order_sha256"]==rows[0]["sample_order_sha256"] for row in rows[1:])
 
 
+def _endpoint_key(union_hash:str)->str:
+    return union_hash[:12]
+
+
 def execute(repo:Path,workspace:Path,config_path:Path,seed:int,run_name:str)->dict[str,Any]:
     authority,config,benchmark,base_registry,cells,union_users=preflight(repo,workspace,config_path,seed);git=git_snapshot(repo)
     if not git["clean"]:raise RuntimeError("formal Stage 5 requires clean Git")
@@ -154,9 +158,11 @@ def execute(repo:Path,workspace:Path,config_path:Path,seed:int,run_name:str)->di
         if budget.calls!=200 or any(not torch.equal(canonical[name],original_state["B"][name]) for name in names):raise RuntimeError("canonical endpoint mismatch")
         states=all_states[SELECTED_ARM];del all_states,model,parameters;model=None;gc.collect();torch.cuda.empty_cache()
         original_dir=stage/"endpoints"/"original";runner._save_fixed_ab(original_dir/"adapter",names,canonical,bases_cpu,"Original-Stage5")
-        unique={row["union_hash"]:row for row in cells};user_slot={user:index for index,user in enumerate(union_users)};request_times={};endpoint_hashes={}
+        unique={row["union_hash"]:row for row in cells}
+        if len({_endpoint_key(union_hash) for union_hash in unique})!=len(unique):raise RuntimeError("short endpoint-key collision")
+        user_slot={user:index for index,user in enumerate(union_users)};request_times={};endpoint_hashes={}
         for union_hash,row in unique.items():
-            begun=time.perf_counter();candidate={name:canonical[name]+states[module]["theta"][[user_slot[user] for user in row["users"]]].sum(0).float() for module,name in enumerate(names)};root=stage/"endpoints"/union_hash;artifact=runner._save_fixed_ab(root/"bota"/"adapter",names,candidate,bases_cpu,"BOTA-FS-EmpiricalFisher-Stage5");request_times[union_hash]=time.perf_counter()-begun;endpoint_hashes[union_hash]={"bota":artifact["sha256"]};del candidate
+            begun=time.perf_counter();candidate={name:canonical[name]+states[module]["theta"][[user_slot[user] for user in row["users"]]].sum(0).float() for module,name in enumerate(names)};root=stage/"endpoints"/_endpoint_key(union_hash);artifact=runner._save_fixed_ab(root/"bota"/"adapter",names,candidate,bases_cpu,"BOTA-FS-EmpiricalFisher-Stage5");request_times[union_hash]=time.perf_counter()-begun;endpoint_hashes[union_hash]={"directory_key":_endpoint_key(union_hash),"bota":artifact["sha256"]};del candidate
         del states
         exact_times={};exact_optimizer_hashes={}
         for union_hash,row in unique.items():
@@ -164,11 +170,11 @@ def execute(repo:Path,workspace:Path,config_path:Path,seed:int,run_name:str)->di
             if list(exact_names)!=list(names) or not stage2._same_tensor_map(exact_bases,bases_cpu):raise RuntimeError("paired Exact-Masked coordinate mismatch")
             restore_rng(initial_rng);exact_budget=StepBudget(200);begun=time.perf_counter();values,optimizer,exact_trace=runner._train_named(model,exact_data,base_registry["order"],exact_users,row["users"],exact_names,exact_parameters,device,exact_tokenizer.pad_token_id,runner._engine(workspace,benchmark),exact_budget,f"stage5_exact_{union_hash[:12]}");exact_times[union_hash]=time.perf_counter()-begun
             if exact_budget.calls!=200 or [item["batch_hash"] for item in exact_trace]!=[item["batch_hash"] for item in trace]:raise RuntimeError("paired Exact-Masked trace mismatch")
-            exact_optimizer_hashes[union_hash]=tensor_tree_hash(optimizer.state_dict());artifact=runner._save_fixed_ab(stage/"endpoints"/union_hash/"exact_masked"/"adapter",names,values,bases_cpu,"Exact-Masked-Stage5");endpoint_hashes[union_hash]["exact_masked"]=artifact["sha256"];del model,exact_parameters,optimizer,values;model=None;gc.collect();torch.cuda.empty_cache()
+            exact_optimizer_hashes[union_hash]=tensor_tree_hash(optimizer.state_dict());artifact=runner._save_fixed_ab(stage/"endpoints"/_endpoint_key(union_hash)/"exact_masked"/"adapter",names,values,bases_cpu,"Exact-Masked-Stage5");endpoint_hashes[union_hash]["exact_masked"]=artifact["sha256"];del model,exact_parameters,optimizer,values;model=None;gc.collect();torch.cuda.empty_cache()
         base=runner._base_t5_config(workspace,benchmark);model_dir=Path(base["paths"]["model_dir"]);model_dir=model_dir if model_dir.is_absolute() else workspace/model_dir;eval_tokenizer=T5Tokenizer.from_pretrained(model_dir,local_files_only=True);development=JsonPromptDataset(workspace/benchmark["source"]["development_json"],eval_tokenizer);train_authority,development_users,_=stage2._source_users(workspace,benchmark);indices=list(range(len(development)));original_prediction=behavior._predict_scenario_dir(workspace,benchmark,original_dir,development,indices,device);original_utility=_classification(original_prediction);train_records=json.loads((workspace/benchmark["source"]["train_json"]).read_text(encoding="utf-8"));window_records=[train_records[index] for index in base_registry["order"]];window_users=[int(train_authority[index]) for index in base_registry["order"]]
         endpoint_results={};attack_rows=[];safe_samples=[]
         for number,(union_hash,row) in enumerate(unique.items()):
-            root=stage/"endpoints"/union_hash;exact_prediction=behavior._predict_scenario_dir(workspace,benchmark,root/"exact_masked",development,indices,device);bota_prediction=behavior._predict_scenario_dir(workspace,benchmark,root/"bota",development,indices,device)
+            root=stage/"endpoints"/_endpoint_key(union_hash);exact_prediction=behavior._predict_scenario_dir(workspace,benchmark,root/"exact_masked",development,indices,device);bota_prediction=behavior._predict_scenario_dir(workspace,benchmark,root/"bota",development,indices,device)
             if not _same_prediction_order(original_prediction,exact_prediction,bota_prediction):raise RuntimeError("Development prediction order mismatch")
             requested=set(row["users"]);selected=[i for i,user in enumerate(development_users) if int(user) in requested];retained=[i for i,user in enumerate(development_users) if int(user) not in requested];metric=behavior.behavior_metrics("BOTA-Stage5",bota_prediction,exact_prediction,original_prediction,selected,development_users,int(config["evaluation"]["behavior_bootstrap_resamples"]),int(config["evaluation"]["behavior_bootstrap_seed"])+number);op=np.asarray(original_prediction["probability"]);ep=np.asarray(exact_prediction["probability"]);bp=np.asarray(bota_prediction["probability"]);chosen=np.asarray(selected,dtype=np.int64)
             positions=[position for position,user in enumerate(window_users) if user in requested];members=[window_records[position] for position in positions];member_users=[window_users[position] for position in positions];nonmember_users=[development_users[i] for i in selected];attack_data=JsonPromptDataset(workspace/benchmark["source"]["development_json"],eval_tokenizer);attack_data.records=members+[development.records[i] for i in selected];attack_indices=list(range(len(attack_data)));attack_predictions={"Original":behavior._predict_scenario_dir(workspace,benchmark,original_dir,attack_data,attack_indices,device),"Exact-Masked":behavior._predict_scenario_dir(workspace,benchmark,root/"exact_masked",attack_data,attack_indices,device),"BOTA":behavior._predict_scenario_dir(workspace,benchmark,root/"bota",attack_data,attack_indices,device)}
@@ -213,8 +219,9 @@ def analyze(config:dict[str,Any],workspace:Path,seed:int,run_name:str)->dict[str
         if sha256_file(run/name)!=digest:raise ValueError(f"Stage 5 artifact changed: {name}")
     if directory_hash(run/"endpoints"/"original"/"adapter")!=manifest["original_adapter_sha256"]:raise ValueError("Stage 5 Original endpoint changed")
     for union_hash,endpoints in manifest["endpoint_sha256"].items():
-        for endpoint,digest in endpoints.items():
-            if directory_hash(run/"endpoints"/union_hash/endpoint/"adapter")!=digest:raise ValueError(f"Stage 5 endpoint changed: {union_hash}/{endpoint}")
+        if endpoints.get("directory_key")!=_endpoint_key(union_hash):raise ValueError(f"Stage 5 endpoint key changed: {union_hash}")
+        for endpoint in ("bota","exact_masked"):
+            if directory_hash(run/"endpoints"/endpoints["directory_key"]/endpoint/"adapter")!=endpoints[endpoint]:raise ValueError(f"Stage 5 endpoint changed: {union_hash}/{endpoint}")
     metrics=_json(run/"metrics.json");registry=_json(run/"request_registry.json");attacks=_json(run/"attacks.json");state=_json(run/"run_state.json")
     if len(metrics.get("cells",[]))!=20 or registry.get("cell_count")!=20 or len(attacks.get("rows",[]))!=registry["unique_union_count"]*12 or state.get("status")!="COMPLETED" or any(row.get("test_accessed") is not False for row in (metrics,registry,attacks,state)):raise ValueError("Stage 5 completeness invariant failed")
     return {"status":"VALID","run_dir":str(run),"seed":seed,"cells":20,"unique_unions":registry["unique_union_count"],"test_accessed":False}

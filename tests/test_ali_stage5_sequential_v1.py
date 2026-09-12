@@ -1,4 +1,4 @@
-from src.bota_short_benchmark.ali_stage5_sequential_v1 import PRIMARY_ORDERS, SIZES, build_registry, synthetic
+from src.bota_short_benchmark.ali_stage5_sequential_v1 import PRIMARY_ORDERS, SIZES, _endpoint_key, build_registry, synthetic
 
 
 def _registry():
@@ -24,3 +24,9 @@ def test_synthetic_contract():
     assert result["example_pass"] is True
     assert result["chain_from_published_adapter"] is False
     assert result["test_accessed"] is False
+
+
+def test_endpoint_key_shortens_only_the_directory_name():
+    digest="a"*64
+    assert _endpoint_key(digest)=="a"*12
+    assert len(_endpoint_key(digest))==12
