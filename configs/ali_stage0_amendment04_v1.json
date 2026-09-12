@@ -1,0 +1,45 @@
+{
+  "schema": "bota-ali-stage0-amendment-v1",
+  "amendment_id": "ali-stage0-amendment-04-sequential-union-v1",
+  "amendment_number": 4,
+  "frozen_date": "2026-09-12",
+  "status": "FROZEN_BEFORE_STAGE5_EXECUTION",
+  "parent_preregistration": {
+    "path": "configs/ali_stage0_preregistration_v1.json",
+    "sha256": "4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0"
+  },
+  "frozen_attack_boundary": {
+    "path": "docs/audits/ali_stage4a_result_audit_v1.json",
+    "sha256": "157c942eacbbb7a2dca86c70116f033c2222cc36ddedc3919c7dd0bcd32f341e",
+    "policy": "Stage 5 reports MIA descriptively but cannot resume or replace the failed Stage 4 and Stage 4A attack decisions."
+  },
+  "stage5_core": {
+    "analysis_split": "Development",
+    "finaltest_access": false,
+    "seeds": [41, 42, 43],
+    "optimizer_steps": 200,
+    "selected_mechanism_arm": "FS_empirical_fisher",
+    "primary_scenario": "L4M4",
+    "primary_order_families": ["low_first", "middle_first", "alternating", "deterministic_hash"],
+    "secondary_scenario": "L8",
+    "secondary_order_families": ["deterministic_hash"],
+    "cumulative_request_sizes": [1, 2, 4, 8],
+    "composition_semantics": "At every step, recompose the cumulative registered-user union from the same canonical endpoint and the frozen per-user impact bank.",
+    "forbidden_primary_semantics": "Do not use the previously published cumulative Adapter as the source endpoint for the next request.",
+    "primary_reference": "A new 200-step Exact-Masked replay of the identical cumulative user union, using the canonical sample order and full 16-slot denominator.",
+    "unique_union_cache": "Numerically identical cumulative user sets may share one Exact-Masked replay and one BOTA endpoint, keyed only by their sorted public user hashes.",
+    "required_metrics": ["DU", "EU", "local_residual", "residual_ci", "toward_exact_rate", "delta_cosine", "norm_ratio", "relative_l2", "overall_auc", "overall_log_loss", "requested_user_metrics", "retained_user_metrics", "request_stage_wall_time", "order_sensitivity", "descriptive_MIA"],
+    "utility_guardrails": {"overall_auc_damage_max": 0.005, "overall_logloss_damage_max": 0.01},
+    "order_sensitivity": {"quantity": "maximum minus minimum three-seed mean local residual across the four L4M4 K=2 order families", "maximum": 0.10},
+    "primary_success_rule": "Every L4M4 K=2 order-family mean local residual must be below 1.0, the frozen order-sensitivity spread must be at most 0.10, and all twelve contributing seed-order cells must pass the utility guardrails.",
+    "final_union_invariant": "All four L4M4 K=8 order families must resolve to the same cumulative user-set hash within each seed.",
+    "attack_interpretation_permitted": false
+  },
+  "interpretation_rules": [
+    "All 60 registered seed-order-size cells must be reported, including null and adverse results.",
+    "Passing supports cumulative recomposition only for the frozen 200-step registered-user setting.",
+    "Failure retains one-shot-only scope and cannot be repaired by selecting an order after inspection.",
+    "The L8 sequence is a homogeneous low-frequency robustness analysis and does not enter the primary order-sensitivity decision.",
+    "No result may be used to change the selected mechanism arm or the negative attack conclusion."
+  ]
+}
