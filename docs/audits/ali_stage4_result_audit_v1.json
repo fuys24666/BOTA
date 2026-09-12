@@ -1,0 +1,52 @@
+{
+  "schema": "bota-ali-stage4-result-audit-v1",
+  "status": "FROZEN_NEGATIVE_RESULT",
+  "frozen_date": "2026-09-12",
+  "experiment": "parent matched-user MIA verification",
+  "analysis_split": "Development",
+  "final_test_accessed": false,
+  "test_accessed": false,
+  "completeness": {
+    "seeds": [41, 42, 43],
+    "scenarios": ["L8", "L4M4"],
+    "attacks_per_method": 4,
+    "methods": 10,
+    "all_six_cells_reported": true,
+    "validated_run_manifests": true
+  },
+  "decision": {
+    "primary_attack": "negative_answer_loss",
+    "reference_signal_cells_passed": 0,
+    "bota_gap_improvement_cells_passed": 0,
+    "utility_guardrail_cells_passed": 6,
+    "primary_cells_passed": 0,
+    "interpretation": "The parent attack verification is inconclusive for unlearning because Original and Exact-Masked have no adequate matched-user attack separation. BOTA closely matches Exact-Masked attack rankings, but this cannot establish attack-based forgetting without a valid reference signal."
+  },
+  "cells": [
+    {"seed": 41, "scenario": "L8", "original_auc": 0.39818548387096775, "exact_auc": 0.396505376344086, "bota_auc": 0.396505376344086, "reference_signal": -0.0016801075268817467, "reference_ci": [-0.005791906199815479, 0.002568548174102933], "bota_improvement": 0.0016801075268817467, "bota_improvement_ci": [0.0, 0.005878918022905321]},
+    {"seed": 41, "scenario": "L4M4", "original_auc": 0.3376865671641791, "exact_auc": 0.33619402985074626, "bota_auc": 0.33619402985074626, "reference_signal": -0.0014925373134328512, "reference_ci": [-0.003446986347651683, 5.68989300120317e-17], "bota_improvement": 0.0014925373134328512, "bota_improvement_ci": [0.0, 0.0034469863476516813]},
+    {"seed": 42, "scenario": "L8", "original_auc": 0.40120967741935487, "exact_auc": 0.3995295698924731, "bota_auc": 0.3995295698924731, "reference_signal": -0.0016801075268817467, "reference_ci": [-0.00449871465295631, 0.00192480079681273], "bota_improvement": 0.0016801075268817467, "bota_improvement_ci": [0.0, 0.004500257731958765]},
+    {"seed": 42, "scenario": "L4M4", "original_auc": 0.3373134328358209, "exact_auc": 0.33619402985074626, "bota_auc": 0.33582089552238803, "reference_signal": -0.0011194029850746182, "reference_ci": [-0.0024752475247524753, 5.551115123125783e-17], "bota_improvement": 0.0007462686567163979, "bota_improvement_ci": [-0.0009881405817173598, 0.00240978406379139]},
+    {"seed": 43, "scenario": "L8", "original_auc": 0.3995295698924731, "exact_auc": 0.3985215053763441, "bota_auc": 0.3985215053763441, "reference_signal": -0.0010080645161290036, "reference_ci": [-0.003112033195020683, 0.0006620115995115188], "bota_improvement": 0.0010080645161290036, "bota_improvement_ci": [0.0, 0.003112033195020683]},
+    {"seed": 43, "scenario": "L4M4", "original_auc": 0.34029850746268653, "exact_auc": 0.33955223880597013, "bota_auc": 0.33955223880597013, "reference_signal": -0.0007462686567163979, "reference_ci": [-0.002329740162386358, 5.551115123125783e-17], "bota_improvement": 0.0007462686567163979, "bota_improvement_ci": [0.0, 0.002329740162386355]}
+  ],
+  "source_sha256": {
+    "seed41_manifest": "d34c61c4ac185cab3dbfffde8f25ffbaf6f1e08cbf5d8bd4ec121ea5fc12815c",
+    "seed41_metrics": "c976073f54a458262363607c33c577c458a7cf70c392180e0ad38a35af04f0a5",
+    "seed41_provenance": "2e92d41678ed18087dc2b17c94bfbc471b02c10de28da9aca062ee7300c5a21a",
+    "seed42_manifest": "c4f3bf52e57d4093cdedef93f30a17b3c7c3d72ccf83314641e6ac41f1810a90",
+    "seed42_metrics": "a2b13fb1d35c799731bf63e450ca3bdd3e565addcaf260b7ebfbd87ef9249b16",
+    "seed42_provenance": "dc29106e72340657ab819c50a1061e75255e812a9c788784c0e7a1332b684625",
+    "seed43_manifest": "0f51e7ddd7e92088522df7990bff57ede32483689cdf86e05e56f348e403760a",
+    "seed43_metrics": "25c68da92aae2a72c08c451504b39fb3abf644c8a7411601eb9d9f2a2f66830c",
+    "seed43_provenance": "3fbb7c5171a9a30878de82023a7fde262569a27c9f5bf8d2629bc9bad32bf786",
+    "summary_manifest": "18d4dab74d6d264d0aad9b813c00b39bdf29fd45241a9f7c61dbf3cc4ec837e9",
+    "summary_json": "c90dbcb386ff92b95feaa5cc95e38b781693a220e9396e24bfd853a5d1fd7048",
+    "summary_markdown": "55b80932554fd1485915493a35fdbaad9bceb8fcd7e881232491a31c89a9bc64"
+  },
+  "integrity_rules": [
+    "The six failed primary cells may not be suppressed or relabelled as successful.",
+    "A later stronger-signal attack is secondary and may not replace the parent L8/L4M4 result.",
+    "No attack outcome may be used to change the frozen BOTA mechanism arm or the registered primary attack."
+  ]
+}
