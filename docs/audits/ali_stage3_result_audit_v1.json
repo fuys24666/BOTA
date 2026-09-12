@@ -1,0 +1,78 @@
+{
+  "schema": "bota-ali-stage3-result-audit-v1",
+  "frozen_date": "2026-09-12",
+  "status": "FROZEN_AFTER_COMPLETE_EXECUTION_BEFORE_STAGE4",
+  "protocol": {
+    "parent_amendment": "configs/ali_stage0_amendment02_v1.json",
+    "fixed_optimizer_steps_per_endpoint": 1200,
+    "seeds": [41, 42, 43],
+    "scenarios": ["L8", "L4M4"],
+    "selected_arm": "FS_empirical_fisher",
+    "reference": "Exact-Masked-Tlong",
+    "analysis_split": "Development",
+    "finaltest_accessed": false,
+    "retain_retrain_used_as_denominator": false
+  },
+  "source_root": "C:/python/E2URec-main/outputs/ali_stage3_equal_horizon_v1",
+  "run_artifacts": {
+    "41": {
+      "manifest_sha256": "d0fd57bf7ca6fd9189bc8b1551fe438583be4ddd037df70b013eeccbf6d0ae30",
+      "metrics_sha256": "27c9805bee6dad3cd20f421137b58f46c716d113bb6b728afb25637d00ec0686",
+      "provenance_sha256": "4f5876089eaf3ef44bbb32a3309350480b85c93dbb731bcff88a782486bcf0a5",
+      "timing_sha256": "3eaa44383e07ac2469a4ef3ea00aaeb104008499a9b1291408498e38ed765a5d"
+    },
+    "42": {
+      "manifest_sha256": "277e391ae4f60074254ae2f3cf49743e8f1eccc6ecb68b5f53e55bf97d6c3d7a",
+      "metrics_sha256": "84dcd7c7910425ed6179d7ef7d4d8acd913e7d96b1dd0e6acf2843a2f14e0820",
+      "provenance_sha256": "4db38ec4cc4c1c664f23e899ba79b83ff7c089e6ee6e75f7154721c7734aca99",
+      "timing_sha256": "e679470339cc27594408588de72ae00d8844ee41355ba68cfdd239fd927b5bf3"
+    },
+    "43": {
+      "manifest_sha256": "a3b669920161d8a61d42dbbb428e925c9db05091ea9842688b18cf3db84c0691",
+      "metrics_sha256": "d9e6aac6ebdabfde71ee72d82b1bd20985212bb530b726c5d6013eb87a43b8e9",
+      "provenance_sha256": "c239bd502527b7e36c47f8f3cfde5a8baf2c2d433e4a5090629d8ee34a00f49d",
+      "timing_sha256": "c75d3ea0a013bb2e58d0f7bada9581eeb53de2e956139a097482a17ee3f74021"
+    }
+  },
+  "summary_artifacts": {
+    "manifest_sha256": "987f8bd6c9bdb6b7bf3d48e8272016d2803b88d6c405ef9ef8f29aceb5b0c689",
+    "summary_json_sha256": "77c4907717d3941224d914f1f0d3e916e8104909c185f3a19dcaef5fdf63d46c",
+    "summary_markdown_sha256": "5a3ff525682e2222507b2c7380b1c9365c485dcaa0c7f1373674405efdd4f7cd"
+  },
+  "complete_results": {
+    "L8": {
+      "DU_mean": 0.0010366696366993543,
+      "DU_sample_sd": 0.00003730384513039448,
+      "EU_mean": 0.0016101944747657973,
+      "EU_sample_sd": 0.00013780461083505327,
+      "local_residual_mean": 1.5516370514477997,
+      "local_residual_sample_sd": 0.08436318490695952,
+      "delta_cosine_mean": 0.564888684588813,
+      "relative_l2_mean": 0.8374531576456746,
+      "cells_moved_toward_exact": 0
+    },
+    "L4M4": {
+      "DU_mean": 0.0011420457239322995,
+      "DU_sample_sd": 0.0002524052406040023,
+      "EU_mean": 0.0012296107407677825,
+      "EU_sample_sd": 0.0004887450573722882,
+      "local_residual_mean": 1.051354579008282,
+      "local_residual_sample_sd": 0.18233560902011298,
+      "delta_cosine_mean": 0.3925782894829575,
+      "relative_l2_mean": 0.891701143358141,
+      "cells_moved_toward_exact": 2
+    }
+  },
+  "integrity": {
+    "all_six_cells_reported": true,
+    "all_three_run_analyzers_passed": true,
+    "summary_file_hashes_verified": true,
+    "physical_optimizer_step_calls_per_seed": 3600,
+    "physical_optimizer_step_calls_total": 10800,
+    "online_optimizer_steps": 0,
+    "prediction_collapse_observed": false,
+    "finaltest_accessed": false,
+    "retain_retrain_loaded": false
+  },
+  "frozen_interpretation": "At 1,200 equal-billed steps, L8 moves away from Exact-Masked-Tlong in all three seeds. L4M4 has two residual point estimates below one, but both confidence intervals cross one and the third seed moves away; the three-seed mean is above one. The result does not support long-horizon reliability and limits the validated BOTA claim to the existing 200-step horizon."
+}
