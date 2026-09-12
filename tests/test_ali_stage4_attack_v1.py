@@ -2,7 +2,7 @@ from pathlib import Path
 
 import numpy as np
 
-from src.bota_short_benchmark.ali_stage4_attack_v1 import CollatingConcatDataset, DISPLAY, SCENARIOS, SEEDS, _arrays, synthetic
+from src.bota_short_benchmark.ali_stage4_attack_v1 import CollatingConcatDataset, DISPLAY, SCENARIOS, SEEDS, _arrays, _attack, synthetic
 from src.bota_short_benchmark.evaluation import _local_model_directory
 from src.diagnostics.t5_zero_training_analysis import ATTACKS
 
@@ -20,6 +20,15 @@ def test_attack_arrays_keep_authoritative_users() -> None:
     m, n, mu, nu = _arrays(members, nonmembers, ATTACKS["negative_answer_loss"])
     assert np.allclose(m, [-0.2]) and np.allclose(n, [-0.8])
     assert mu.tolist() == nu.tolist() == [1]
+
+
+def test_constant_attack_score_serializes_boundary_as_null() -> None:
+    members = [{"user_id": user, "answer_sequence_loss": 1.0} for user in (1, 2)]
+    nonmembers = [{"user_id": user, "answer_sequence_loss": 1.0} for user in (1, 2)]
+    result = _attack(members, nonmembers, ATTACKS["negative_answer_loss"], 42, 20)
+    assert result["pooled"]["roc_auc"] == 0.5
+    assert result["pooled"]["best_development_threshold"] is None
+    assert result["pooled"]["threshold_status"] == "non_finite_no_separating_boundary"
 
 
 def test_synthetic_dry_run_is_user_clustered_and_test_free() -> None:

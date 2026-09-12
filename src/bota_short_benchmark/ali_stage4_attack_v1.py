@@ -134,6 +134,7 @@ def preflight(repo: Path, workspace: Path, config_path: Path, seed: int) -> dict
 
 def _row_from_prediction(prediction: dict[str, Any], index: int, user: int) -> dict[str, Any]:
     p = float(prediction["probability"][index]); loss = float(prediction["answer_loss"][index])
+    if not math.isfinite(p) or not math.isfinite(loss): raise ValueError("non-finite model prediction")
     p = min(max(p, 1e-12), 1 - 1e-12)
     return {"user_id": int(user), "answer_sequence_loss": loss, "confidence": max(p, 1-p), "binary_entropy": float(-(p*math.log(p)+(1-p)*math.log(1-p))), "yes_no_margin": 2*p-1}
 
@@ -145,7 +146,13 @@ def _arrays(member: list[dict[str, Any]], nonmember: list[dict[str, Any]], score
 def _attack(member: list[dict[str, Any]], nonmember: list[dict[str, Any]], score: Callable[[dict[str, Any]], float], seed: int, resamples: int) -> dict[str, Any]:
     m, n, mu, nu = _arrays(member, nonmember, score)
     if set(mu) != set(nu): raise ValueError("strict matched-user population violated")
-    return {"pooled": attack_metrics(m, n), "matched_user_bootstrap": matched_user_cluster_bootstrap(m, mu, n, nu, seed=seed, resamples=resamples), "macro_user_auc": macro_user_auc(m, mu, n, nu, seed=seed, resamples=resamples)}
+    pooled = attack_metrics(m, n)
+    if not math.isfinite(pooled["best_development_threshold"]):
+        pooled["best_development_threshold"] = None
+        pooled["threshold_status"] = "non_finite_no_separating_boundary"
+    else:
+        pooled["threshold_status"] = "finite"
+    return {"pooled": pooled, "matched_user_bootstrap": matched_user_cluster_bootstrap(m, mu, n, nu, seed=seed, resamples=resamples), "macro_user_auc": macro_user_auc(m, mu, n, nu, seed=seed, resamples=resamples)}
 
 
 def _paired_bootstrap(caches: dict[str, tuple[list[dict[str, Any]], list[dict[str, Any]]]], attack_name: str, seed: int, resamples: int) -> dict[str, Any]:
