@@ -1,0 +1,50 @@
+schema: bota-ali-stage4-attack-v1
+test_access_policy: forbidden
+parent_preregistration:
+  path: configs/ali_stage0_preregistration_v1.json
+  sha256: 4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0
+stage3_result_audit:
+  path: docs/audits/ali_stage3_result_audit_v1.json
+  sha256: 6cdac4d749f00f17b5bc5e99c24647d1c5ee167d3e5f6af0b3420ac80ac992ba
+benchmark_configs:
+  41: {path: configs/bota_short_benchmark_seed41_v3.yaml, sha256: 32e20d9e92daa36ac5d15e1e6dca85cafc49fe3967470b31f1afb511ed818f9c}
+  42: {path: configs/bota_short_benchmark_seed42_v3.yaml, sha256: 9d64df16fbd5e2092c9718d000fac15f11f0473cb6eabe02bc7e4f6d839c4f33}
+  43: {path: configs/bota_short_benchmark_seed43_v3.yaml, sha256: 53effde8212a9595387c2fe73809ee3e840568ae57918a73fb48483794626486}
+paper_configs:
+  41: {path: configs/bota_short_paper_seed41_v3.yaml, sha256: 8f8029dacde3dc9bce687612f6b893dfbc4166a7d7bef91457945c070399d079}
+  42: {path: configs/bota_short_paper_seed42_v3.yaml, sha256: 4a502b1cf6fe32feb6e9bfed96d8d789a90438891a2438fb5e8f8943407a5d98}
+  43: {path: configs/bota_short_paper_seed43_v3.yaml, sha256: c287e77ee83514bf7942603ece2e94c9139a6e635d614c66b9709cf54b068f17}
+frozen_development_evaluations:
+  41: {path: outputs/bota_short_multiseed_v3/seed41/paper/evaluations/bota_short_development_seed41_v3, manifest_sha256: 7cebbda3a45e919b01a87b35a3486a78ac3159efb658709b3e2085accd494beb}
+  42: {path: outputs/bota_short_multiseed_v3/seed42/paper/evaluations/bota_short_development_seed42_v3, manifest_sha256: b397ff76dd69320deb34a93201788541e102bb7e49cbfb2f765da08fbfb5c65a}
+  43: {path: outputs/bota_short_multiseed_v3/seed43/paper/evaluations/bota_short_development_seed43_v3, manifest_sha256: aa3047d101edcec952c2c7b189c3563640b08722f88d74cb67203332c51ffc68}
+  e2urec: {path: outputs/bota_short_multiseed_v3/e2urec/evaluations/bota_short_e2urec_multiseed_development_v1, manifest_sha256: 2678b87579efa7a57b2b031af4820c17d42517d9e61f932d5b068eff15236c3b}
+output_root: outputs/ali_stage4_attack_v1
+protocol:
+  seeds: [41, 42, 43]
+  scenarios: [L8, L4M4]
+  analysis_split: Development
+  member_population: registered_forget_training_rows
+  nonmember_population: development_rows_of_the_same_registered_users
+  primary_score: negative_answer_loss
+  secondary_scores: [confidence, negative_entropy, absolute_yes_no_margin]
+  models: [Original, Exact-Masked, BOTA, IFRU, E2URec, NegGrad, PCGrad, SISA, RecEraser, Retain-Retrain-P5]
+  retain_retrain_role: separately_reported_sensitivity
+evaluation:
+  inference_batch_size: 4
+  bootstrap_unit: authoritative_user
+  bootstrap_resamples: 2000
+  bootstrap_seed: 42
+  confidence: 0.95
+decision:
+  reference_signal_minimum_point_difference: 0.02
+  reference_signal_ci_lower_must_exceed_zero: true
+  bota_gap_improvement_ci_lower_must_exceed_zero: true
+  overall_auc_damage_max: 0.005
+  overall_logloss_damage_max: 0.01
+runtime:
+  required_cuda_devices: 1
+  minimum_free_gib: 10.0
+  hard_peak_reserved_gib: 14.0
+  code_repository_must_be_clean: true
+
