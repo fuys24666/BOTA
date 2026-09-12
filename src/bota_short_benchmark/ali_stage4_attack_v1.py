@@ -183,11 +183,15 @@ def execute(repo: Path, workspace: Path, config_path: Path, seed: int, run_name:
     destination=workspace/config["output_root"] / "runs" / safe_run_name(run_name)
     if destination.exists(): raise FileExistsError(destination)
     stage=destination.parent/".work"/f"{safe_run_name(run_name)}.{uuid.uuid4().hex}.stage"; stage.mkdir(parents=True)
-    device=torch.device("cuda:0"); base=runner._base_t5_config(workspace,v1); tokenizer=T5Tokenizer.from_pretrained(base["paths"]["model_dir"])
-    development=JsonPromptDataset(workspace/v1["source"]["development_json"],tokenizer)
-    train_users,_=p1._train_user_ids_only(workspace/v1["source"]["raw_data"]); _,dev_lineage,_=reconstruct_authoritative_rows(workspace/v1["source"]["raw_data"]); dev_users=[int(row.authoritative_user_id) for row in dev_lineage]
-    all_metrics=[]; safe_samples=[]; decisions=[]; started=time.perf_counter()
     try:
+        device=torch.device("cuda:0"); base=runner._base_t5_config(workspace,v1)
+        model_dir=Path(base["paths"]["model_dir"])
+        if not model_dir.is_absolute(): model_dir=workspace/model_dir
+        if not model_dir.is_dir(): raise FileNotFoundError(f"local tokenizer directory not found: {model_dir}")
+        tokenizer=T5Tokenizer.from_pretrained(model_dir,local_files_only=True)
+        development=JsonPromptDataset(workspace/v1["source"]["development_json"],tokenizer)
+        train_users,_=p1._train_user_ids_only(workspace/v1["source"]["raw_data"]); _,dev_lineage,_=reconstruct_authoritative_rows(workspace/v1["source"]["raw_data"]); dev_users=[int(row.authoritative_user_id) for row in dev_lineage]
+        all_metrics=[]; safe_samples=[]; decisions=[]; started=time.perf_counter()
         for scenario_number,scenario in enumerate(registry["scenarios"]):
             sid=scenario["id"]; users=list(map(int,scenario["users"])); member_users=[int(train_users[i]) for i in scenario["forget_train_indices"]]
             if set(member_users)!=set(users) or len(set(member_users))!=len(member_users): raise ValueError("member lineage differs from registered users")
