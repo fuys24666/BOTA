@@ -200,9 +200,13 @@ def run_shared_canonical(
     pad: int,
     engine: dict[str, Any],
     budget: StepBudget,
+    arms: Sequence[str] = ARMS,
 ) -> tuple[dict[str, torch.Tensor], dict[str, Any], list[dict[str, Any]], str, str]:
     optimizer = p1._optimizer(parameters, engine)
-    states = {arm: _state(parameters, len(selected_users)) for arm in ARMS}
+    requested_arms = tuple(arms)
+    if not requested_arms or len(set(requested_arms)) != len(requested_arms) or any(arm not in ARMS for arm in requested_arms):
+        raise ValueError("invalid Stage 1 transport-arm subset")
+    states = {arm: _state(parameters, len(selected_users)) for arm in requested_arms}
     trace: list[dict[str, Any]] = []
     batch_size = int(engine["schedule"]["batch_size"])
     for step, start in enumerate(range(0, len(indices), batch_size), 1):
@@ -228,18 +232,21 @@ def run_shared_canonical(
                     -rows[slots].sum(0) / len(chosen) if slots else torch.zeros_like(parameter)
                 )
             sources.append(torch.stack(user_sources))
-        _advance_arm(
-            states["FM_source_only"], coefficients, sources, parameters, optimizer,
-            step, engine, full_v=False, empirical_fisher=False,
-        )
-        _advance_arm(
-            states["FS_source_only"], coefficients, sources, parameters, optimizer,
-            step, engine, full_v=True, empirical_fisher=False,
-        )
-        _advance_arm(
-            states["FS_empirical_fisher"], coefficients, sources, parameters, optimizer,
-            step, engine, full_v=True, empirical_fisher=True,
-        )
+        if "FM_source_only" in states:
+            _advance_arm(
+                states["FM_source_only"], coefficients, sources, parameters, optimizer,
+                step, engine, full_v=False, empirical_fisher=False,
+            )
+        if "FS_source_only" in states:
+            _advance_arm(
+                states["FS_source_only"], coefficients, sources, parameters, optimizer,
+                step, engine, full_v=True, empirical_fisher=False,
+            )
+        if "FS_empirical_fisher" in states:
+            _advance_arm(
+                states["FS_empirical_fisher"], coefficients, sources, parameters, optimizer,
+                step, engine, full_v=True, empirical_fisher=True,
+            )
         budget.step(optimizer, "shared_canonical_reference")
         trace.append(
             {

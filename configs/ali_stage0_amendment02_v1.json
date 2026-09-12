@@ -1,0 +1,52 @@
+{
+  "schema": "bota-ali-stage0-amendment-v1",
+  "amendment_id": "ali-stage0-amendment-02-fixed-long-horizon-v1",
+  "amendment_number": 2,
+  "frozen_date": "2026-09-12",
+  "status": "FROZEN_BEFORE_STAGE3_EXECUTION",
+  "parent_amendment": {
+    "path": "configs/ali_stage0_amendment01_v1.json",
+    "amendment_id": "ali-stage0-amendment-01-mechanism-signal-equal-billing-v1",
+    "sha256": "30d679a5356a10f1dac64e45bc0fb5c0a2d831f7f02dc306725c2e55e287c434",
+    "policy": "Amendment 01 remains unchanged. This amendment changes only the Stage 3 horizon definition after a pre-execution artifact audit showed that its literal best-checkpoint rule yields 200 steps rather than a long horizon."
+  },
+  "pre_execution_observation": {
+    "development_outcomes_from_stage3_inspected": false,
+    "stage3_endpoints_constructed": false,
+    "source": "Previously existing FullControl-P5 Development training records",
+    "seeds": {
+      "41": {"best_epoch": 1, "stopping_epoch": 6, "steps_per_epoch": 200, "recorded_total_optimizer_steps": 1200},
+      "42": {"best_epoch": 1, "stopping_epoch": 6, "steps_per_epoch": 200, "recorded_total_optimizer_steps": 1200},
+      "43": {"best_epoch": 1, "stopping_epoch": 6, "steps_per_epoch": 200, "recorded_total_optimizer_steps": 1200}
+    },
+    "consequence": "The Amendment 01 best-checkpoint definition gives T_star=200 for every seed and would duplicate the validated short horizon."
+  },
+  "amended_equal_billing_long_horizon": {
+    "evidence_class": "secondary reference-sensitivity experiment",
+    "analysis_split": "Development",
+    "finaltest_access": false,
+    "seeds": [41, 42, 43],
+    "scenarios": ["L8", "L4M4"],
+    "fixed_optimizer_steps": 1200,
+    "horizon_definition": "Freeze T_long=1,200 optimizer steps for every seed, equal to the complete six-epoch patience-five stopping schedule recorded by all three existing FullControl-P5 runs. T_long is fixed before any Stage 3 endpoint or Development prediction is produced.",
+    "ordered_schedule": "For each seed, concatenate the six deterministic epoch orders produced by the existing P5 epoch-order function from the frozen 3,200-row adaptation window.",
+    "matched_schedule": [
+      "Original-T_long, Exact-Masked-T_long and BOTA-T_long use the same source initialization and fixed LoRA-A coordinate.",
+      "They use exactly 1,200 optimizer steps, identical ordered sample slots and the same 16-slot full-batch denominator.",
+      "Exact-Masked-T_long zeros registered-user slot weights without compacting retained data.",
+      "BOTA-T_long uses FS_empirical_fisher, frozen by Stage 1 before Stage 2 or Stage 3 outcomes were inspected."
+    ],
+    "primary_reference": "Exact-Masked-T_long",
+    "required_metrics": ["DU", "EU", "local_residual", "delta_cosine", "relative_l2", "AUC", "log_loss", "wall_time"],
+    "reporting": "Report all six seed-by-scenario cells and mean plus sample standard deviation by scenario. No significance claim is permitted from three seeds.",
+    "retain_retrain_policy": "Retain-Retrain-P5 remains an independently stopped converged sensitivity endpoint and is neither loaded as nor used as the denominator for Stage 3 local residual.",
+    "interpretation_rule": "Movement toward Exact-Masked-T_long supports long-horizon local approximation only. It does not establish equivalence to independently converged retain-only retraining. Failure limits BOTA to its previously validated 200-step horizon."
+  },
+  "unchanged_rules": [
+    "Stage 3 is secondary and cannot replace the parent L8 and L4M4 primary results.",
+    "FinalTest access remains forbidden.",
+    "All seeds, scenarios, endpoints, required metrics, null results and adverse results must be reported.",
+    "No Stage 3 result may be used to change the frozen FS_empirical_fisher mechanism arm.",
+    "Any further change to the horizon, schedule, endpoint, metric or interpretation rule requires a new dated amendment before affected results are inspected."
+  ]
+}

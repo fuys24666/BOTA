@@ -1,0 +1,59 @@
+schema: bota-ali-stage3-equal-horizon-v1
+test_access_policy: forbidden
+parent_amendment:
+  path: configs/ali_stage0_amendment02_v1.json
+  amendment_id: ali-stage0-amendment-02-fixed-long-horizon-v1
+  sha256: 53994efa00911f3483c17212dd597d73fd6fa7bdf0fa01bb1887226ab4518eed
+stage1_selection:
+  path: outputs/ali_stage1_mechanism_v1/summaries/ali_stage1_mechanism_summary_v1/summary.json
+  sha256: 4cf64b38dc619d9ef218469b4bc31b9cf64b9a0d4ab255fc846cfd7f86f2b315
+  selected_arm: FS_empirical_fisher
+stage2_completion:
+  path: outputs/ali_stage2_stronger_signal_v1/runs/ali_stage2_stronger_signal_seed42_v1/manifest.json
+  sha256: 3d224547dc54244c11dcca99a8453f53e6946f2c300ff98acddcb8e8ca94ee1b
+benchmark_configs:
+  41: {path: configs/bota_short_benchmark_seed41_v3.yaml, sha256: 32e20d9e92daa36ac5d15e1e6dca85cafc49fe3967470b31f1afb511ed818f9c}
+  42: {path: configs/bota_short_benchmark_seed42_v3.yaml, sha256: 9d64df16fbd5e2092c9718d000fac15f11f0473cb6eabe02bc7e4f6d839c4f33}
+  43: {path: configs/bota_short_benchmark_seed43_v3.yaml, sha256: 53effde8212a9595387c2fe73809ee3e840568ae57918a73fb48483794626486}
+p5_sources:
+  41:
+    full_control: {path: outputs/bota_short_multiseed_v3/seed41/paper/models/FullControl-P5-Short/bota_short_full_control_p5_seed41_v3, manifest_sha256: 5855aefb85eb92e9dedc67509722bf737c2a54738b4bb44a6de262047712d12f}
+    retain_retrain: {path: outputs/bota_short_multiseed_v3/seed41/paper/models/Retain-Retrain-P5-Short/bota_short_retain_p5_seed41_v3, manifest_sha256: 0d3d64eb7da86a6cdbc5496d1073ee551194857ebb62624f4fb38187183eec1d}
+  42:
+    full_control: {path: outputs/bota_short_multiseed_v3/seed42/paper/models/FullControl-P5-Short/bota_short_full_control_p5_seed42_v3, manifest_sha256: c697da705cb9d7ea46b7e39b38355dc77e5d9503a7cb91d80be7f8965e4e11de}
+    retain_retrain: {path: outputs/bota_short_multiseed_v3/seed42/paper/models/Retain-Retrain-P5-Short/bota_short_retain_p5_seed42_v3, manifest_sha256: caba2aa38c1c59ef5fe6cb95ccf7525d532a3a80b378ff368cf14a4b7932c6ba}
+  43:
+    full_control: {path: outputs/bota_short_multiseed_v3/seed43/paper/models/FullControl-P5-Short/bota_short_full_control_p5_seed43_v3, manifest_sha256: 830987d7e1efd7faca0fb7464480ae021776b0057662eeaabe6c91c5b4470c3b}
+    retain_retrain: {path: outputs/bota_short_multiseed_v3/seed43/paper/models/Retain-Retrain-P5-Short/bota_short_retain_p5_seed43_v3, manifest_sha256: 9ae669ddb3abb4f35d11ba5387bbca953ee76ce8698c0cc07ede12258cfc859d}
+output_root: outputs/ali_stage3_equal_horizon_v1
+protocol:
+  seeds: [41, 42, 43]
+  scenarios: [L8, L4M4]
+  optimizer_steps: 1200
+  epochs: 6
+  steps_per_epoch: 200
+  batch_size: 16
+  schedule: concatenate_existing_p5_epoch_orders
+  endpoints: [Original-Tlong, Exact-Masked-Tlong, BOTA-FS-EmpiricalFisher-Tlong]
+  reference: Exact-Masked-Tlong
+  full_batch_denominator_preserved: true
+  online_optimizer_steps: 0
+evaluation:
+  split: Development
+  final_test: false
+  inference_batch_size: 4
+  bootstrap_resamples: 1000
+  bootstrap_seed_base: 44300
+reporting:
+  evidence_class: secondary_reference_sensitivity
+  report_all_six_cells: true
+  summary: mean_and_sample_standard_deviation_by_scenario
+  significance_claim_permitted: false
+  retain_retrain_is_denominator: false
+runtime:
+  required_cuda_devices: 1
+  minimum_free_gib: 10.0
+  allocator_fraction: 0.88
+  hard_peak_reserved_gib: 14.0
+  code_repository_must_be_clean: true
+  experiment_workspace_may_be_dirty: true
