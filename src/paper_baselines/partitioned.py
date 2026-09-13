@@ -115,7 +115,8 @@ def _verified_short_benchmark_entity_ids(
             raise ValueError(f"split identity authority SHA mismatch: {name}")
         authority_paths[name] = path
     development_path = (root / config["sources"]["development"]["path"]).resolve()
-    if development_path != authority_paths["development_json"]:
+    subset_binding = config.get("development_subset_authority")
+    if development_path != authority_paths["development_json"] and not isinstance(subset_binding, dict):
         raise ValueError("Development identity authority path mismatch")
     raw_manifest = json.loads(authority_paths["raw_lineage_manifest"].read_text(encoding="utf-8"))
     prepared_root = authority_paths["raw_lineage_manifest"].parent
@@ -125,14 +126,23 @@ def _verified_short_benchmark_entity_ids(
         if sha256_file(prepared_root / name) != expected: raise ValueError(f"raw lineage artifact mismatch: {name}")
     full_train = json.loads(authority_paths["train_json"].read_text(encoding="utf-8"))
     full_train_entities = json.loads(authority_paths["train_user_ids"].read_text(encoding="utf-8"))
+    full_development = json.loads(authority_paths["development_json"].read_text(encoding="utf-8"))
     development_entities = json.loads(authority_paths["development_user_ids"].read_text(encoding="utf-8"))
     order = registry.get("order")
     if not isinstance(order, list) or len(order) != len(train) or len(set(order)) != len(order):
         raise ValueError("short benchmark identity order is invalid")
     if any(not isinstance(index, int) or index < 0 or index >= len(full_train) for index in order):
         raise ValueError("short benchmark identity order is out of range")
-    if len(full_train_entities) != len(full_train) or len(development_entities) != len(development):
+    if len(full_train_entities) != len(full_train) or len(development_entities) != len(full_development):
         raise ValueError("split identity authority length mismatch")
+    if subset_binding is not None:
+        if set(subset_binding)!={"full_path","full_sha256","indices_path","indices_sha256"}:raise ValueError("Development subset authority surface changed")
+        full_path=(root/subset_binding["full_path"]).resolve();indices_path=(root/subset_binding["indices_path"]).resolve()
+        if full_path!=authority_paths["development_json"] or sha256_file(full_path)!=subset_binding["full_sha256"] or sha256_file(indices_path)!=subset_binding["indices_sha256"]:raise ValueError("Development subset authority binding mismatch")
+        indices=json.loads(indices_path.read_text(encoding="utf-8"))
+        if not isinstance(indices,list) or len(indices)!=len(set(indices)) or any(not isinstance(index,int) or index<0 or index>=len(full_development) for index in indices):raise ValueError("Development subset indices invalid")
+        if [full_development[index] for index in indices]!=development:raise ValueError("Development subset rows do not match authority projection")
+        development_entities=[development_entities[index] for index in indices]
     if [full_train[index] for index in order] != train:
         raise ValueError("train window is not the authority order projection")
     train_entities = [full_train_entities[index] for index in order]

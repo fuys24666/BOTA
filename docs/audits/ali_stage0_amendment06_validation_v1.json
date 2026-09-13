@@ -1,0 +1,37 @@
+{
+  "schema": "bota-ali-stage0-amendment06-validation-v1",
+  "validated_date": "2026-09-13",
+  "status": "PASS",
+  "scope": "Amendment 06 and Stage 7A implementation before any Full candidate run",
+  "files": {
+    "configs/ali_stage0_amendment06_v1.json": "000c97ee150a840adba4080416ab2eac46d8394fee9c7cd4417f009607826ecf",
+    "configs/ali_stage7_baseline_sweep_v1.yaml": "cacd342cdf12af89fcc995b91c3166bf55b0efcb322a941fec67e8f98b340be8",
+    "docs/ALI_STAGE0_AMENDMENT06.md": "8360009ee31992a739878ac90e5ad151863d3431fa0426ecfc02e7eee97a9ffd",
+    "docs/ALI_STAGE7_RUNBOOK.md": "a7366571dd04aef4613b2032e260a1acb70b548ed166b62ac34201b9a96a3159",
+    "scripts/bota_if/run_ali_stage7_baseline_sweep_v1.ps1": "d95342ebe3228946ec4532aa2cc932ef85c8466180a056477cd47daf5e2ef72d",
+    "src/bota_short_benchmark/ali_stage7_baseline_sweep_v1.py": "02458d6b74159a6fd987474a3d659af655003db3d0f23c7391fa208c838c43f5",
+    "src/paper_baselines/budget.py": "f7ad27cbd7dedc7b7214fd5286eab534568e35d0b38c8037d9486939d59bf63e",
+    "src/paper_baselines/partitioned.py": "d6ad55d621fbee24f29532baaffebfe03f318a34fd4b79344da08591eb003761",
+    "tests/test_ali_stage7_baseline_sweep_v1.py": "7572d6a18d8bea36c1bd284cc1e508c58275d4cee0d6abd5122fc708d791d582"
+  },
+  "development_partition": {
+    "fit_count": 9912,
+    "select_count": 10088,
+    "L8_fit_support": 176,
+    "L8_select_support": 196,
+    "L4M4_fit_support": 145,
+    "L4M4_select_support": 190,
+    "prediction_independent": true
+  },
+  "candidate_counts": {"IFRU": 6, "E2URec": 9, "NegGrad": 20, "PCGrad": 12, "SISA": 9, "RecEraser": 9},
+  "checks": {
+    "json_valid": true,
+    "python_compile": true,
+    "all_repository_tests": "183 passed, 3 skipped",
+    "stage7_tests": "4 passed",
+    "all_method_synthetic_dry_runs": true,
+    "partitioned_budget_cells_verified_per_method": 18,
+    "finaltest_accessed": false,
+    "full_candidate_run_started": false
+  }
+}

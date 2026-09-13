@@ -1,0 +1,39 @@
+schema: bota-ali-stage7-baseline-sweep-v1
+test_access_policy: forbidden
+parent_amendment:
+  path: configs/ali_stage0_amendment06_v1.json
+  amendment_id: ali-stage0-amendment-06-baseline-development-sweep-v1
+  sha256: 000c97ee150a840adba4080416ab2eac46d8394fee9c7cd4417f009607826ecf
+benchmark:
+  seed: 42
+  name: bota_short_i02_seed42_v3
+  config: {path: configs/bota_short_benchmark_seed42_v3.yaml, sha256: 9d64df16fbd5e2092c9718d000fac15f11f0473cb6eabe02bc7e4f6d839c4f33}
+  paper_config: {path: configs/bota_short_paper_seed42_v3.yaml, sha256: 4a502b1cf6fe32feb6e9bfed96d8d789a90438891a2438fb5e8f8943407a5d98}
+  frozen_development_evaluation:
+    path: outputs/bota_short_multiseed_v3/seed42/paper/evaluations/bota_short_development_seed42_v3
+    manifest_sha256: b397ff76dd69320deb34a93201788541e102bb7e49cbfb2f765da08fbfb5c65a
+    per_sample_sha256: 557dacb72f128f2d46f6085498f7cc82dae92d99a8c5aef9246b27915c4c56d3
+development_partition:
+  namespace: ali-stage7-dev-split-v1
+  fit_parity: 0
+  select_parity: 1
+  fit_count: 9912
+  select_count: 10088
+  fit_index_sha256: 790a4f0e8f49cc472eed1c0ce92c058fb44243f2140ee64465cc501c670c8735
+  select_index_sha256: aa4feb4bb1b413682abb0bf866b1616066984ce41f359a5218c69fbd3ee3fa9f
+grids:
+  IFRU: {relative_damping_ratio: [0.001, 0.01, 0.1], curvature_panel_samples: [512, 1024], cg_max_iterations: 40}
+  E2URec: {teacher_steps: 1200, teacher_learning_rate: 0.00005, student_learning_rate: 0.001, forget_weight: [0.2, 0.4, 0.6], checkpoints: [200, 500, 1000]}
+  NegGrad: {learning_rate: 0.001, forget_weight: [0.05, 0.1, 0.2, 0.4, 0.8], checkpoints: [25, 50, 100, 200]}
+  PCGrad: {learning_rate: [0.0005, 0.001, 0.002], checkpoints: [25, 50, 100, 200]}
+  SISA: {shards: 4, slices: 4, learning_rate: [0.0001, 0.0005, 0.001], epochs_per_slice: [1, 3, 5]}
+  RecEraser: {shards: 4, feature_dimensions: 32, learning_rate: [0.0005, 0.001, 0.002], epochs_per_slice: [1, 3, 5], attention_steps: 200, attention_learning_rate: 0.1}
+selection:
+  scenarios: [L8, L4M4]
+  auc_damage_max: 0.005
+  logloss_damage_max: 0.01
+  primary: equal_scenario_mean_EU
+  tie_break: [compute_count, candidate_id]
+  no_eligible_policy: NO_ELIGIBLE_CANDIDATE
+output_root: outputs/ali_stage7_baseline_sweep_v1
+runtime: {required_cuda_devices: 1, minimum_free_gib: 10.0, hard_peak_reserved_gib: 14.0, repository_must_be_clean: true}
