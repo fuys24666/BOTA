@@ -1,0 +1,50 @@
+{
+  "schema": "bota-ali-stage0-amendment-v1",
+  "amendment_id": "ali-stage0-amendment-05-storage-screen-v1",
+  "amendment_number": 5,
+  "frozen_date": "2026-09-13",
+  "status": "FROZEN_BEFORE_STAGE6_EXECUTION",
+  "parent_preregistration": {
+    "path": "configs/ali_stage0_preregistration_v1.json",
+    "sha256": "4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0"
+  },
+  "frozen_sequential_boundary": {
+    "path": "docs/audits/ali_stage5_result_audit_v1.json",
+    "sha256": "2911cfe2fc63a51c307655552b64e3f11b725ca9f90bec5c4a366ba30e601c55",
+    "policy": "Storage results apply to registered one-shot unions and cannot revive a general sequential-deletion claim."
+  },
+  "stage6a_screen": {
+    "analysis_split": "Development",
+    "finaltest_access": false,
+    "seeds": [41, 42, 43],
+    "bank_sizes": [12, 32, 64, 128, 256],
+    "maximum_bank_users": 256,
+    "user_chunk_size": 32,
+    "selected_mechanism_arm": "FS_empirical_fisher",
+    "registered_users_first": true,
+    "remaining_user_order": "ascending SHA256 of a seed-independent public association among users exposed in the adaptation window; no Development predictions, labels, or example-count threshold are used",
+    "representations": {
+      "FP32": {},
+      "FP16": {},
+      "INT8_per_vector": {},
+      "INT8_per_block": {"block_size": 4096},
+      "topq_sparse": {"retained_fractions": [0.0625, 0.03125, 0.015625], "value_dtype": "FP16", "index_dtype": "INT32"},
+      "shared_low_rank": {"ranks": [4, 8, 16, 32, 64], "factor_dtype": "FP32", "algorithm": "exact eigendecomposition of the user-by-user Gram matrix"}
+    },
+    "screen_queries": ["L8", "L4M4"],
+    "screen_metric": "parameter relative L2 residual to the paired 200-step Exact-Masked endpoint",
+    "screen_reference": "uncompressed FP32 BOTA reconstructed from the same bank",
+    "candidate_bank_size": 256,
+    "minimum_storage_reduction": 16.0,
+    "maximum_relative_residual_increase": 0.10,
+    "candidate_rule": "A representation is eligible only if compression is at least 16x and parameter residual increases by at most 10% versus FP32 for both L8 and L4M4 in every seed. Select the eligible representation with the smallest worst-case increase, breaking ties by smaller measured bytes then canonical name.",
+    "stage6b_policy": "Only the single frozen Stage 6A candidate, if one exists, may receive three-seed behavioral, utility and descriptive-MIA confirmation."
+  },
+  "interpretation_rules": [
+    "All fixed representations, hyperparameters, bank sizes, seeds and adverse results must be reported in Stage 6A.",
+    "Chunking may reduce peak memory but must report every repeated 200-step trajectory and may not be described as reducing total construction work.",
+    "Completion of a smaller bank permits advancing to the next bank size; failure to reach 16x at a mathematically incapable small K does not stop construction.",
+    "If no K=256 candidate passes the fixed screen, storage scaling fails and Stage 6B is not run.",
+    "Projected population-scale storage must remain explicitly labelled projected rather than measured."
+  ]
+}
