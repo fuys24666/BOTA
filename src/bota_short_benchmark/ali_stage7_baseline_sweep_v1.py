@@ -294,6 +294,7 @@ def _partition_sweep(repo: Path, workspace: Path, config: dict[str, Any], benchm
 
 def preflight(repo: Path, workspace: Path, config_path: Path, method: str) -> dict[str, Any]:
     config = load_config(repo, workspace, config_path); benchmark, registry = _authority(repo, workspace, config); _, users, fit, select = _development_partition(repo, workspace, config, benchmark)
+    model_directory=short_eval._local_model_directory(workspace,runner._base_t5_config(workspace,benchmark)["paths"]["model_dir"])
     support = {scenario["id"]: {"fit": sum(users[index] in set(scenario["users"]) for index in fit), "select": sum(users[index] in set(scenario["users"]) for index in select)} for scenario in registry["scenarios"]}
     budget_cells=0
     if method in {"SISA","RecEraser"}:
@@ -303,7 +304,7 @@ def preflight(repo: Path, workspace: Path, config_path: Path, method: str) -> di
             for lr in config["grids"][method]["learning_rate"]:
                 for epoch in config["grids"][method]["epochs_per_slice"]:
                     candidate=json.loads(json.dumps(base));candidate["protocol"]["learning_rate"]=float(lr);candidate["protocol"]["epochs_per_slice"]=int(epoch);candidate["budget"]["total_expected_optimizer_steps"]=base_steps*int(epoch);partitioned.validate_partition_config(candidate,kind);partitioned.partitioned_budget(candidate,kind);budget_cells+=1
-    return {"schema": SCHEMA, "mode": "Preflight", "method": method, "candidate_count": len(_candidate_ids(config, method)), "scenarios": list(SCENARIOS), "development_fit": len(fit), "development_select": len(select), "request_support": support, "partitioned_budget_cells_verified":budget_cells, "model_loaded": False, "optimizer_constructed": False, "finaltest_accessed": False, "test_accessed": False}
+    return {"schema": SCHEMA, "mode": "Preflight", "method": method, "candidate_count": len(_candidate_ids(config, method)), "scenarios": list(SCENARIOS), "development_fit": len(fit), "development_select": len(select), "request_support": support, "partitioned_budget_cells_verified":budget_cells, "local_model_directory":str(model_directory), "local_model_directory_verified":True, "model_loaded": False, "optimizer_constructed": False, "finaltest_accessed": False, "test_accessed": False}
 
 
 def synthetic(repo: Path, workspace: Path, config_path: Path, method: str) -> dict[str, Any]:
@@ -327,7 +328,7 @@ def execute(repo: Path, workspace: Path, config_path: Path, method: str, run_nam
     destination = workspace / config["output_root"] / "runs" / safe_run_name(run_name)
     if destination.exists():
         raise FileExistsError(destination)
-    stage = destination.parent / ".work" / f"{safe_run_name(run_name)}.{uuid.uuid4().hex}.stage"; stage.mkdir(parents=True); begun = time.perf_counter()
+    stage = destination.parent / ".work" / f"{safe_run_name(run_name)}.{uuid.uuid4().hex}.stage"; stage.mkdir(parents=True); begun = time.perf_counter(); previous_directory=Path.cwd();os.chdir(workspace)
     try:
         components=None
         if method in {"NegGrad", "PCGrad"}: rows=_gradient_sweep(repo,workspace,config,benchmark,registry,method,stage)
@@ -356,6 +357,7 @@ def execute(repo: Path, workspace: Path, config_path: Path, method: str, run_nam
         if selection["selected"]: report.append(f"Selected candidate: `{selection['selected']['candidate_id']}`.")
         (stage / "report.md").write_text("\n".join(report)+"\n", encoding="utf-8", newline="\n"); state = {"schema": SCHEMA, "status": "COMPLETED", "method": method, "run_name": run_name, "candidate_cells": len(rows), "wall_time_seconds": time.perf_counter()-begun, "finaltest_accessed": False, "test_accessed": False}; atomic_json(stage / "run_state.json", state); atomic_json(stage / "contract.json", {"schema": SCHEMA, "config_sha256": sha256_file(config_path), "amendment_sha256": sha256_file(repo / config["parent_amendment"]["path"]), "git": git, "split": "Development/Dev-Select", "finaltest_accessed": False, "test_accessed": False}); (stage / "COMPLETED").write_text(MARKER+"\n", encoding="utf-8", newline="\n"); state_hashes={str(path.parent.relative_to(stage/"candidate_states")).replace("\\","/"):directory_hash(path.parent) for path in sorted((stage/"candidate_states").rglob("adapter_model.pt"))};state_hashes.update({str(path.parent.relative_to(stage/"candidate_states")).replace("\\","/"):directory_hash(path.parent) for path in sorted((stage/"candidate_states").rglob("component.json"))});atomic_json(stage / "manifest.json", {"schema": SCHEMA, "files": {name: sha256_file(stage/name) for name in RUN_REQUIRED-{"manifest.json"}}, "candidate_states":state_hashes, "published_atomically": True, "test_accessed": False}); destination.parent.mkdir(parents=True, exist_ok=True); os.replace(stage, destination); return {"status": "COMPLETED", "method": method, "run_dir": str(destination), "selection": selection["status"], "selected_candidate": selection["selected"]["candidate_id"] if selection["selected"] else None, "test_accessed": False}
     finally:
+        os.chdir(previous_directory)
         if stage.exists(): shutil.rmtree(stage)
         gc.collect(); torch.cuda.empty_cache()
 

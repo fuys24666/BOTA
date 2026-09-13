@@ -9,7 +9,7 @@
     "docs/ALI_STAGE0_AMENDMENT06.md": "8360009ee31992a739878ac90e5ad151863d3431fa0426ecfc02e7eee97a9ffd",
     "docs/ALI_STAGE7_RUNBOOK.md": "a7366571dd04aef4613b2032e260a1acb70b548ed166b62ac34201b9a96a3159",
     "scripts/bota_if/run_ali_stage7_baseline_sweep_v1.ps1": "d95342ebe3228946ec4532aa2cc932ef85c8466180a056477cd47daf5e2ef72d",
-    "src/bota_short_benchmark/ali_stage7_baseline_sweep_v1.py": "02458d6b74159a6fd987474a3d659af655003db3d0f23c7391fa208c838c43f5",
+    "src/bota_short_benchmark/ali_stage7_baseline_sweep_v1.py": "a5f5ecdf33d1787d6b3e296d77a01102884529c68fd1521239b312103dc8f7e2",
     "src/paper_baselines/budget.py": "f7ad27cbd7dedc7b7214fd5286eab534568e35d0b38c8037d9486939d59bf63e",
     "src/paper_baselines/partitioned.py": "d6ad55d621fbee24f29532baaffebfe03f318a34fd4b79344da08591eb003761",
     "tests/test_ali_stage7_baseline_sweep_v1.py": "7572d6a18d8bea36c1bd284cc1e508c58275d4cee0d6abd5122fc708d791d582"
@@ -32,6 +32,8 @@
     "all_method_synthetic_dry_runs": true,
     "partitioned_budget_cells_verified_per_method": 18,
     "finaltest_accessed": false,
-    "full_candidate_run_started": false
+    "full_candidate_training_started": false,
+    "pre_training_runtime_incident": "The first Full command stopped before tokenizer/model/optimizer construction because a workspace-relative local model path was resolved from the repository directory. The path-only fix changes no numerical or selection semantics.",
+    "workspace_local_model_directory_verified": "C:/python/E2URec-main/pretrained_models/t5-base"
   }
 }
