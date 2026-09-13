@@ -216,7 +216,11 @@ def execute(repo:Path,workspace:Path,config_path:Path,seed:int,run_name:str)->di
                 selected=[row for row in metric_rows if row["bank_size"]==bank_size and row["representation"]==representation];lines.append(f"| {bank_size} | {representation} | {selected[0]['compression_ratio']:.2f}x | {max(row['relative_residual_increase'] for row in selected):.4f} |")
         (stage/"report.md").write_text("\n".join(lines)+"\n",encoding="utf-8",newline="\n");peak=torch.cuda.max_memory_reserved()/2**30
         if peak>config["runtime"]["hard_peak_reserved_gib"] or sha256_file(source)!=source_before:raise RuntimeError("resource or source-integrity guard failed")
-        atomic_json(stage/"timing.json",{"chunk_trajectory_seconds":chunk_times,"serialization_seconds":serialization_seconds,"end_to_end_seconds":time.perf_counter()-started});atomic_json(stage/"contract.json",authority);atomic_json(stage/"provenance.json",{"schema":SCHEMA,"git":git,"source_checkpoint_sha256":source_before,"chunk_trace_sha256":trace_hashes,"chunk_optimizer_sha256":optimizer_hashes,"raw_user_ids_persisted":False,"development_predictions_accessed":False,"final_test_loader_built":False,"test_accessed":False});atomic_json(stage/"run_state.json",{"schema":SCHEMA,"status":"COMPLETED","seed":seed,"bank_users":256,"chunks":math.ceil(256/chunk_size),"optimizer_steps_per_chunk":200,"physical_optimizer_step_calls":200*math.ceil(256/chunk_size),"screen_rows":len(metric_rows),"peak_reserved_gib":peak,"test_accessed":False});(stage/"COMPLETED").write_text(MARKER+"\n",encoding="utf-8",newline="\n");files={name:sha256_file(stage/name) for name in ("COMPLETED","bank.pt","contract.json","metrics.csv","metrics.json","provenance.json","report.md","request_registry.json","run_state.json","timing.json")};atomic_json(stage/"manifest.json",{"schema":SCHEMA,"files":files,"published_atomically":True,"test_accessed":False});destination.parent.mkdir(parents=True,exist_ok=True);os.replace(stage,destination);return {"status":"COMPLETED","run_dir":str(destination),"seed":seed,"bank_users":256,"screen_rows":len(metric_rows),"physical_optimizer_step_calls":200*math.ceil(256/chunk_size),"test_accessed":False}
+        atomic_json(stage/"timing.json",{"chunk_trajectory_seconds":chunk_times,"serialization_seconds":serialization_seconds,"end_to_end_seconds":time.perf_counter()-started});atomic_json(stage/"contract.json",authority);atomic_json(stage/"provenance.json",{"schema":SCHEMA,"git":git,"source_checkpoint_sha256":source_before,"chunk_trace_sha256":trace_hashes,"chunk_optimizer_sha256":optimizer_hashes,"raw_user_ids_persisted":False,"development_predictions_accessed":False,"final_test_loader_built":False,"test_accessed":False});atomic_json(stage/"run_state.json",{"schema":SCHEMA,"status":"COMPLETED","seed":seed,"bank_users":256,"chunks":math.ceil(256/chunk_size),"optimizer_steps_per_chunk":200,"physical_optimizer_step_calls":200*math.ceil(256/chunk_size),"screen_rows":len(metric_rows),"peak_reserved_gib":peak,"test_accessed":False});(stage/"COMPLETED").write_text(MARKER+"\n",encoding="utf-8",newline="\n");files={name:sha256_file(stage/name) for name in ("COMPLETED","bank.pt","contract.json","metrics.csv","metrics.json","provenance.json","report.md","request_registry.json","run_state.json","timing.json")};atomic_json(stage/"manifest.json",{"schema":SCHEMA,"files":files,"published_atomically":True,"test_accessed":False});measure_dir=stage/"measure"
+        if measure_dir.exists():
+            if any(measure_dir.iterdir()):raise RuntimeError("temporary measurement directory is not empty")
+            measure_dir.rmdir()
+        destination.parent.mkdir(parents=True,exist_ok=True);os.replace(stage,destination);return {"status":"COMPLETED","run_dir":str(destination),"seed":seed,"bank_users":256,"screen_rows":len(metric_rows),"physical_optimizer_step_calls":200*math.ceil(256/chunk_size),"test_accessed":False}
     except Exception as error:
         shutil.rmtree(stage,ignore_errors=True);raise RuntimeError("Stage 6A failed before atomic publication") from error
     finally:
@@ -228,7 +232,12 @@ def execute(repo:Path,workspace:Path,config_path:Path,seed:int,run_name:str)->di
 
 def analyze(config:dict[str,Any],workspace:Path,seed:int,run_name:str)->dict[str,Any]:
     run=workspace/config["output_root"]/"runs"/safe_run_name(run_name)
-    if not run.is_dir() or {path.name for path in run.iterdir()}!=RUN_REQUIRED or (run/"COMPLETED").read_text(encoding="utf-8")!=MARKER+"\n":raise ValueError("invalid Stage 6A run")
+    if not run.is_dir():raise ValueError("invalid Stage 6A run")
+    entries={path.name for path in run.iterdir()};legacy_measure=run/"measure"
+    if entries==RUN_REQUIRED|{"measure"}:
+        if not legacy_measure.is_dir() or any(legacy_measure.iterdir()):raise ValueError("invalid Stage 6A measurement directory")
+    elif entries!=RUN_REQUIRED:raise ValueError("invalid Stage 6A run")
+    if (run/"COMPLETED").read_text(encoding="utf-8")!=MARKER+"\n":raise ValueError("invalid Stage 6A completion marker")
     manifest=_json(run/"manifest.json")
     for name,digest in manifest["files"].items():
         if sha256_file(run/name)!=digest:raise ValueError(f"Stage 6A artifact changed: {name}")
