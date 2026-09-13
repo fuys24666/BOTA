@@ -1,0 +1,89 @@
+{
+  "schema": "bota-ali-stage6-result-audit-v1",
+  "status": "FROZEN_NEGATIVE_RESULT",
+  "frozen_date": "2026-09-13",
+  "experiment": "measured impact-bank storage compression screen",
+  "analysis_split": "Development parameter space only",
+  "development_predictions_accessed": false,
+  "final_test_accessed": false,
+  "test_accessed": false,
+  "code_commit": "7fe08dc9c3d7ab8d32e08d970b68f3addc3dd876",
+  "completeness": {
+    "seeds": [41, 42, 43],
+    "bank_users_per_seed": 256,
+    "bank_sizes": [12, 32, 64, 128, 256],
+    "representations": 12,
+    "query_scenarios": ["L8", "L4M4"],
+    "rows_per_seed": 120,
+    "total_rows": 360,
+    "physical_optimizer_step_calls_per_seed": 1600,
+    "physical_optimizer_step_calls_total": 4800,
+    "validated_run_manifests": true,
+    "all_cells_reported": true
+  },
+  "resource_accounting": {
+    "raw_bank_bytes_per_seed": 905989673,
+    "raw_bank_gib_per_seed": 0.8437686348333955,
+    "total_end_to_end_seconds": 7214.648588399986,
+    "maximum_peak_reserved_gib": 11.748046875
+  },
+  "integrity": {
+    "maximum_fp32_stage5_reproduction_relative_l2": 8.666419262226555e-7,
+    "fp32_reproduction_threshold": 1e-6,
+    "all_rows_finite": true
+  },
+  "decision_rule": {
+    "candidate_bank_size": 256,
+    "minimum_measured_compression_ratio": 16.0,
+    "maximum_relative_parameter_residual_increase": 0.10,
+    "must_pass_every_seed_and_query": true
+  },
+  "diagnostic_tradeoffs_at_k256": {
+    "FP16": {
+      "minimum_compression_ratio": 1.9999963773752687,
+      "worst_case_residual_increase": 1.6909368714124184e-6
+    },
+    "INT8_per_block4096": {
+      "minimum_compression_ratio": 3.996071433018475,
+      "worst_case_residual_increase": 0.0019427742233926182
+    },
+    "topq_0.03125": {
+      "minimum_compression_ratio": 21.332421072663422,
+      "worst_case_residual_increase": 2.3247248103594336
+    },
+    "shared_low_rank_r8": {
+      "minimum_compression_ratio": 31.988663120002563,
+      "worst_case_residual_increase": 3.465490812951802
+    },
+    "shared_low_rank_r16": {
+      "minimum_compression_ratio": 15.994866103282334,
+      "worst_case_residual_increase": 3.429500668514824
+    }
+  },
+  "decision": {
+    "formal_status": "FAIL",
+    "selected_candidate": null,
+    "stage6b_permitted": false,
+    "interpretation": "Near-lossless quantization reached only about 4x measured compression. Representations exceeding 16x increased the paired Exact-Masked parameter residual by more than 232% in the worst case. No frozen representation satisfied both deployment-storage and fidelity constraints."
+  },
+  "source_sha256": {
+    "seed41_manifest": "0c85bdf0f5256a2fac569801782702c4e75fb49637451498b7323b3d61af65a6",
+    "seed41_metrics": "85e213da839ba770020b485227d2d3b6ee4b92eae9e871a3f58c063b8058afd6",
+    "seed41_provenance": "6a98eed13afc2115e5345ae4275359bce6d3a4d52d3bd7dec1ad3b89dca20bdb",
+    "seed42_manifest": "5a1462d144e4f525b92e93b06daec34dd20cf392710fe613ff8d8d6594a514c4",
+    "seed42_metrics": "3a32f2d90b5f2630f8fc241d88a377f0c46803519a7918b548b3b985f210fd49",
+    "seed42_provenance": "5cf9a1f98e47ad715b200cc5549e2a50b6a2b2dfccdb8ed66fda8c7577cc5982",
+    "seed43_manifest": "4baf01e769750b602b2006eeb6320218e23611054752fe071672a1d8bce3aec3",
+    "seed43_metrics": "e7243213037721b904ef09cb1886fecc59852f457f29800a663a040899dc8046",
+    "seed43_provenance": "956002f905f00ffbe3fbc27c23787505fc94a571fae6cde438165c9a572555d8",
+    "summary_manifest": "02be85b368e69bebbdc999925c3202d3037e086de3e19b2ddc085a763755e07f",
+    "summary_json": "d847cdd50e8535f46ff42d96432c258967634b40b562ad09691d74846b9b11b2",
+    "summary_markdown": "12683d177518e5662449758c8835825fdd481ac768c616cfdc5dd913cf99a18d"
+  },
+  "integrity_rules": [
+    "The 15.9949x serialized rank-16 artifact may not be rounded upward to satisfy the frozen 16x threshold.",
+    "A favorable 4x INT8 fidelity result may be reported as a diagnostic tradeoff but does not solve the preregistered deployment-storage problem.",
+    "No Stage 6B behavioral or attack confirmation may run because Stage 6A selected no candidate.",
+    "The failed storage decision may not be replaced by post-hoc tuning without a separately identified exploratory protocol."
+  ]
+}
