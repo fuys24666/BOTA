@@ -1,0 +1,55 @@
+{
+  "schema": "bota-ali-stage5-result-audit-v1",
+  "status": "FROZEN_NEGATIVE_RESULT",
+  "frozen_date": "2026-09-13",
+  "experiment": "sequential cumulative registered-user deletion",
+  "analysis_split": "Development",
+  "final_test_accessed": false,
+  "test_accessed": false,
+  "completeness": {
+    "seeds": [41, 42, 43],
+    "cells": 60,
+    "cells_per_seed": 20,
+    "unique_unions_per_seed": 13,
+    "validated_run_manifests": true,
+    "all_cells_reported": true
+  },
+  "primary_k2": {
+    "low_first": {"mean_local_residual": 2.067481750526911, "sample_sd": 0.18235092596962058, "utility_pass": true},
+    "middle_first": {"mean_local_residual": 0.2087517923580958, "sample_sd": 0.04302954971883036, "utility_pass": true},
+    "alternating": {"mean_local_residual": 0.6671225519748433, "sample_sd": 0.0549821717934567, "utility_pass": true},
+    "deterministic_hash": {"mean_local_residual": 0.6671225519748433, "sample_sd": 0.0549821717934567, "utility_pass": true}
+  },
+  "decision": {
+    "order_spread": 1.8587299581688155,
+    "order_spread_maximum": 0.1,
+    "same_l4m4_k8_union_invariant": true,
+    "utility_cells_passed": 60,
+    "formal_status": "FAIL",
+    "scope": "one-shot-only",
+    "interpretation": "Canonical recomposition is deterministic for an identical final union and preserves aggregate utility, but accuracy varies strongly across intermediate cumulative user subsets. BOTA is not established as reliable for arbitrary sequential deletion streams."
+  },
+  "source_sha256": {
+    "seed41_manifest": "d844e0852aacd85c07589e67883782ca082764cd0e887114c9d1ca1fedff043e",
+    "seed41_metrics": "88e31fd5d9f3746337e060af94c453b84f341bdb289a7fbe533542e8a365585e",
+    "seed41_attacks": "4dd887054f4898f71801e2050e13e4def42c7e9f35d1e227d36c04b0d08a21de",
+    "seed41_provenance": "b206ab1276222209bc0719c4b89335e4d5a56855871d8967fe6139af82513d84",
+    "seed42_manifest": "e79a5ce92293423e094ec88b20829d66cb611f231710f580810417ff8ad997d7",
+    "seed42_metrics": "d3face8f0d4ad0c62d4dd84f25aeb2a6726c78bf0e424cbd1cbbe828706ae8f2",
+    "seed42_attacks": "c74bba78569e08b7fd0a790ce432cd27e1f51794a77cddd2c25ac756da46d3a9",
+    "seed42_provenance": "994e8aa71c35046421749024daf7df88f13ad6fb3c9872c88f6d50e53b224559",
+    "seed43_manifest": "dedbfb3e20ac9220d539756e1ddc043f88a209122621e5ee45bfdc6113e057e1",
+    "seed43_metrics": "04405344c64201e135acb62a78eac1f4c68a82ef6ebb42aa3a5669485036ae25",
+    "seed43_attacks": "0d159304c2150bc6afb1cddac9cbebc35405a1085caab221594dcea66899d1d1",
+    "seed43_provenance": "226cf87e2a771b26ee4900b89a4af1a91133a07f78d8d3c90ea1f47ad5bdecea",
+    "summary_manifest": "d8933001aad874160f95be004b72361b4fc5fac7fda9794c139c45fd88a5179b",
+    "summary_json": "e819b431a095566c695d0e61db97d74b7944b0e3c61d8e9e823b0f6c8dc55ba9",
+    "summary_markdown": "3c702bd383b670f2a94ad9654682e1d09cd74a4d41476a80d50eaf6ce964cb98"
+  },
+  "integrity_rules": [
+    "The failed primary sequential decision may not be replaced by selecting a favorable order or request size.",
+    "The common K=8 union invariant documents deterministic recomposition but does not establish reliable intermediate requests.",
+    "Later storage compression may evaluate one-shot registered unions but may not revive a general continuous-deletion claim.",
+    "Stage 5 MIA remains descriptive and cannot alter the frozen Stage 4 attack conclusion."
+  ]
+}
