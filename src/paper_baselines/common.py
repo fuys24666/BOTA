@@ -274,14 +274,15 @@ def batch_hash(indices: Iterable[int]) -> str:
     return canonical_hash(list(indices))
 
 
-def build_contract(root: Path, config_path: Path, config: dict[str, Any], method_id: str, implementation_files: list[Path]) -> dict[str, Any]:
+def build_contract(root: Path, config_path: Path, config: dict[str, Any], method_id: str, implementation_files: list[Path], implementation_root: Path | None = None) -> dict[str, Any]:
+    implementation_root = (implementation_root or root).resolve()
     sources = validate_source_files(root, config["sources"])
     value = {
         "schema": "paper-baseline-contract-v1",
         "method_id": method_id,
         "config_sha256": sha256_file(config_path),
-        "git": git_snapshot(root),
-        "implementation": {str(path.relative_to(root)).replace("\\", "/"): sha256_file(path) for path in implementation_files},
+        "git": git_snapshot(implementation_root),
+        "implementation": {str(path.resolve().relative_to(implementation_root)).replace("\\", "/"): sha256_file(path) for path in implementation_files},
         "sources": sources,
         "seed": config["seed"],
         "test_accessed": False,
@@ -290,9 +291,9 @@ def build_contract(root: Path, config_path: Path, config: dict[str, Any], method
     return value
 
 
-def preflight(root: Path, config_path: Path, schema: str, method_id: str, implementation_files: list[Path], formal: bool = False) -> dict[str, Any]:
+def preflight(root: Path, config_path: Path, schema: str, method_id: str, implementation_files: list[Path], formal: bool = False, implementation_root: Path | None = None) -> dict[str, Any]:
     config = load_config(config_path, schema)
-    contract = build_contract(root, config_path, config, method_id, implementation_files)
+    contract = build_contract(root, config_path, config, method_id, implementation_files, implementation_root)
     result = {
         "schema": schema,
         "mode": "Preflight",
