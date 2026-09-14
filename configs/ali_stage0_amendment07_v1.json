@@ -1,0 +1,84 @@
+{
+  "schema": "bota-ali-stage0-amendment-v1",
+  "amendment_id": "ali-stage0-amendment-07-bota-response-development-sweep-v1",
+  "amendment_number": 7,
+  "frozen_date": "2026-09-14",
+  "status": "FROZEN_BEFORE_STAGE8_EXECUTION",
+  "motivation": "Development-only calibration of the empirical-Fisher response strength after all six Stage 7A baseline selections were frozen.",
+  "parent_preregistration": {
+    "path": "configs/ali_stage0_preregistration_v1.json",
+    "sha256": "4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0"
+  },
+  "frozen_baseline_boundary": {
+    "path": "docs/audits/ali_stage7_result_audit_v1.json",
+    "sha256": "9ed3ebba24af149c08811c0285d430099c963f303b660941c347e6d0c550fa47",
+    "status": "FROZEN_COMPLETE_STAGE7A",
+    "policy": "No Stage 8 outcome may change a Stage 7A candidate, eligibility decision, selected baseline configuration, or the SISA no-eligible decision."
+  },
+  "stage8_screen": {
+    "dataset": "MovieLens-1M",
+    "analysis_split": "Development",
+    "screen_seed": 42,
+    "request_scenarios": ["L8", "L4M4"],
+    "one_configuration_across_scenarios": true,
+    "finaltest_access": false,
+    "reference_endpoints": ["Original-Short-200step", "Exact-Masked-Reference-200step"],
+    "frozen_method_components": {
+      "optimizer_steps": 200,
+      "coordinate": "fixed-A/trainable-B Q/V LoRA",
+      "lora_rank": 16,
+      "lora_alpha": 32,
+      "optimizer": "AdamW",
+      "optimizer_hyperparameters": "identical to the frozen canonical trajectory",
+      "transport": "full-state AdamW first-order tangent",
+      "user_source": "slot-preserving full-batch-denominator deletion source",
+      "online_optimizer_steps": 0
+    },
+    "candidate_grid": {
+      "empirical_fisher_response_scale": [0.0, 0.25, 0.5, 0.75, 1.0]
+    },
+    "candidate_definition": "At every canonical step, delta_g equals the unscaled registered-user deletion source plus response_scale times the blockwise empirical-Fisher product evaluated on that candidate's transported parameter state. This is a recursive transport rerun, not endpoint interpolation or post-hoc impact-vector scaling.",
+    "anchors": {
+      "response_scale_0": "FS source-only transport",
+      "response_scale_1": "the frozen formal BOTA FS plus empirical-Fisher endpoint, subject to a numerical reproduction gate"
+    },
+    "development_partition": {
+      "namespace": "ali-stage7-dev-split-v1",
+      "dev_fit_count": 9912,
+      "dev_select_count": 10088,
+      "dev_fit_index_sha256": "790a4f0e8f49cc472eed1c0ce92c058fb44243f2140ee64465cc501c670c8735",
+      "dev_select_index_sha256": "aa4feb4bb1b413682abb0bf866b1616066984ce41f359a5218c69fbd3ee3fa9f",
+      "candidate_selection_scope": "Dev-Select only"
+    },
+    "utility_guardrails": {
+      "overall_auc_damage_max": 0.005,
+      "overall_logloss_damage_max": 0.01
+    },
+    "primary_selection_quantity": "Equal-scenario mean Dev-Select E_U on requested-user examples.",
+    "selection_rule": "Among candidates passing both utility guardrails without prediction collapse in both scenarios, minimize equal-scenario mean E_U. Break exact ties by the smallest absolute deviation from the frozen response scale 1.0, then canonical candidate id. If none passes, retain the frozen response scale 1.0 and record NO_ELIGIBLE_CALIBRATION.",
+    "required_reporting": [
+      "all ten candidate-by-scenario cells",
+      "E_U",
+      "D_U",
+      "normalized local residual",
+      "toward-exact rate",
+      "overall AUC",
+      "overall accuracy",
+      "overall log loss",
+      "offline optimizer steps",
+      "online optimizer steps",
+      "wall time",
+      "eligibility and failure reason",
+      "response-scale-1 formal-BOTA reproduction metrics"
+    ]
+  },
+  "interpretation_rules": [
+    "The response scale is common to L8 and L4M4 and may not vary by request, seed, sample, or outcome.",
+    "Neither request membership nor the magnitude of the deletion source is tunable.",
+    "The canonical learning rate, trajectory length, LoRA coordinate and optimizer hyperparameters are not tuned.",
+    "FinalTest, attack outcomes, Stage 3 long-horizon outcomes, Stage 5 sequential outcomes and Stage 6 storage outcomes are excluded from selection.",
+    "A selected scale below 1 supports calibration of a biased response surrogate; it does not validate empirical Fisher as a standalone contribution.",
+    "All candidates and adverse outcomes must be retained and reported.",
+    "Any later cross-seed Development confirmation or FinalTest evaluation requires a separately frozen protocol after this selection is atomically published."
+  ]
+}

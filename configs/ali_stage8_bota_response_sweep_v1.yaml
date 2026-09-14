@@ -1,0 +1,64 @@
+schema: bota-ali-stage8-bota-response-sweep-v1
+test_access_policy: forbidden
+parent_amendment:
+  path: configs/ali_stage0_amendment07_v1.json
+  amendment_id: ali-stage0-amendment-07-bota-response-development-sweep-v1
+  sha256: 875769eb749316853ee30cdcb68efc066f621bd57a5f739fbaf9d40f71101f93
+baseline_audit:
+  path: docs/audits/ali_stage7_result_audit_v1.json
+  sha256: 9ed3ebba24af149c08811c0285d430099c963f303b660941c347e6d0c550fa47
+  status: FROZEN_COMPLETE_STAGE7A
+stage1_config:
+  path: configs/ali_stage1_mechanism_v1.yaml
+  sha256: 6e095988d69b901f691310ea109fbd1d0f82b2c1767c4196b05941451464527d
+benchmark:
+  seed: 42
+  name: bota_short_i02_seed42_v3
+  config: {path: configs/bota_short_benchmark_seed42_v3.yaml, sha256: 9d64df16fbd5e2092c9718d000fac15f11f0473cb6eabe02bc7e4f6d839c4f33}
+  paper_config: {path: configs/bota_short_paper_seed42_v3.yaml, sha256: 4a502b1cf6fe32feb6e9bfed96d8d789a90438891a2438fb5e8f8943407a5d98}
+  frozen_development_evaluation:
+    path: outputs/bota_short_multiseed_v3/seed42/paper/evaluations/bota_short_development_seed42_v3
+    manifest_sha256: b397ff76dd69320deb34a93201788541e102bb7e49cbfb2f765da08fbfb5c65a
+    per_sample_sha256: 557dacb72f128f2d46f6085498f7cc82dae92d99a8c5aef9246b27915c4c56d3
+development_partition:
+  namespace: ali-stage7-dev-split-v1
+  fit_parity: 0
+  select_parity: 1
+  fit_count: 9912
+  select_count: 10088
+  fit_index_sha256: 790a4f0e8f49cc472eed1c0ce92c058fb44243f2140ee64465cc501c670c8735
+  select_index_sha256: aa4feb4bb1b413682abb0bf866b1616066984ce41f359a5218c69fbd3ee3fa9f
+protocol:
+  scenarios: [L8, L4M4]
+  optimizer_steps: 200
+  response_scales: [0.0, 0.25, 0.5, 0.75, 1.0]
+  full_state_adamw: true
+  empirical_fisher_response: true
+  source_scaled: false
+  recursive_transport: true
+  endpoint_interpolation: false
+  online_optimizer_steps: 0
+selection:
+  scenarios: [L8, L4M4]
+  auc_damage_max: 0.005
+  logloss_damage_max: 0.01
+  primary: equal_scenario_mean_EU
+  tie_break: [absolute_deviation_from_scale_1, candidate_id]
+  no_eligible_policy: NO_ELIGIBLE_CALIBRATION
+formal_reproduction:
+  response_scale: 1.0
+  cosine_minimum: 0.9999
+  relative_l2_maximum: 0.01
+  maximum_absolute_error: 0.001
+  scientific_selection_uses_this_gate: false
+evaluation:
+  split: Development/Dev-Select
+  final_test: false
+  inference_batch_size: 4
+output_root: outputs/ali_stage8_bota_response_sweep_v1
+runtime:
+  required_cuda_devices: 1
+  minimum_free_gib: 10.0
+  allocator_fraction: 0.88
+  hard_peak_reserved_gib: 14.0
+  repository_must_be_clean: true
