@@ -1,0 +1,3416 @@
+{
+  "analysis_split": "MovieLens-1M Development/Dev-Select",
+  "candidates": [
+    {
+      "candidate_id": "neggrad_w0.05_s25",
+      "compute_count": 25,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.001857197263191037,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.002306769411934882,
+          "auc_damage": 0.00011222520104903211,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "forget_weight": 0.05,
+            "learning_rate": 0.001
+          },
+          "local_residual": 10.993564653739512,
+          "logloss_damage": 0.00011688301730350403,
+          "overall_auc": 0.7657797552936809,
+          "overall_log_loss": 0.5748538738152367,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.10714285714285714,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.0014076251144471922,
+          "auc_damage": 0.00021881342953911087,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "forget_weight": 0.05,
+            "learning_rate": 0.001
+          },
+          "local_residual": 6.362785969930755,
+          "logloss_damage": 0.00024269569514412392,
+          "overall_auc": 0.7656731670651908,
+          "overall_log_loss": 0.5749796864930773,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.10526315789473684,
+          "utility_eligible": true
+        }
+      ],
+      "selected": true
+    },
+    {
+      "candidate_id": "neggrad_w0.05_s50",
+      "compute_count": 50,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.004748216208978831,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.005046660308631099,
+          "auc_damage": 0.00035200421273706706,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "forget_weight": 0.05,
+            "learning_rate": 0.001
+          },
+          "local_residual": 24.051292730581412,
+          "logloss_damage": 0.0007389337045597966,
+          "overall_auc": 0.7655399762819929,
+          "overall_log_loss": 0.575475924502493,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.00510204081632653,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.004449772109326564,
+          "auc_damage": 0.0005966488217915566,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "forget_weight": 0.05,
+            "learning_rate": 0.001
+          },
+          "local_residual": 20.11398294618479,
+          "logloss_damage": 0.0010911216295672599,
+          "overall_auc": 0.7652953316729384,
+          "overall_log_loss": 0.5758281124275004,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.04736842105263158,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.05_s100",
+      "compute_count": 100,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.007807111805735034,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.005345582220779389,
+          "auc_damage": 0.0006997361936399438,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "forget_weight": 0.05,
+            "learning_rate": 0.001
+          },
+          "local_residual": 25.475889983613847,
+          "logloss_damage": 0.0014433473453066004,
+          "overall_auc": 0.76519224430109,
+          "overall_log_loss": 0.5761803381432398,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.02040816326530612,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.010268641390690678,
+          "auc_damage": 0.0011116307674585713,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "forget_weight": 0.05,
+            "learning_rate": 0.001
+          },
+          "local_residual": 46.41659679153731,
+          "logloss_damage": 0.002670633267666145,
+          "overall_auc": 0.7647803497272714,
+          "overall_log_loss": 0.5774076240655993,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.015789473684210527,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.05_s200",
+      "compute_count": 200,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.012650027846823477,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.01190679767454157,
+          "auc_damage": 0.0013381777277714502,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.05,
+            "learning_rate": 0.001
+          },
+          "local_residual": 56.745225325435854,
+          "logloss_damage": 0.0032421883722486555,
+          "overall_auc": 0.7645538027669585,
+          "overall_log_loss": 0.5779791791701818,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.013393258019105384,
+          "auc_damage": 0.0012851110703138158,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.05,
+            "learning_rate": 0.001
+          },
+          "local_residual": 60.5405752859799,
+          "logloss_damage": 0.003313237687127657,
+          "overall_auc": 0.7646068694244161,
+          "overall_log_loss": 0.5780502284850608,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.010526315789473684,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.1_s25",
+      "compute_count": 25,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.0021253671918252423,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.0027530588855852888,
+          "auc_damage": 0.00019329871164119883,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "forget_weight": 0.1,
+            "learning_rate": 0.001
+          },
+          "local_residual": 13.120483867023076,
+          "logloss_damage": 0.00030200473345964873,
+          "overall_auc": 0.7656986817830888,
+          "overall_log_loss": 0.5750389955313928,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.05612244897959184,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.0014976754980651956,
+          "auc_damage": 0.00027565784755378964,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "forget_weight": 0.1,
+            "learning_rate": 0.001
+          },
+          "local_residual": 6.769834204287197,
+          "logloss_damage": 0.00034386354724591506,
+          "overall_auc": 0.7656163226471762,
+          "overall_log_loss": 0.5750808543451791,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.08947368421052632,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.1_s50",
+      "compute_count": 50,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.005429710267825906,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.00609051955065557,
+          "auc_damage": 0.0005032530869741869,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "forget_weight": 0.1,
+            "learning_rate": 0.001
+          },
+          "local_residual": 29.02610035861125,
+          "logloss_damage": 0.0011536827021285667,
+          "overall_auc": 0.7653887274077558,
+          "overall_log_loss": 0.5758906735000617,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.015306122448979591,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.004768900984996244,
+          "auc_damage": 0.0007374940203588309,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "forget_weight": 0.1,
+            "learning_rate": 0.001
+          },
+          "local_residual": 21.556518115435633,
+          "logloss_damage": 0.0013286193206483166,
+          "overall_auc": 0.7651544864743711,
+          "overall_log_loss": 0.5760656101185815,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.05789473684210526,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.1_s100",
+      "compute_count": 100,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.009907808767733686,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.007777196963374712,
+          "auc_damage": 0.0010207271678777108,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "forget_weight": 0.1,
+            "learning_rate": 0.001
+          },
+          "local_residual": 37.06444051120445,
+          "logloss_damage": 0.0023487004380858822,
+          "overall_auc": 0.7648712533268522,
+          "overall_log_loss": 0.577085691236019,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.025510204081632654,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.012038420572092659,
+          "auc_damage": 0.0014160470644881684,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "forget_weight": 0.1,
+            "learning_rate": 0.001
+          },
+          "local_residual": 54.416401590219394,
+          "logloss_damage": 0.0033624232851870994,
+          "overall_auc": 0.7644759334302418,
+          "overall_log_loss": 0.5780994140831203,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.010526315789473684,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.1_s200",
+      "compute_count": 200,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.01895856182185971,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.018283929770850405,
+          "auc_damage": 0.002354316202197837,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.1,
+            "learning_rate": 0.001
+          },
+          "local_residual": 87.13725915572823,
+          "logloss_damage": 0.006088681057850764,
+          "overall_auc": 0.7635376642925321,
+          "overall_log_loss": 0.5808256718557839,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.015306122448979591,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.019633193872869013,
+          "auc_damage": 0.0021100473913139295,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.1,
+            "learning_rate": 0.001
+          },
+          "local_residual": 88.7465058964092,
+          "logloss_damage": 0.005692137588281132,
+          "overall_auc": 0.763781933103416,
+          "overall_log_loss": 0.5804291283862143,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.2_s25",
+      "compute_count": 25,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.0029371830264644577,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.003795927561515448,
+          "auc_damage": 0.00033869304595779415,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "forget_weight": 0.2,
+            "learning_rate": 0.001
+          },
+          "local_residual": 18.090570671053218,
+          "logloss_damage": 0.0006784992067587758,
+          "overall_auc": 0.7655532874487722,
+          "overall_log_loss": 0.5754154900046919,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.03571428571428571,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.002078438491413468,
+          "auc_damage": 0.0003888522123060012,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "forget_weight": 0.2,
+            "learning_rate": 0.001
+          },
+          "local_residual": 9.395015147710897,
+          "logloss_damage": 0.0005417342688800453,
+          "overall_auc": 0.765503128282424,
+          "overall_log_loss": 0.5752787250668132,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.06315789473684211,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.2_s50",
+      "compute_count": 50,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.0071047253454570225,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.008082736663672388,
+          "auc_damage": 0.0007985711125053641,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "forget_weight": 0.2,
+            "learning_rate": 0.001
+          },
+          "local_residual": 38.52057671282386,
+          "logloss_damage": 0.00202477984756233,
+          "overall_auc": 0.7650934093822246,
+          "overall_log_loss": 0.5767617706454955,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.00510204081632653,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.006126714027241657,
+          "auc_damage": 0.001010442165314318,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "forget_weight": 0.2,
+            "learning_rate": 0.001
+          },
+          "local_residual": 27.694142179056463,
+          "logloss_damage": 0.0018328797167835864,
+          "overall_auc": 0.7648815383294156,
+          "overall_log_loss": 0.5765698705147168,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.010526315789473684,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.2_s100",
+      "compute_count": 100,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.015091193758579478,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.013529754737962266,
+          "auc_damage": 0.0018294250521380118,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "forget_weight": 0.2,
+            "learning_rate": 0.001
+          },
+          "local_residual": 64.4798880596677,
+          "logloss_damage": 0.004698182162812037,
+          "overall_auc": 0.7640625554425919,
+          "overall_log_loss": 0.5794351729607452,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.00510204081632653,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.01665263277919669,
+          "auc_damage": 0.0020351646611109775,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "forget_weight": 0.2,
+            "learning_rate": 0.001
+          },
+          "local_residual": 75.27369121393772,
+          "logloss_damage": 0.00507891699386076,
+          "overall_auc": 0.763856815833619,
+          "overall_log_loss": 0.5798159077917939,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.010526315789473684,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.2_s200",
+      "compute_count": 200,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.03549372810804387,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.036346554052920976,
+          "auc_damage": 0.005064434156541009,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.2,
+            "learning_rate": 0.001
+          },
+          "local_residual": 173.2198241636405,
+          "logloss_damage": 0.017155107300309447,
+          "overall_auc": 0.7608275463381889,
+          "overall_log_loss": 0.5918920980982426,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.00510204081632653,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.03464090216316675,
+          "auc_damage": 0.004013801365824521,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.2,
+            "learning_rate": 0.001
+          },
+          "local_residual": 156.58476394554995,
+          "logloss_damage": 0.012999698040410013,
+          "overall_auc": 0.7618781791289054,
+          "overall_log_loss": 0.5877366888383432,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.005263157894736842,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.4_s25",
+      "compute_count": 25,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.004523159610757766,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.005559809619978983,
+          "auc_damage": 0.0005824871644156682,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "forget_weight": 0.4,
+            "learning_rate": 0.001
+          },
+          "local_residual": 26.49685148566869,
+          "logloss_damage": 0.001339580092442283,
+          "overall_auc": 0.7653094933303143,
+          "overall_log_loss": 0.5760765708903755,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.030612244897959183,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.0034865096015365502,
+          "auc_damage": 0.0005674552375920516,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "forget_weight": 0.4,
+            "learning_rate": 0.001
+          },
+          "local_residual": 15.759817119629737,
+          "logloss_damage": 0.000892347393049997,
+          "overall_auc": 0.7653245252571379,
+          "overall_log_loss": 0.5756293381909832,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.031578947368421054,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.4_s50",
+      "compute_count": 50,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.01035669979456288,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.011639102571168724,
+          "auc_damage": 0.0013218206179252956,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "forget_weight": 0.4,
+            "learning_rate": 0.001
+          },
+          "local_residual": 55.469448296664524,
+          "logloss_damage": 0.0036665655672646347,
+          "overall_auc": 0.7645701598768047,
+          "overall_log_loss": 0.5784035563651978,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.02040816326530612,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.009074297017957035,
+          "auc_damage": 0.0014269254325842695,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "forget_weight": 0.4,
+            "learning_rate": 0.001
+          },
+          "local_residual": 41.01788832853875,
+          "logloss_damage": 0.0027417082032574758,
+          "overall_auc": 0.7644650550621457,
+          "overall_log_loss": 0.5774786990011906,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.015789473684210527,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.4_s100",
+      "compute_count": 100,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.02573459015390911,
+      "failure_reasons": [
+        "L8:utility_or_collapse"
+      ],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.024969945775763114,
+          "auc_damage": 0.0033874447097052007,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "forget_weight": 0.4,
+            "learning_rate": 0.001
+          },
+          "local_residual": 119.00136696193142,
+          "logloss_damage": 0.01048451678277229,
+          "overall_auc": 0.7625045357850248,
+          "overall_log_loss": 0.5852215075807055,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.0264992345320551,
+          "auc_damage": 0.003253977022592225,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "forget_weight": 0.4,
+            "learning_rate": 0.001
+          },
+          "local_residual": 119.78257276311919,
+          "logloss_damage": 0.009355976207129246,
+          "overall_auc": 0.7626380034721377,
+          "overall_log_loss": 0.5840929670050624,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.4_s200",
+      "compute_count": 200,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.043765586918013855,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.050530365079033135,
+          "auc_damage": 0.007175292480749329,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.4,
+            "learning_rate": 0.001
+          },
+          "local_residual": 240.81680318773604,
+          "logloss_damage": 0.026843345199713542,
+          "overall_auc": 0.7587166880139806,
+          "overall_log_loss": 0.6015803359976467,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.037000808756994574,
+          "auc_damage": 0.004499846852355938,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.4,
+            "learning_rate": 0.001
+          },
+          "local_residual": 167.2520789937414,
+          "logloss_damage": 0.013783417662997066,
+          "overall_auc": 0.761392133642374,
+          "overall_log_loss": 0.5885204084609302,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.8_s25",
+      "compute_count": 25,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.006473872784293075,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.00767653726269396,
+          "auc_damage": 0.0008294063413448738,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "forget_weight": 0.8,
+            "learning_rate": 0.001
+          },
+          "local_residual": 36.58471812467787,
+          "logloss_damage": 0.002140209539598148,
+          "overall_auc": 0.7650625741533851,
+          "overall_log_loss": 0.5768772003375313,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.02040816326530612,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.005271208305892191,
+          "auc_damage": 0.0007828073681915848,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "forget_weight": 0.8,
+            "learning_rate": 0.001
+          },
+          "local_residual": 23.82706155856354,
+          "logloss_damage": 0.0013241251537928767,
+          "overall_auc": 0.7651091731265384,
+          "overall_log_loss": 0.576061115951726,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.010526315789473684,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.8_s50",
+      "compute_count": 50,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.014607955290706853,
+      "failure_reasons": [],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.016124124277611167,
+          "auc_damage": 0.0019178958530355894,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "forget_weight": 0.8,
+            "learning_rate": 0.001
+          },
+          "local_residual": 76.84409278782877,
+          "logloss_damage": 0.005875084837848932,
+          "overall_auc": 0.7639740846416944,
+          "overall_log_loss": 0.5806120756357821,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.01309178630380254,
+          "auc_damage": 0.0018887616053890888,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "forget_weight": 0.8,
+            "learning_rate": 0.001
+          },
+          "local_residual": 59.17785450132466,
+          "logloss_damage": 0.003933537095962447,
+          "overall_auc": 0.7640032188893409,
+          "overall_log_loss": 0.5786705278938956,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.005263157894736842,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.8_s100",
+      "compute_count": 100,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.03886303605059628,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.038201854602262685,
+          "auc_damage": 0.005327670885614255,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "forget_weight": 0.8,
+            "learning_rate": 0.001
+          },
+          "local_residual": 182.0617857553708,
+          "logloss_damage": 0.020265132236661265,
+          "overall_auc": 0.7605643096091157,
+          "overall_log_loss": 0.5950021230345944,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.03952421749892988,
+          "auc_damage": 0.007658984284001691,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "forget_weight": 0.8,
+            "learning_rate": 0.001
+          },
+          "local_residual": 178.6584609734293,
+          "logloss_damage": 0.02044704520972207,
+          "overall_auc": 0.7582329962107283,
+          "overall_log_loss": 0.5951840360076552,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "neggrad_w0.8_s200",
+      "compute_count": 200,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.0526819295728045,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "NegGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.06083855133655728,
+          "auc_damage": 0.008807285041369628,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.8,
+            "learning_rate": 0.001
+          },
+          "local_residual": 289.94339186996876,
+          "logloss_damage": 0.03641897097798574,
+          "overall_auc": 0.7570846954533603,
+          "overall_log_loss": 0.6111559617759189,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.044525307809051715,
+          "auc_damage": 0.008810588109500639,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.8,
+            "learning_rate": 0.001
+          },
+          "local_residual": 201.26452769744955,
+          "logloss_damage": 0.024983289930325392,
+          "overall_auc": 0.7570813923852293,
+          "overall_log_loss": 0.5997202807282586,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "pcgrad_lr0.0005_s25",
+      "compute_count": 25,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.0034000702627467357,
+      "failure_reasons": [],
+      "method": "PCGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.004169339105030712,
+          "auc_damage": 0.0004157118920777858,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "learning_rate": 0.0005,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 19.870169414147526,
+          "logloss_damage": 0.001017694104434308,
+          "overall_auc": 0.7654762686026522,
+          "overall_log_loss": 0.5757546849023675,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.030612244897959183,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.002630801420462759,
+          "auc_damage": 0.00039802959920887115,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "learning_rate": 0.0005,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 11.891821335091933,
+          "logloss_damage": 0.0006436046061899514,
+          "overall_auc": 0.7654939508955211,
+          "overall_log_loss": 0.5753805954041231,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.015789473684210527,
+          "utility_eligible": true
+        }
+      ],
+      "selected": true
+    },
+    {
+      "candidate_id": "pcgrad_lr0.0005_s50",
+      "compute_count": 50,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.007446321233142684,
+      "failure_reasons": [],
+      "method": "PCGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.008686866250117215,
+          "auc_damage": 0.0008997597146496172,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "learning_rate": 0.0005,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 41.399727803286474,
+          "logloss_damage": 0.0025380395349988705,
+          "overall_auc": 0.7649922207800803,
+          "overall_log_loss": 0.577275030332932,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.01020408163265306,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.0062057762161681525,
+          "auc_damage": 0.0009326915017040527,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "learning_rate": 0.0005,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 28.051521271891904,
+          "logloss_damage": 0.0016907990714409848,
+          "overall_auc": 0.7649592889930259,
+          "overall_log_loss": 0.5764277898693742,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.005263157894736842,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "pcgrad_lr0.0005_s100",
+      "compute_count": 100,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.01701218072248965,
+      "failure_reasons": [],
+      "method": "PCGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.017699506057768453,
+          "auc_damage": 0.0021692257137564397,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "learning_rate": 0.0005,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 84.35202200037864,
+          "logloss_damage": 0.006708555164369856,
+          "overall_auc": 0.7637227547809735,
+          "overall_log_loss": 0.581445545962303,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.01020408163265306,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.016324855387210846,
+          "auc_damage": 0.002052846953979781,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "learning_rate": 0.0005,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 73.79206278206146,
+          "logloss_damage": 0.004785148378287252,
+          "overall_auc": 0.7638391335407502,
+          "overall_log_loss": 0.5795221391762204,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "pcgrad_lr0.0005_s200",
+      "compute_count": 200,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.037694211195250044,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "PCGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.039916026786121786,
+          "auc_damage": 0.005203459700808377,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "learning_rate": 0.0005,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 190.2311600471385,
+          "logloss_damage": 0.020879936715508363,
+          "overall_auc": 0.7606885207939216,
+          "overall_log_loss": 0.5956169275134415,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.0354723956043783,
+          "auc_damage": 0.004510309864579454,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "learning_rate": 0.0005,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 160.3433035933084,
+          "logloss_damage": 0.013825795950430875,
+          "overall_auc": 0.7613816706301505,
+          "overall_log_loss": 0.588562786748364,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.005263157894736842,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "pcgrad_lr0.001_s25",
+      "compute_count": 25,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.006946475961406652,
+      "failure_reasons": [],
+      "method": "PCGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.008189684977488858,
+          "auc_damage": 0.0008733351696017522,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "learning_rate": 0.001,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 39.03026927093854,
+          "logloss_damage": 0.0023243391782442613,
+          "overall_auc": 0.7650186453251282,
+          "overall_log_loss": 0.5770613299761774,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.01020408163265306,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.005703266945324446,
+          "auc_damage": 0.0008330258710932403,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "learning_rate": 0.001,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 25.78006496902525,
+          "logloss_damage": 0.0014278161421166224,
+          "overall_auc": 0.7650589546236367,
+          "overall_log_loss": 0.5761648069400498,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.010526315789473684,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "pcgrad_lr0.001_s50",
+      "compute_count": 50,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.01561090045385503,
+      "failure_reasons": [],
+      "method": "PCGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.01715402111259042,
+          "auc_damage": 0.002043451999715007,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "learning_rate": 0.001,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 81.75235860037448,
+          "logloss_damage": 0.006422304330909956,
+          "overall_auc": 0.763848528495015,
+          "overall_log_loss": 0.5811592951288431,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.01020408163265306,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.014067779795119638,
+          "auc_damage": 0.0020053974902298766,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "learning_rate": 0.001,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 63.589567271691784,
+          "logloss_damage": 0.004227503519317444,
+          "overall_auc": 0.7638865830045001,
+          "overall_log_loss": 0.5789644943172506,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.005263157894736842,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "pcgrad_lr0.001_s100",
+      "compute_count": 100,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.04007628359506757,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "PCGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.042393233988206,
+          "auc_damage": 0.0061716146825057105,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "learning_rate": 0.001,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 202.03699438667877,
+          "logloss_damage": 0.024522338901161178,
+          "overall_auc": 0.7597203658122242,
+          "overall_log_loss": 0.5992593296990943,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.03775933320192914,
+          "auc_damage": 0.005289201020256318,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "learning_rate": 0.001,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 170.68078216658483,
+          "logloss_damage": 0.01729460456994769,
+          "overall_auc": 0.7606027794744736,
+          "overall_log_loss": 0.5920315953678809,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "pcgrad_lr0.001_s200",
+      "compute_count": 200,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.05231405162891707,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "PCGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.054776983582699786,
+          "auc_damage": 0.007683391386239191,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "learning_rate": 0.001,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 261.05526952003703,
+          "logloss_damage": 0.03137365704248807,
+          "overall_auc": 0.7582085891084908,
+          "overall_log_loss": 0.6061106478404212,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.04985111967513436,
+          "auc_damage": 0.009050802255912371,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "learning_rate": 0.001,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 225.33840977883713,
+          "logloss_damage": 0.028209458199524806,
+          "overall_auc": 0.7568411782388176,
+          "overall_log_loss": 0.602946448997458,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "pcgrad_lr0.002_s25",
+      "compute_count": 25,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.014473654894872491,
+      "failure_reasons": [],
+      "method": "PCGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.015839853856180395,
+          "auc_damage": 0.001920031968952518,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "learning_rate": 0.002,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 75.48932137419033,
+          "logloss_damage": 0.005690628768553863,
+          "overall_auc": 0.7639719485257774,
+          "overall_log_loss": 0.580427619566487,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.013107455933564587,
+          "auc_damage": 0.0018180719916159882,
+          "hyperparameters": {
+            "checkpoint": 25,
+            "learning_rate": 0.002,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 59.24868479511572,
+          "logloss_damage": 0.0036046366558829535,
+          "overall_auc": 0.764073908503114,
+          "overall_log_loss": 0.5783416274538161,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.010526315789473684,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "pcgrad_lr0.002_s50",
+      "compute_count": 50,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.03578950383217263,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "PCGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.03740940469184092,
+          "auc_damage": 0.005368652665059703,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "learning_rate": 0.002,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 178.28514068629804,
+          "logloss_damage": 0.020735136339541826,
+          "overall_auc": 0.7605233278296702,
+          "overall_log_loss": 0.595472127137475,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.00510204081632653,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.03416960297250434,
+          "auc_damage": 0.004979622443094023,
+          "hyperparameters": {
+            "checkpoint": 50,
+            "learning_rate": 0.002,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 154.45438431022768,
+          "logloss_damage": 0.014575475792155457,
+          "overall_auc": 0.7609123580516359,
+          "overall_log_loss": 0.5893124665900886,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "pcgrad_lr0.002_s100",
+      "compute_count": 100,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.05044303019466048,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "PCGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.052231376876636426,
+          "auc_damage": 0.008237397005094182,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "learning_rate": 0.002,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 248.9234579218302,
+          "logloss_damage": 0.0315889438008089,
+          "overall_auc": 0.7576545834896358,
+          "overall_log_loss": 0.6063259345987421,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.048654683512684545,
+          "auc_damage": 0.00834635869571454,
+          "hyperparameters": {
+            "checkpoint": 100,
+            "learning_rate": 0.002,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 219.93024595011548,
+          "logloss_damage": 0.026551783369009985,
+          "overall_auc": 0.7575456217990154,
+          "overall_log_loss": 0.6012887741669432,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "pcgrad_lr0.002_s200",
+      "compute_count": 200,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.06788706221401683,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "PCGrad",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.08052652128687014,
+          "auc_damage": 0.019151446148497953,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "learning_rate": 0.002,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 383.77200318664904,
+          "logloss_damage": 0.06370825542364855,
+          "overall_auc": 0.746740534346232,
+          "overall_log_loss": 0.6384452462215817,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.055247603141163525,
+          "auc_damage": 0.00881139904239503,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "learning_rate": 0.002,
+            "projection": "deterministic_symmetric_two_task"
+          },
+          "local_residual": 249.7317435807127,
+          "logloss_damage": 0.02836960834111224,
+          "overall_auc": 0.7570805814523349,
+          "overall_log_loss": 0.6031065991390454,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "ifru_p512_d0.001",
+      "compute_count": 53,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.022149724410856834,
+      "failure_reasons": [],
+      "method": "IFRU",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.025437131181967502,
+          "auc_damage": 0.0020494647704443203,
+          "hyperparameters": {
+            "cg_iterations": 40,
+            "cg_max_iterations": 40,
+            "curvature_panel_samples": 512,
+            "lambda_max": 0.001000866395453429,
+            "relative_damping_ratio": 0.001
+          },
+          "local_residual": 121.22787167532775,
+          "logloss_damage": 0.0011480549192568468,
+          "overall_auc": 0.7638425157242856,
+          "overall_log_loss": 0.57588504571719,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.01020408163265306,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.018862317639746166,
+          "auc_damage": 0.0007480163691353514,
+          "hyperparameters": {
+            "cg_iterations": 40,
+            "cg_max_iterations": 40,
+            "curvature_panel_samples": 512,
+            "lambda_max": 0.001000866395453429,
+            "relative_damping_ratio": 0.001
+          },
+          "local_residual": 85.26196982901074,
+          "logloss_damage": 0.0005219600376387135,
+          "overall_auc": 0.7651439641255946,
+          "overall_log_loss": 0.5752589508355719,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.015789473684210527,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "ifru_p512_d0.01",
+      "compute_count": 38,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.0034751691182257024,
+      "failure_reasons": [],
+      "method": "IFRU",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.0040999448345023755,
+          "auc_damage": 1.9620620274940492e-05,
+          "hyperparameters": {
+            "cg_iterations": 25,
+            "cg_max_iterations": 40,
+            "curvature_panel_samples": 512,
+            "lambda_max": 0.001000866395453429,
+            "relative_damping_ratio": 0.01
+          },
+          "local_residual": 19.539451313020784,
+          "logloss_damage": 9.348579024381909e-05,
+          "overall_auc": 0.765872359874455,
+          "overall_log_loss": 0.574830476588177,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.05102040816326531,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.0028503934019490293,
+          "auc_damage": 3.443497973676379e-05,
+          "hyperparameters": {
+            "cg_iterations": 24,
+            "cg_max_iterations": 40,
+            "curvature_panel_samples": 512,
+            "lambda_max": 0.001000866395453429,
+            "relative_damping_ratio": 0.01
+          },
+          "local_residual": 12.884427082580926,
+          "logloss_damage": 1.888503624369875e-06,
+          "overall_auc": 0.7658575455149932,
+          "overall_log_loss": 0.5747388793015575,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.042105263157894736,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "ifru_p512_d0.1",
+      "compute_count": 22,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.0004881445648574804,
+      "failure_reasons": [],
+      "method": "IFRU",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.0005342231645267837,
+          "auc_damage": 9.889425541920183e-06,
+          "hyperparameters": {
+            "cg_iterations": 8,
+            "cg_max_iterations": 40,
+            "curvature_panel_samples": 512,
+            "lambda_max": 0.001000866395453429,
+            "relative_damping_ratio": 0.1
+          },
+          "local_residual": 2.545992186459731,
+          "logloss_damage": 3.275002641889291e-05,
+          "overall_auc": 0.765882091069188,
+          "overall_log_loss": 0.5747697408243521,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.2193877551020408,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.000442065965188177,
+          "auc_damage": 1.9620620274940492e-05,
+          "hyperparameters": {
+            "cg_iterations": 9,
+            "cg_max_iterations": 40,
+            "curvature_panel_samples": 512,
+            "lambda_max": 0.001000866395453429,
+            "relative_damping_ratio": 0.1
+          },
+          "local_residual": 1.9982388010943326,
+          "logloss_damage": 1.4457163677095153e-05,
+          "overall_auc": 0.765872359874455,
+          "overall_log_loss": 0.5747514479616103,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.3473684210526316,
+          "utility_eligible": true
+        }
+      ],
+      "selected": true
+    },
+    {
+      "candidate_id": "ifru_p1024_d0.001",
+      "compute_count": 53,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.02878873399243751,
+      "failure_reasons": [],
+      "method": "IFRU",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.03241618907041088,
+          "auc_damage": 0.0026285104147715233,
+          "hyperparameters": {
+            "cg_iterations": 40,
+            "cg_max_iterations": 40,
+            "curvature_panel_samples": 1024,
+            "lambda_max": 0.0005125802697263447,
+            "relative_damping_ratio": 0.001
+          },
+          "local_residual": 154.4885537885163,
+          "logloss_damage": 0.0019518264776399175,
+          "overall_auc": 0.7632634700799584,
+          "overall_log_loss": 0.5766888172755731,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.00510204081632653,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.02516127891446415,
+          "auc_damage": 0.0005256031886987644,
+          "hyperparameters": {
+            "cg_iterations": 40,
+            "cg_max_iterations": 40,
+            "curvature_panel_samples": 1024,
+            "lambda_max": 0.0005125802697263447,
+            "relative_damping_ratio": 0.001
+          },
+          "local_residual": 113.73470877957477,
+          "logloss_damage": 0.00044729368199081243,
+          "overall_auc": 0.7653663773060312,
+          "overall_log_loss": 0.575184284479924,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "ifru_p1024_d0.01",
+      "compute_count": 43,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.004879317620807156,
+      "failure_reasons": [],
+      "method": "IFRU",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.005593360591755837,
+          "auc_damage": -9.930961129134275e-05,
+          "hyperparameters": {
+            "cg_iterations": 28,
+            "cg_max_iterations": 40,
+            "curvature_panel_samples": 1024,
+            "lambda_max": 0.0005125802697263447,
+            "relative_damping_ratio": 0.01
+          },
+          "local_residual": 26.656748168673193,
+          "logloss_damage": 6.489827646061208e-06,
+          "overall_auc": 0.7659912901060213,
+          "overall_log_loss": 0.5747434806255792,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.025510204081632654,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.004165274649858474,
+          "auc_damage": 0.00010878368096045588,
+          "hyperparameters": {
+            "cg_iterations": 30,
+            "cg_max_iterations": 40,
+            "curvature_panel_samples": 1024,
+            "lambda_max": 0.0005125802697263447,
+            "relative_damping_ratio": 0.01
+          },
+          "local_residual": 18.827989662173653,
+          "logloss_damage": 0.00011361564997558471,
+          "overall_auc": 0.7657831968137695,
+          "overall_log_loss": 0.5748506064479088,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.02631578947368421,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "ifru_p1024_d0.1",
+      "compute_count": 24,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.0008572319892628236,
+      "failure_reasons": [],
+      "method": "IFRU",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.0009133674356402183,
+          "auc_damage": -1.2065099160851744e-06,
+          "hyperparameters": {
+            "cg_iterations": 11,
+            "cg_max_iterations": 40,
+            "curvature_panel_samples": 1024,
+            "lambda_max": 0.0005125802697263447,
+            "relative_damping_ratio": 0.1
+          },
+          "local_residual": 4.352911870765892,
+          "logloss_damage": 3.8182298077837906e-05,
+          "overall_auc": 0.765893187004646,
+          "overall_log_loss": 0.574775173096011,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.1326530612244898,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.0008010965428854289,
+          "auc_damage": 2.262700563970821e-05,
+          "hyperparameters": {
+            "cg_iterations": 11,
+            "cg_max_iterations": 40,
+            "curvature_panel_samples": 1024,
+            "lambda_max": 0.0005125802697263447,
+            "relative_damping_ratio": 0.1
+          },
+          "local_residual": 3.621138747324235,
+          "logloss_damage": 1.5361490294796276e-05,
+          "overall_auc": 0.7658693534890902,
+          "overall_log_loss": 0.574752352288228,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.2,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "e2urec_w0.2_s200",
+      "compute_count": 1400,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.009446364391503093,
+      "failure_reasons": [],
+      "method": "E2URec",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.010015458780892042,
+          "auc_damage": 0.0013346768711297585,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.2,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 322.36088250001194,
+            "teacher_steps": 1200
+          },
+          "local_residual": 47.731512770600226,
+          "logloss_damage": 0.0033154401957058433,
+          "overall_auc": 0.7645573036236002,
+          "overall_log_loss": 0.578052430993639,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.008877270002114145,
+          "auc_damage": 0.0014581364595942503,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.2,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 419.6523152999871,
+            "teacher_steps": 1200
+          },
+          "local_residual": 40.12728136278083,
+          "logloss_damage": 0.0028339602917638596,
+          "overall_auc": 0.7644338440351357,
+          "overall_log_loss": 0.577570951089697,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.015789473684210527,
+          "utility_eligible": true
+        }
+      ],
+      "selected": true
+    },
+    {
+      "candidate_id": "e2urec_w0.2_s500",
+      "compute_count": 1700,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.011166603693580524,
+      "failure_reasons": [],
+      "method": "E2URec",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.01271334588907811,
+          "auc_damage": 0.002021952388587156,
+          "hyperparameters": {
+            "checkpoint": 500,
+            "forget_weight": 0.2,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 322.36088250001194,
+            "teacher_steps": 1200
+          },
+          "local_residual": 60.589059866066535,
+          "logloss_damage": 0.003674191251054282,
+          "overall_auc": 0.7638700281061428,
+          "overall_log_loss": 0.5784111820489874,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.01020408163265306,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.009619861498082938,
+          "auc_damage": 0.001698231932899641,
+          "hyperparameters": {
+            "checkpoint": 500,
+            "forget_weight": 0.2,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 419.6523152999871,
+            "teacher_steps": 1200
+          },
+          "local_residual": 43.48396397908647,
+          "logloss_damage": 0.002968238617958363,
+          "overall_auc": 0.7641937485618303,
+          "overall_log_loss": 0.5777052294158915,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.015789473684210527,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "e2urec_w0.2_s1000",
+      "compute_count": 2200,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.014580464611584212,
+      "failure_reasons": [],
+      "method": "E2URec",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.016088063923680052,
+          "auc_damage": 0.002708258742341152,
+          "hyperparameters": {
+            "checkpoint": 1000,
+            "forget_weight": 0.2,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 322.36088250001194,
+            "teacher_steps": 1200
+          },
+          "local_residual": 76.67223693161387,
+          "logloss_damage": 0.005767207229781857,
+          "overall_auc": 0.7631837217523888,
+          "overall_log_loss": 0.580504198027715,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.01307286529948837,
+          "auc_damage": 0.002362504646546637,
+          "hyperparameters": {
+            "checkpoint": 1000,
+            "forget_weight": 0.2,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 419.6523152999871,
+            "teacher_steps": 1200
+          },
+          "local_residual": 59.09232725436695,
+          "logloss_damage": 0.004398330892978919,
+          "overall_auc": 0.7635294758481833,
+          "overall_log_loss": 0.5791353216909121,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.005263157894736842,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "e2urec_w0.4_s200",
+      "compute_count": 1400,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.01585383235199815,
+      "failure_reasons": [],
+      "method": "E2URec",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.0172514019115847,
+          "auc_damage": 0.0027505854836604726,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.4,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 322.36088250001194,
+            "teacher_steps": 1200
+          },
+          "local_residual": 82.21645444985015,
+          "logloss_damage": 0.006751930547217011,
+          "overall_auc": 0.7631413950110695,
+          "overall_log_loss": 0.5814889213451502,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.015306122448979591,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.014456262792411603,
+          "auc_damage": 0.001983739648293237,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.4,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 419.6523152999871,
+            "teacher_steps": 1200
+          },
+          "local_residual": 65.3455988594748,
+          "logloss_damage": 0.004494773261188301,
+          "overall_auc": 0.7639082408464367,
+          "overall_log_loss": 0.5792317640591215,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.010526315789473684,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "e2urec_w0.4_s500",
+      "compute_count": 1700,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.016377692400536846,
+      "failure_reasons": [],
+      "method": "E2URec",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.01815049222917581,
+          "auc_damage": 0.003293099590035764,
+          "hyperparameters": {
+            "checkpoint": 500,
+            "forget_weight": 0.4,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 322.36088250001194,
+            "teacher_steps": 1200
+          },
+          "local_residual": 86.50132466047876,
+          "logloss_damage": 0.00704847588009172,
+          "overall_auc": 0.7625988809046942,
+          "overall_log_loss": 0.5817854666780249,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.00510204081632653,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.014604892571897883,
+          "auc_damage": 0.0021910022287995323,
+          "hyperparameters": {
+            "checkpoint": 500,
+            "forget_weight": 0.4,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 419.6523152999871,
+            "teacher_steps": 1200
+          },
+          "local_residual": 66.01743929903716,
+          "logloss_damage": 0.004335269692878119,
+          "overall_auc": 0.7637009782659304,
+          "overall_log_loss": 0.5790722604908113,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "e2urec_w0.4_s1000",
+      "compute_count": 2200,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.018976602823174413,
+      "failure_reasons": [],
+      "method": "E2URec",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.019456065430933117,
+          "auc_damage": 0.003526885609845376,
+          "hyperparameters": {
+            "checkpoint": 1000,
+            "forget_weight": 0.4,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 322.36088250001194,
+            "teacher_steps": 1200
+          },
+          "local_residual": 92.72340447888145,
+          "logloss_damage": 0.007864187315440141,
+          "overall_auc": 0.7623650948848846,
+          "overall_log_loss": 0.5826011781133733,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.00510204081632653,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.018497140215415705,
+          "auc_damage": 0.002843091170178891,
+          "hyperparameters": {
+            "checkpoint": 1000,
+            "forget_weight": 0.4,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 419.6523152999871,
+            "teacher_steps": 1200
+          },
+          "local_residual": 83.61128473663952,
+          "logloss_damage": 0.00596222715764394,
+          "overall_auc": 0.7630488893245511,
+          "overall_log_loss": 0.5806992179555771,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "e2urec_w0.6_s200",
+      "compute_count": 1400,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.01788859211286544,
+      "failure_reasons": [],
+      "method": "E2URec",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.0189295747716512,
+          "auc_damage": 0.003567570706524803,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.6,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 322.36088250001194,
+            "teacher_steps": 1200
+          },
+          "local_residual": 90.21426374185788,
+          "logloss_damage": 0.008488397765330613,
+          "overall_auc": 0.7623244097882051,
+          "overall_log_loss": 0.5832253885632638,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.00510204081632653,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.01684760945407968,
+          "auc_damage": 0.0028431505067321172,
+          "hyperparameters": {
+            "checkpoint": 200,
+            "forget_weight": 0.6,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 419.6523152999871,
+            "teacher_steps": 1200
+          },
+          "local_residual": 76.15503017178692,
+          "logloss_damage": 0.005859541272692836,
+          "overall_auc": 0.7630488299879978,
+          "overall_log_loss": 0.580596532070626,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.005263157894736842,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "e2urec_w0.6_s500",
+      "compute_count": 1700,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.01952368704858211,
+      "failure_reasons": [],
+      "method": "E2URec",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.02116856627090245,
+          "auc_damage": 0.004151481948218461,
+          "hyperparameters": {
+            "checkpoint": 500,
+            "forget_weight": 0.6,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 322.36088250001194,
+            "teacher_steps": 1200
+          },
+          "local_residual": 100.8848135067542,
+          "logloss_damage": 0.009333579117522084,
+          "overall_auc": 0.7617404985465115,
+          "overall_log_loss": 0.5840705699154553,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.01020408163265306,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.01787880782626177,
+          "auc_damage": 0.0028621777614746824,
+          "hyperparameters": {
+            "checkpoint": 500,
+            "forget_weight": 0.6,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 419.6523152999871,
+            "teacher_steps": 1200
+          },
+          "local_residual": 80.81628157132053,
+          "logloss_damage": 0.005749972112168211,
+          "overall_auc": 0.7630298027332553,
+          "overall_log_loss": 0.5804869629101014,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "e2urec_w0.6_s1000",
+      "compute_count": 2200,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.02040654652993066,
+      "failure_reasons": [
+        "L8:utility_or_collapse"
+      ],
+      "method": "E2URec",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.021790135157655696,
+          "auc_damage": 0.004394544249186283,
+          "hyperparameters": {
+            "checkpoint": 1000,
+            "forget_weight": 0.6,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 322.36088250001194,
+            "teacher_steps": 1200
+          },
+          "local_residual": 103.84707653483167,
+          "logloss_damage": 0.01020835100733708,
+          "overall_auc": 0.7614974362455437,
+          "overall_log_loss": 0.5849453418052702,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.01902295790220562,
+          "auc_damage": 0.0028324897059980314,
+          "hyperparameters": {
+            "checkpoint": 1000,
+            "forget_weight": 0.6,
+            "student_learning_rate": 0.001,
+            "teacher_learning_rate": 5e-05,
+            "teacher_shared_seconds": 419.6523152999871,
+            "teacher_steps": 1200
+          },
+          "local_residual": 85.98810038585607,
+          "logloss_damage": 0.006189523586540346,
+          "overall_auc": 0.7630594907887319,
+          "overall_log_loss": 0.5809265143844735,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "sisa_lr0.0001_e1",
+      "compute_count": 377,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.21738289047350673,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "SISA",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.20148741994178643,
+          "auc_damage": 0.08139175230612494,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 1,
+            "learning_rate": 0.0001,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 960.2455133073884,
+          "logloss_damage": 0.09927101824395712,
+          "overall_auc": 0.684500228188605,
+          "overall_log_loss": 0.6740080090418903,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.23327836100522703,
+          "auc_damage": 0.10119750262732352,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 1,
+            "learning_rate": 0.0001,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 1054.4712986848208,
+          "logloss_damage": 0.11285861598534708,
+          "overall_auc": 0.6646944778674064,
+          "overall_log_loss": 0.6875956067832802,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "sisa_lr0.0001_e3",
+      "compute_count": 1131,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.15419939781697153,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "SISA",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.1536194410811104,
+          "auc_damage": 0.057599772337512345,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 3,
+            "learning_rate": 0.0001,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 732.1170676439457,
+          "logloss_damage": 0.06018159721413352,
+          "overall_auc": 0.7082922081572176,
+          "overall_log_loss": 0.6349185880120667,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.00510204081632653,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.15477935455283268,
+          "auc_damage": 0.06831638898939829,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 3,
+            "learning_rate": 0.0001,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 699.6379188435175,
+          "logloss_damage": 0.05590099619844857,
+          "overall_auc": 0.6975755915053317,
+          "overall_log_loss": 0.6306379869963817,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "sisa_lr0.0001_e5",
+      "compute_count": 1885,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.15804571372392023,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "SISA",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.15672641758737918,
+          "auc_damage": 0.08327228590946345,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 5,
+            "learning_rate": 0.0001,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 746.9242464293908,
+          "logloss_damage": 0.09003243103924508,
+          "overall_auc": 0.6826196945852665,
+          "overall_log_loss": 0.6647694218371782,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.15936500986046126,
+          "auc_damage": 0.08030150247668799,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 5,
+            "learning_rate": 0.0001,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 720.3661247804912,
+          "logloss_damage": 0.09401133457667221,
+          "overall_auc": 0.685590478018042,
+          "overall_log_loss": 0.6687483253746054,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "sisa_lr0.0005_e1",
+      "compute_count": 377,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.2087081399614239,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "SISA",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.21659016576632495,
+          "auc_damage": 0.0720616726729103,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 1,
+            "learning_rate": 0.0005,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 1032.2219370504936,
+          "logloss_damage": 0.10039332050064387,
+          "overall_auc": 0.6938303078218196,
+          "overall_log_loss": 0.675130311298577,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.20082611415652288,
+          "auc_damage": 0.15565694722057088,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 1,
+            "learning_rate": 0.0005,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 907.7797550185538,
+          "logloss_damage": 0.1095743813627943,
+          "overall_auc": 0.6102350332741591,
+          "overall_log_loss": 0.6843113721607275,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.005263157894736842,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "sisa_lr0.0005_e3",
+      "compute_count": 1131,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.158892899148788,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "SISA",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.16388503819787537,
+          "auc_damage": 0.11501136868581452,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 3,
+            "learning_rate": 0.0005,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 781.0406856824459,
+          "logloss_damage": 0.08217039689721917,
+          "overall_auc": 0.6508806118089154,
+          "overall_log_loss": 0.6569073876951523,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.15390076009970063,
+          "auc_damage": 0.12742999503115704,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 3,
+            "learning_rate": 0.0005,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 695.6664718991065,
+          "logloss_damage": 0.09978217713447768,
+          "overall_auc": 0.6384619854635729,
+          "overall_log_loss": 0.6745191679324108,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.005263157894736842,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "sisa_lr0.0005_e5",
+      "compute_count": 1885,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.15279844218123179,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "SISA",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.16049240716937144,
+          "auc_damage": 0.10681564571995361,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 5,
+            "learning_rate": 0.0005,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 764.8721391579553,
+          "logloss_damage": 0.10808133515574891,
+          "overall_auc": 0.6590763347747763,
+          "overall_log_loss": 0.6828183259536821,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.14510447719309214,
+          "auc_damage": 0.1032275247871528,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 5,
+            "learning_rate": 0.0005,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 655.9052706451131,
+          "logloss_damage": 0.11801242656299238,
+          "overall_auc": 0.6626644557075771,
+          "overall_log_loss": 0.6927494173609255,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "sisa_lr0.001_e1",
+      "compute_count": 377,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.22766903927258042,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "SISA",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.22326129179448687,
+          "auc_damage": 0.14819422847587294,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 1,
+            "learning_rate": 0.001,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 1064.0150824443917,
+          "logloss_damage": 0.11536990816237702,
+          "overall_auc": 0.617697752018857,
+          "overall_log_loss": 0.6901068989603102,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.23207678675067395,
+          "auc_damage": 0.20814542930332514,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 1,
+            "learning_rate": 0.001,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 1049.0399095100809,
+          "logloss_damage": 0.11964599682994403,
+          "overall_auc": 0.5577465511914048,
+          "overall_log_loss": 0.6943829876278772,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "sisa_lr0.001_e3",
+      "compute_count": 1131,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.18310926716887377,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "SISA",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.18845620119181314,
+          "auc_damage": 0.07922675926650036,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 3,
+            "learning_rate": 0.001,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 898.1415400607993,
+          "logloss_damage": 0.08063373751318781,
+          "overall_auc": 0.6866652212282296,
+          "overall_log_loss": 0.655370728311121,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.17776233314593437,
+          "auc_damage": 0.1639810744876674,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 3,
+            "learning_rate": 0.001,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 803.5262142699859,
+          "logloss_damage": 0.09899457793023991,
+          "overall_auc": 0.6019109060070625,
+          "overall_log_loss": 0.6737315687281731,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "sisa_lr0.001_e5",
+      "compute_count": 1885,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.19162058583708846,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "SISA",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.20801942563074455,
+          "auc_damage": 0.18074792301295828,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 5,
+            "learning_rate": 0.001,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 991.3756412207468,
+          "logloss_damage": 0.11623471932987617,
+          "overall_auc": 0.5851440574817717,
+          "overall_log_loss": 0.6909717101278093,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.17522174604343235,
+          "auc_damage": 0.10575067326220144,
+          "hyperparameters": {
+            "development_aggregation_fit": "fixed_mean",
+            "epochs_per_slice": 5,
+            "learning_rate": 0.001,
+            "shards": 4,
+            "slices": 4
+          },
+          "local_residual": 792.0421821898,
+          "logloss_damage": 0.10469233792907484,
+          "overall_auc": 0.6601413072325285,
+          "overall_log_loss": 0.679429328727008,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "receraser_lr0.0005_e1",
+      "compute_count": 400,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.01367861319893476,
+      "failure_reasons": [],
+      "method": "RecEraser",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.013575497350269803,
+          "auc_damage": -0.0005186805908197201,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 1,
+            "learning_rate": 0.0005,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 64.69788746751144,
+          "logloss_damage": -0.0011920785194994288,
+          "overall_auc": 0.7664106610855497,
+          "overall_log_loss": 0.5735449122784337,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.013781729047599715,
+          "auc_damage": -0.0005539660611530994,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 1,
+            "learning_rate": 0.0005,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 62.296552772072864,
+          "logloss_damage": -0.0012350258049521612,
+          "overall_auc": 0.766445946555883,
+          "overall_log_loss": 0.573501964992981,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.005263157894736842,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "receraser_lr0.0005_e3",
+      "compute_count": 1200,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.008620741671819669,
+      "failure_reasons": [],
+      "method": "RecEraser",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.010068118394734413,
+          "auc_damage": 0.000429201068516849,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 3,
+            "learning_rate": 0.0005,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 47.98247711338274,
+          "logloss_damage": 0.0010100237444679028,
+          "overall_auc": 0.7654627794262131,
+          "overall_log_loss": 0.5757470145424011,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.00510204081632653,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.007173364948904926,
+          "auc_damage": -2.531692938723129e-05,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 3,
+            "learning_rate": 0.0005,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 32.425242620092234,
+          "logloss_damage": -2.154521464836634e-05,
+          "overall_auc": 0.7659172974241172,
+          "overall_log_loss": 0.5747154455832848,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.015789473684210527,
+          "utility_eligible": true
+        }
+      ],
+      "selected": true
+    },
+    {
+      "candidate_id": "receraser_lr0.0005_e5",
+      "compute_count": 2000,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.012571913236046416,
+      "failure_reasons": [],
+      "method": "RecEraser",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.01203623860658399,
+          "auc_damage": 0.001033840546146192,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 5,
+            "learning_rate": 0.0005,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 57.362112842621656,
+          "logloss_damage": 0.0016605551512922645,
+          "overall_auc": 0.7648581399485838,
+          "overall_log_loss": 0.5763975459492254,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.02040816326530612,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.013107587865508839,
+          "auc_damage": 0.0002306609613382804,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 5,
+            "learning_rate": 0.0005,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 59.249281157538675,
+          "logloss_damage": 0.000972385725405922,
+          "overall_auc": 0.7656613195333917,
+          "overall_log_loss": 0.5757093765233391,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "receraser_lr0.001_e1",
+      "compute_count": 400,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.012629144575162173,
+      "failure_reasons": [],
+      "method": "RecEraser",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.01305313706299329,
+          "auc_damage": -0.0004492172658135951,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 1,
+            "learning_rate": 0.001,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 62.20843119112381,
+          "logloss_damage": -0.0007819143012358643,
+          "overall_auc": 0.7663411977605435,
+          "overall_log_loss": 0.5739550764966973,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.012205152087331054,
+          "auc_damage": -0.0005008005094399026,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 1,
+            "learning_rate": 0.001,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 55.17006599632853,
+          "logloss_damage": -0.0009002946630555231,
+          "overall_auc": 0.7663927810041699,
+          "overall_log_loss": 0.5738366961348776,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.005263157894736842,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "receraser_lr0.001_e3",
+      "compute_count": 1200,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.01649648076584134,
+      "failure_reasons": [],
+      "method": "RecEraser",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.015539780096892629,
+          "auc_damage": 0.0016993988851135011,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 3,
+            "learning_rate": 0.001,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 74.05923466654073,
+          "logloss_damage": 0.00268598600585801,
+          "overall_auc": 0.7641925816096165,
+          "overall_log_loss": 0.5774229768037912,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.02040816326530612,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.01745318143479005,
+          "auc_damage": 0.00044478680317083796,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 3,
+            "learning_rate": 0.001,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 78.89235338597263,
+          "logloss_damage": 0.00030926519534701935,
+          "overall_auc": 0.7654471936915591,
+          "overall_log_loss": 0.5750462559932802,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.015789473684210527,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "receraser_lr0.001_e5",
+      "compute_count": 2000,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.028253424460769158,
+      "failure_reasons": [],
+      "method": "RecEraser",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.032926758942574914,
+          "auc_damage": 0.003495120775004912,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 5,
+            "learning_rate": 0.001,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 156.92181949372556,
+          "logloss_damage": 0.00822133327197605,
+          "overall_auc": 0.762396859719725,
+          "overall_log_loss": 0.5829583240699092,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.023580089978963405,
+          "auc_damage": 0.001294881822749283,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 5,
+            "learning_rate": 0.001,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 106.58737482584309,
+          "logloss_damage": 0.005938151362389288,
+          "overall_auc": 0.7645970986719807,
+          "overall_log_loss": 0.5806751421603225,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.010526315789473684,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "receraser_lr0.002_e1",
+      "compute_count": 400,
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.00980621149051173,
+      "failure_reasons": [],
+      "method": "RecEraser",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.011950683845341542,
+          "auc_damage": -0.0005473994825931916,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 1,
+            "learning_rate": 0.002,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 56.954377334127464,
+          "logloss_damage": -0.0007507410749937327,
+          "overall_auc": 0.7664393799773231,
+          "overall_log_loss": 0.5739862497229394,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.00510204081632653,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.007661739135681918,
+          "auc_damage": 0.00011788195245898692,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 1,
+            "learning_rate": 0.002,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 34.632805125057445,
+          "logloss_damage": 0.0004139285899261713,
+          "overall_auc": 0.765774098542271,
+          "overall_log_loss": 0.5751509193878593,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.010526315789473684,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "receraser_lr0.002_e3",
+      "compute_count": 1200,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.0322528284118377,
+      "failure_reasons": [
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "RecEraser",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.029022948330742003,
+          "auc_damage": 0.002126740741628552,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 3,
+            "learning_rate": 0.002,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 138.31710151233807,
+          "logloss_damage": 0.00374431550934895,
+          "overall_auc": 0.7637652397531014,
+          "overall_log_loss": 0.5784813063072821,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.03548270849293339,
+          "auc_damage": 0.0035090450861678946,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 3,
+            "learning_rate": 0.002,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 160.3899201973561,
+          "logloss_damage": 0.011537481617206469,
+          "overall_auc": 0.7623829354085621,
+          "overall_log_loss": 0.5862744724151396,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.005263157894736842,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "receraser_lr0.002_e5",
+      "compute_count": 2000,
+      "eligible": false,
+      "equal_scenario_mean_EU": 0.05429378628051597,
+      "failure_reasons": [
+        "L8:utility_or_collapse",
+        "L4M4:utility_or_collapse"
+      ],
+      "method": "RecEraser",
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 0.04147754305948804,
+          "auc_damage": 0.010057822679989226,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 5,
+            "learning_rate": 0.002,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 197.67300924988095,
+          "logloss_damage": 0.01836233759835415,
+          "overall_auc": 0.7558341578147407,
+          "overall_log_loss": 0.5930993283962873,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.06711002950154389,
+          "auc_damage": 0.020354059630941723,
+          "hyperparameters": {
+            "development_aggregation_fit": "Dev-Fit",
+            "epochs_per_slice": 5,
+            "learning_rate": 0.002,
+            "shards": 4,
+            "slices": 1
+          },
+          "local_residual": 303.3526112680635,
+          "logloss_damage": 0.038122105060831246,
+          "overall_auc": 0.7455379208637882,
+          "overall_log_loss": 0.6128590958587644,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.0,
+          "utility_eligible": false
+        }
+      ],
+      "selected": false
+    }
+  ],
+  "completeness": {
+    "all_candidates_reported": true,
+    "all_run_manifests_validated": true,
+    "candidate_cells": 130,
+    "candidate_count": 65,
+    "methods": [
+      "NegGrad",
+      "PCGrad",
+      "IFRU",
+      "E2URec",
+      "SISA",
+      "RecEraser"
+    ],
+    "scenarios": [
+      "L8",
+      "L4M4"
+    ]
+  },
+  "configuration": {
+    "amendment_path": "configs/ali_stage0_amendment06_v1.json",
+    "amendment_sha256": "000c97ee150a840adba4080416ab2eac46d8394fee9c7cd4417f009607826ecf",
+    "config_path": "configs/ali_stage7_baseline_sweep_v1.yaml",
+    "config_sha256": "cacd342cdf12af89fcc995b91c3166bf55b0efcb322a941fec67e8f98b340be8",
+    "dev_fit_index_sha256": "790a4f0e8f49cc472eed1c0ce92c058fb44243f2140ee64465cc501c670c8735",
+    "dev_select_index_sha256": "aa4feb4bb1b413682abb0bf866b1616066984ce41f359a5218c69fbd3ee3fa9f"
+  },
+  "experiment": "Development-only joint L8/L4M4 baseline hyperparameter sweep",
+  "finaltest_accessed": false,
+  "frozen_date": "2026-09-14",
+  "integrity_rules": [
+    "No Stage 7A candidate or selection used FinalTest.",
+    "One configuration is selected jointly across L8 and L4M4 for each method.",
+    "SISA has no eligible candidate and no failed candidate may be silently promoted.",
+    "The selected configurations remain Development-only until a separately frozen confirmation protocol is executed.",
+    "No BOTA setting was selected from these baseline outcomes."
+  ],
+  "schema": "bota-ali-stage7-result-audit-v1",
+  "screen_seed": 42,
+  "selections": {
+    "E2URec": {
+      "candidate_count": 9,
+      "eligible_candidates": 8,
+      "equal_scenario_mean_EU": 0.009446364391503093,
+      "run_code_commit": "debb058a4242f774895c2edd9e5b5fe947a85fb0",
+      "selected_candidate": "e2urec_w0.2_s200",
+      "status": "SELECTED"
+    },
+    "IFRU": {
+      "candidate_count": 6,
+      "eligible_candidates": 6,
+      "equal_scenario_mean_EU": 0.0004881445648574804,
+      "run_code_commit": "debb058a4242f774895c2edd9e5b5fe947a85fb0",
+      "selected_candidate": "ifru_p512_d0.1",
+      "status": "SELECTED"
+    },
+    "NegGrad": {
+      "candidate_count": 20,
+      "eligible_candidates": 15,
+      "equal_scenario_mean_EU": 0.001857197263191037,
+      "run_code_commit": "debb058a4242f774895c2edd9e5b5fe947a85fb0",
+      "selected_candidate": "neggrad_w0.05_s25",
+      "status": "SELECTED"
+    },
+    "PCGrad": {
+      "candidate_count": 12,
+      "eligible_candidates": 6,
+      "equal_scenario_mean_EU": 0.0034000702627467357,
+      "run_code_commit": "debb058a4242f774895c2edd9e5b5fe947a85fb0",
+      "selected_candidate": "pcgrad_lr0.0005_s25",
+      "status": "SELECTED"
+    },
+    "RecEraser": {
+      "candidate_count": 9,
+      "eligible_candidates": 7,
+      "equal_scenario_mean_EU": 0.008620741671819669,
+      "run_code_commit": "b593e45dbc007f463ce475455e90d8b09ebe9751",
+      "selected_candidate": "receraser_lr0.0005_e3",
+      "status": "SELECTED"
+    },
+    "SISA": {
+      "candidate_count": 9,
+      "eligible_candidates": 0,
+      "equal_scenario_mean_EU": null,
+      "run_code_commit": "b593e45dbc007f463ce475455e90d8b09ebe9751",
+      "selected_candidate": null,
+      "status": "NO_ELIGIBLE_CANDIDATE"
+    }
+  },
+  "source_sha256": {
+    "E2URec": {
+      "candidate_metrics.csv": "82f042a1c7321deebc3e6516c7a080f76f606bfd9d747896e637e9bcd9c7d88a",
+      "candidate_metrics.json": "831e4f5e7f1ef3c18a0b0366b501266a523ffe6b83546d3f71f7455fa149b780",
+      "contract.json": "ede25565842d3e6f6d5a9c87db1af3fa27f1f423e9f11d4ae395f1a1a9bc1299",
+      "manifest.json": "ae07c49d2a482be5218387e9c10b33de14485d2ef737459d0a3013a02b638c17",
+      "run_state.json": "929a27583aa1ed60c8ec4079e5809d07bb917f001962bf91d56c82eca7bccff3",
+      "selection.json": "cfb192d976b15275c70adb160214775ae9126de8dd4a280128d1f81b606bf165"
+    },
+    "IFRU": {
+      "candidate_metrics.csv": "8cea84e85b3ace250269d9dc836d6ced7edcaf7ffaa7c20ba098287c773e2c38",
+      "candidate_metrics.json": "169640b822065119cf1a3c176eddd5f21e340031043b4703b6f53c41c23cf825",
+      "contract.json": "ede25565842d3e6f6d5a9c87db1af3fa27f1f423e9f11d4ae395f1a1a9bc1299",
+      "manifest.json": "be6e077c5b12e9dc8dee204c4576d1cafc14cff8aeddbf5b9adf68b92c9f7585",
+      "run_state.json": "ba2ca281c9429fc545024bdf5f7988c4a70806ff2e2d3ceb6220b63c3f498a8e",
+      "selection.json": "57db810a01bcfe456d71eeb21ba10d023440a31fdb94b0c8cdc37d58afa75982"
+    },
+    "NegGrad": {
+      "candidate_metrics.csv": "e1a41ed9832ac33b6d5c09fcb7e20013a378d680ccba5fdee66bdc7278d0f01a",
+      "candidate_metrics.json": "a64e6f0de4686b761fa21835154682357dc8226705bdc0ac9d67a41d7319bbaa",
+      "contract.json": "ede25565842d3e6f6d5a9c87db1af3fa27f1f423e9f11d4ae395f1a1a9bc1299",
+      "manifest.json": "654045216e6035c7990721b0eb6c1e1b399b0a5f7556d20502875a6eadbd60ba",
+      "run_state.json": "3c806fcd019883a1438c18c57708fcbc2972526521f3af4e16ebd9cccdc51d78",
+      "selection.json": "acc738991ba7a55f4d65b180d3178d689243c18845e775b8905a6be2b3d74e82"
+    },
+    "PCGrad": {
+      "candidate_metrics.csv": "2e8da4137c1eadb8edc0d5d114438ea9df7c497f974f1594264d0c973974fa91",
+      "candidate_metrics.json": "d1ae5c7b23ac5948cd7223284637bc8484387aa83bca48c24fe1869e44bffbd3",
+      "contract.json": "ede25565842d3e6f6d5a9c87db1af3fa27f1f423e9f11d4ae395f1a1a9bc1299",
+      "manifest.json": "10b6cecef69fc4f598f35f2bb84d1c7f8d5c19169dedb70ede5c43b1b2e5ee08",
+      "run_state.json": "dfb00c80d86c4ffa5f9b18fceecb59e57b161c032dc08dc21e4a7229a3c8d15c",
+      "selection.json": "e3ec7b1cf65759cbbb0f96ee336116a40ede62d34cf97fd2e1c09bc72e1f7418"
+    },
+    "RecEraser": {
+      "candidate_metrics.csv": "b8c147f301a28ad99eac3a29bfd32ac8bc53459c8beaa7b79c0477eb7fed2c3c",
+      "candidate_metrics.json": "e848b0920137d1bff4aa1047371d389dfb8626e2156281d1a60093c0633a09db",
+      "contract.json": "536726744a7c529ecb961089e94f2ffc82b46d1c877e01ac6880fc17f6b51494",
+      "manifest.json": "9946caadd72e3c69302ed488fda60040499092ea7d75d8cc57efbf9ddc2ee959",
+      "run_state.json": "5763f5a74b5e6b687a623f80b2c50d8fe88f84cccb9871d5f69eae6bd3868049",
+      "selection.json": "a3f3b58b43383f61cb5f1f67603391fada14b6bde63fb8c8c42a9083d50850f8"
+    },
+    "SISA": {
+      "candidate_metrics.csv": "8e24b7fe96befffb9e2dfed82f5f06c00b9720fe4f8ea1b5b98a818b9baa0754",
+      "candidate_metrics.json": "71831610d254d4b81d2c2bdf14646e3dbc32260cda64d6752b5f21044debc29b",
+      "contract.json": "536726744a7c529ecb961089e94f2ffc82b46d1c877e01ac6880fc17f6b51494",
+      "manifest.json": "e75350015a81797df302679eb93ea4c730d19627cdac2d426be1b0eeb7d15030",
+      "run_state.json": "54430d6924e8fbf24ee6cc1431614bb398559ab71cfcf81eee2d31532f910ab4",
+      "selection.json": "6489b0da3fa67d623111d55a9d3a5a49e9018052e1fd8dac5c3d64ea8729a280"
+    }
+  },
+  "status": "FROZEN_COMPLETE_STAGE7A",
+  "test_accessed": false
+}
