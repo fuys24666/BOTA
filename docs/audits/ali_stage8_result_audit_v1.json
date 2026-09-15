@@ -1,0 +1,305 @@
+{
+  "adapter_sha256": {
+    "bota_r0.25/L4M4/adapter": "2c3c60442abac16f216dc69d0ed71a3fc65f1d6acf84dd6058b90c1de4ecd4ef",
+    "bota_r0.25/L8/adapter": "cb6db9e4df4ee838768ea89a7c9dd7f23bd086d0983c87ec669cef6e1d859bcf",
+    "bota_r0.5/L4M4/adapter": "76f6de45b52165dc4d6ec48e4d0a2e2663ef591f09c3145b27a2fe1fb4d2fe1b",
+    "bota_r0.5/L8/adapter": "3d3c28793c10900f23cb0206df45b39400140f884df9150ac3bc4bd7bdc77015",
+    "bota_r0.75/L4M4/adapter": "7653d614e29ee776710192102c608ff1010350b35b53daaf572a9d6bc3e1766a",
+    "bota_r0.75/L8/adapter": "a5e0824fe3453ab6b90e461fbd55deda4222d8a05d5185addb837c3eb732f17a",
+    "bota_r0/L4M4/adapter": "080c6dee9265c40bd4398b0b64283b1049967aee9808f6169f97de5f701c2309",
+    "bota_r0/L8/adapter": "01cd0f46a1e3b9d6525355125782f7a54529860a6a2c21bcc0cfe873d907b2e5",
+    "bota_r1/L4M4/adapter": "cb550e88ee0a8debaddc05b057cfb764b9dcaa7ac4f8d2da34eefe02b2d5f1c8",
+    "bota_r1/L8/adapter": "84899cf5447ba9975174ac4c49c3e9973d6b2e05883ea87c6fec3b4b3a13001e"
+  },
+  "analysis_split": "MovieLens-1M Development/Dev-Select",
+  "candidates": [
+    {
+      "candidate_id": "bota_r0",
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.00011861530501719576,
+      "failure_reasons": [],
+      "response_scale": 0.0,
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 8.283224793113008e-05,
+          "auc_damage": 1.534838844086117e-05,
+          "local_residual": 0.3947605982349334,
+          "logloss_damage": 2.4650194748843113e-05,
+          "overall_acc": 0.7006344171292624,
+          "overall_auc": 0.7658766321062891,
+          "overall_log_loss": 0.574761640992682,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.7653061224489796,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.00015439836210326145,
+          "auc_damage": 1.9066812444679115e-05,
+          "local_residual": 0.6979157462366914,
+          "logloss_damage": 1.1512215453257646e-05,
+          "overall_acc": 0.700832672482157,
+          "overall_auc": 0.7658729136822853,
+          "overall_log_loss": 0.5747485030133864,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.5631578947368421,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "bota_r0.25",
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.0001178614063954699,
+      "failure_reasons": [],
+      "response_scale": 0.25,
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 8.190265495558174e-05,
+          "auc_damage": 1.532860958985971e-05,
+          "local_residual": 0.39033035894639495,
+          "logloss_damage": 2.4498172921383343e-05,
+          "overall_acc": 0.7006344171292624,
+          "overall_auc": 0.7658766518851401,
+          "overall_log_loss": 0.5747614889708546,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.7704081632653061,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.00015382015783535808,
+          "auc_damage": 1.9185485551242998e-05,
+          "local_residual": 0.6953021313147848,
+          "logloss_damage": 1.1526647104909138e-05,
+          "overall_acc": 0.700832672482157,
+          "overall_auc": 0.7658727950091787,
+          "overall_log_loss": 0.5747485174450381,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.5631578947368421,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "bota_r0.5",
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.00011712174270418099,
+      "failure_reasons": [],
+      "response_scale": 0.5,
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 8.097986633680305e-05,
+          "auc_damage": 1.5091263376842967e-05,
+          "local_residual": 0.38593254775218055,
+          "logloss_damage": 2.4367062909536052e-05,
+          "overall_acc": 0.7006344171292624,
+          "overall_auc": 0.7658768892313531,
+          "overall_log_loss": 0.5747613578608427,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.7755102040816326,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.0001532636190715589,
+          "auc_damage": 1.9007475891452685e-05,
+          "local_residual": 0.6927864494036855,
+          "logloss_damage": 1.1553222408422492e-05,
+          "overall_acc": 0.700832672482157,
+          "overall_auc": 0.7658729730188385,
+          "overall_log_loss": 0.5747485440203416,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.5631578947368421,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "bota_r0.75",
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.00011638968844851029,
+      "failure_reasons": [],
+      "response_scale": 0.75,
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 8.00817862761264e-05,
+          "auc_damage": 1.5111042227844429e-05,
+          "local_residual": 0.38165249220774633,
+          "logloss_damage": 2.4201272329160695e-05,
+          "overall_acc": 0.7006344171292624,
+          "overall_auc": 0.7658768694525021,
+          "overall_log_loss": 0.5747611920702623,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.7755102040816326,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.00015269759062089418,
+          "auc_damage": 1.9284379806583374e-05,
+          "local_residual": 0.690227871947581,
+          "logloss_damage": 1.1557661810157605e-05,
+          "overall_acc": 0.700832672482157,
+          "overall_auc": 0.7658726961149234,
+          "overall_log_loss": 0.5747485484597433,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.5631578947368421,
+          "utility_eligible": true
+        }
+      ],
+      "selected": false
+    },
+    {
+      "candidate_id": "bota_r1",
+      "eligible": true,
+      "equal_scenario_mean_EU": 0.00011566248007126705,
+      "failure_reasons": [],
+      "response_scale": 1.0,
+      "scenarios": [
+        {
+          "D_U": 0.0002098290667850144,
+          "E_U": 7.922821963319974e-05,
+          "auc_damage": 1.4814359461601256e-05,
+          "local_residual": 0.3775845779954547,
+          "logloss_damage": 2.4069510216384593e-05,
+          "overall_acc": 0.7006344171292624,
+          "overall_auc": 0.7658771661352684,
+          "overall_log_loss": 0.5747610603081496,
+          "prediction_collapse": false,
+          "scenario": "L8",
+          "toward_exact_rate": 0.7755102040816326,
+          "utility_eligible": true
+        },
+        {
+          "D_U": 0.00022122779566990702,
+          "E_U": 0.00015209674050933435,
+          "auc_damage": 1.9106370146904084e-05,
+          "local_residual": 0.6875118926569119,
+          "logloss_damage": 1.157318693445486e-05,
+          "overall_acc": 0.700832672482157,
+          "overall_auc": 0.765872874124583,
+          "overall_log_loss": 0.5747485639848676,
+          "prediction_collapse": false,
+          "scenario": "L4M4",
+          "toward_exact_rate": 0.5631578947368421,
+          "utility_eligible": true
+        }
+      ],
+      "selected": true
+    }
+  ],
+  "completeness": {
+    "all_candidates_reported": true,
+    "all_run_manifests_validated": true,
+    "candidate_cells": 10,
+    "candidate_count": 5,
+    "response_scales": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "scenarios": [
+      "L8",
+      "L4M4"
+    ]
+  },
+  "configuration": {
+    "amendment_path": "configs/ali_stage0_amendment07_v1.json",
+    "amendment_sha256": "875769eb749316853ee30cdcb68efc066f621bd57a5f739fbaf9d40f71101f93",
+    "baseline_audit_path": "docs/audits/ali_stage7_result_audit_v1.json",
+    "baseline_audit_sha256": "9ed3ebba24af149c08811c0285d430099c963f303b660941c347e6d0c550fa47",
+    "config_path": "configs/ali_stage8_bota_response_sweep_v1.yaml",
+    "config_sha256": "5b5e9cc3c47129268d6cf18565c14e4dcc684ad3fd6f4680d1d89975f1bd65f0",
+    "dev_fit_index_sha256": "790a4f0e8f49cc472eed1c0ce92c058fb44243f2140ee64465cc501c670c8735",
+    "dev_select_index_sha256": "aa4feb4bb1b413682abb0bf866b1616066984ce41f359a5218c69fbd3ee3fa9f"
+  },
+  "experiment": "Development-only joint L8/L4M4 BOTA response-strength sweep",
+  "finaltest_accessed": false,
+  "formal_scale_one_reproduction": {
+    "L4M4": {
+      "formal_adapter_sha256": "0b6bc86cce7cdd05777a2a2fe69f73fb3639d207c94760672e6cdf8b2e74e232",
+      "metrics": {
+        "candidate_finite": true,
+        "candidate_nonfinite_count": 0,
+        "candidate_norm": 0.5055075839520846,
+        "candidate_sha256": "d60c075a9f1bcffc36eb022f902d5706e9f473df64f11bf82da9d684539e1346",
+        "cosine": 0.9999884814415678,
+        "finite": true,
+        "maximum_absolute_error": 0.00011993758380413055,
+        "norm_ratio": 0.9998572972967635,
+        "reference_finite": true,
+        "reference_nonfinite_count": 0,
+        "reference_norm": 0.5055797315464778,
+        "relative_l2_error": 0.004801478448477121
+      },
+      "passed": true,
+      "reproduced_adapter_sha256": "cb550e88ee0a8debaddc05b057cfb764b9dcaa7ac4f8d2da34eefe02b2d5f1c8"
+    },
+    "L8": {
+      "formal_adapter_sha256": "f3ad94d03d94b6be09140e460c1f53ebc6921b55edf90720d758e3727d829d08",
+      "metrics": {
+        "candidate_finite": true,
+        "candidate_nonfinite_count": 0,
+        "candidate_norm": 0.5007754938707972,
+        "candidate_sha256": "7996a5fa380091c59eacb3c9d2cb9a9847ac677fb6b60452aa8c8f26d84d03c6",
+        "cosine": 0.9999881944657615,
+        "finite": true,
+        "maximum_absolute_error": 0.00011650100350379944,
+        "norm_ratio": 0.9998961852878471,
+        "reference_finite": true,
+        "reference_nonfinite_count": 0,
+        "reference_norm": 0.5008274871322121,
+        "relative_l2_error": 0.00485997909475889
+      },
+      "passed": true,
+      "reproduced_adapter_sha256": "84899cf5447ba9975174ac4c49c3e9973d6b2e05883ea87c6fec3b4b3a13001e"
+    }
+  },
+  "frozen_date": "2026-09-15",
+  "integrity_rules": [
+    "No Stage 8 candidate or selection used FinalTest.",
+    "One response scale was selected jointly across L8 and L4M4.",
+    "All five preregistered response scales and both scenarios are reported.",
+    "The selected scale-one endpoint passed the non-selection formal-reproduction gate in both scenarios.",
+    "The Development selection is frozen before any cross-seed confirmation run."
+  ],
+  "schema": "bota-ali-stage8-result-audit-v1",
+  "screen_seed": 42,
+  "selection": {
+    "candidate_count": 5,
+    "eligible_candidates": 5,
+    "equal_scenario_mean_EU": 0.00011566248007126705,
+    "response_scale": 1.0,
+    "run_code_commit": "e1b6e09f0e31268b436221b5ed13def067434519",
+    "selected_candidate": "bota_r1",
+    "status": "SELECTED"
+  },
+  "source_sha256": {
+    "candidate_metrics.csv": "1666a41b248abc30d0befb921ce5d897d8dd38b63b819f4db674a2574e0fcdbc",
+    "candidate_metrics.json": "72063cbf646b82d23fef774ec89c0be0f9095ecb3ac8dfba90b91d4ba845b833",
+    "contract.json": "d5c9a302fa684b51fad12efca408fed7b25db987b32329bc38939a0ceab1159d",
+    "manifest.json": "526f1255a0d61ba84d543ed3092c52869333fdd69e03c6c0ba76a0fb48966c2c",
+    "run_state.json": "7166bacbaec48adee0b526639863847793f7105e1beb544287574ac97a7992b9",
+    "selection.json": "44a4f48e308ed3ce730b5b987d11e432487a996c97c07ca14e4f2a61345827df"
+  },
+  "status": "FROZEN_COMPLETE_STAGE8",
+  "test_accessed": false
+}
