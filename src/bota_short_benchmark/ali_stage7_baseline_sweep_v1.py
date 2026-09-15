@@ -142,6 +142,14 @@ def _reference_runs(workspace: Path, config: dict[str, Any]) -> dict[str, Path]:
     return {key: Path(value) for key, value in provenance["model_runs"].items()}
 
 
+def _run_seed(benchmark: dict[str, Any]) -> int:
+    return int(benchmark["protocol"].get("run_seed", benchmark["protocol"]["seed"]))
+
+
+def _original_run_name(benchmark: dict[str, Any]) -> str:
+    return f"bota_short_original_seed{_run_seed(benchmark)}_v3"
+
+
 def _predict_reference(workspace: Path, benchmark: dict[str, Any], run: Path, method_id: str, scenario: str, dataset, indices, device):
     return short_eval._predict(workspace, benchmark, run, method_id, scenario, dataset, indices, device)
 
@@ -183,10 +191,10 @@ def _gradient_sweep(repo: Path, workspace: Path, config: dict[str, Any], benchma
         original = _predict_reference(workspace, benchmark, references["Original-Short-200step"], "Original-Short", sid, development, select, device); exact = _predict_reference(workspace, benchmark, references["Exact-Masked-Reference-200step"], "Retrain-Short", sid, development, select, device)
         forget = list(map(int, scenario["forget_train_indices"])); forget_set = set(forget); retain = [int(index) for index in registry["order"] if int(index) not in forget_set]
         for outer in outer_values:
-            seed_everything(42); model, names, parameters, bases, train_tokenizer, train, _, _ = paper_v2._load_original_endpoint(workspace, benchmark, registry, "bota_short_original_seed42_v3", sid, device); lr = float(grid["learning_rate"] if method == "NegGrad" else outer); optimizer = torch.optim.AdamW(parameters, lr=lr, betas=(.9,.999), eps=1e-8, weight_decay=.01); begun = time.perf_counter(); checkpoints = set(map(int, grid["checkpoints"])); max_step = max(checkpoints)
+            run_seed = _run_seed(benchmark); seed_everything(run_seed); model, names, parameters, bases, train_tokenizer, train, _, _ = paper_v2._load_original_endpoint(workspace, benchmark, registry, _original_run_name(benchmark), sid, device); lr = float(grid["learning_rate"] if method == "NegGrad" else outer); optimizer = torch.optim.AdamW(parameters, lr=lr, betas=(.9,.999), eps=1e-8, weight_decay=.01); begun = time.perf_counter(); checkpoints = set(map(int, grid["checkpoints"])); max_step = max(checkpoints)
             try:
                 for step in range(1, max_step+1):
-                    ridx, fidx = _pair_indices(retain, forget, step-1); optimizer.zero_grad(set_to_none=True)
+                    ridx, fidx = _pair_indices(retain, forget, step-1, run_seed); optimizer.zero_grad(set_to_none=True)
                     if method == "NegGrad":
                         weight = float(outer); paper_v2._backward_mean(model, train, ridx, device, train_tokenizer.pad_token_id, 1., 4); paper_v2._backward_mean(model, train, fidx, device, train_tokenizer.pad_token_id, -weight, 4)
                     else:
@@ -202,7 +210,7 @@ def _gradient_sweep(repo: Path, workspace: Path, config: dict[str, Any], benchma
 
 
 def _ifru_sweep(repo: Path, workspace: Path, config: dict[str, Any], benchmark: dict[str, Any], registry: dict[str, Any], destination: Path) -> list[dict[str, Any]]:
-    device=torch.device("cuda:0");_,users,_,select=_development_partition(repo,workspace,config,benchmark);tokenizer=T5Tokenizer.from_pretrained(runner._base_t5_config(workspace,benchmark)["paths"]["model_dir"]);development=JsonPromptDataset(workspace/benchmark["source"]["development_json"],tokenizer);references=_reference_runs(workspace,config);grid=config["grids"]["IFRU"];rows=[];seed_everything(42)
+    device=torch.device("cuda:0");_,users,_,select=_development_partition(repo,workspace,config,benchmark);tokenizer=T5Tokenizer.from_pretrained(runner._base_t5_config(workspace,benchmark)["paths"]["model_dir"]);development=JsonPromptDataset(workspace/benchmark["source"]["development_json"],tokenizer);references=_reference_runs(workspace,config);grid=config["grids"]["IFRU"];rows=[];run_seed=_run_seed(benchmark);seed_everything(run_seed)
     model=optimizer=resident=None
     try:
         model,names,parameters,bases,_,train_tokenizer,train,train_users=runner._model_context(workspace,benchmark,registry,device);budget=runner.StepBudget(200);_,optimizer,_=runner._train_named(model,train,registry["order"],train_users,[],names,parameters,device,train_tokenizer.pad_token_id,runner._engine(workspace,benchmark),budget,"Stage7_IFRU_base");runner._prepare_influence_endpoint(model,optimizer,parameters);base_flat=runner.flatten_tensors([parameter.detach() for parameter in parameters])
@@ -210,7 +218,7 @@ def _ifru_sweep(repo: Path, workspace: Path, config: dict[str, Any], benchmark: 
         for scenario in registry["scenarios"]:
             sid=scenario["id"];request=set(map(int,scenario["users"]));local=[position for position,index in enumerate(select) if users[index] in request];original=_predict_reference(workspace,benchmark,references["Original-Short-200step"],"Original-Short",sid,development,select,device);exact=_predict_reference(workspace,benchmark,references["Exact-Masked-Reference-200step"],"Retrain-Short",sid,development,select,device);gradient_parts,_=runner.sample_mean_gradients(model,train,scenario["forget_train_indices"],parameters,device,8,train_tokenizer.pad_token_id);reference_cache[sid]=(local,original,exact,runner.flatten_tensors(gradient_parts));del gradient_parts
         for panel in grid["curvature_panel_samples"]:
-            panel_indices=[registry["order"][index] for index in runner.deterministic_panel(3200,int(panel),42)];resident,_=runner.materialize_resident_panel(train,panel_indices,8,train_tokenizer.pad_token_id,device);counter={};operator=runner.make_sample_mean_ggn_operator(model,resident,parameters,counter);estimate=runner.estimate_lambda_max(operator,base_flat.numel(),seed=42,iterations=12,convergence_tolerance=.0001,numerical_lower_bound=1e-14)
+            panel_indices=[registry["order"][index] for index in runner.deterministic_panel(3200,int(panel),run_seed)];resident,_=runner.materialize_resident_panel(train,panel_indices,8,train_tokenizer.pad_token_id,device);counter={};operator=runner.make_sample_mean_ggn_operator(model,resident,parameters,counter);estimate=runner.estimate_lambda_max(operator,base_flat.numel(),seed=run_seed,iterations=12,convergence_tolerance=.0001,numerical_lower_bound=1e-14)
             for scenario in registry["scenarios"]:
                 sid=scenario["id"];local,original,exact,gradient=reference_cache[sid]
                 for ratio in grid["relative_damping_ratio"]:
@@ -232,11 +240,11 @@ def _e2urec_sweep(repo: Path, workspace: Path, config: dict[str, Any], benchmark
         sid=scenario["id"];request=set(map(int,scenario["users"]));local=[position for position,index in enumerate(select) if users[index] in request];original_prediction=_predict_reference(workspace,benchmark,references["Original-Short-200step"],"Original-Short",sid,development,select,device);exact=_predict_reference(workspace,benchmark,references["Exact-Masked-Reference-200step"],"Retrain-Short",sid,development,select,device);forget=list(map(int,scenario["forget_train_indices"]));forget_set=set(forget);retain=[int(index) for index in registry["order"] if int(index) not in forget_set]
         augmented=original_model=None
         try:
-            augmented,names,augmented_parameters,bases,train_tokenizer,train,_,_=paper_v2._load_original_endpoint(workspace,benchmark,registry,"bota_short_original_seed42_v3",sid,device);original_model,original_names,_,_,_,_,_,_=paper_v2._load_original_endpoint(workspace,benchmark,registry,"bota_short_original_seed42_v3",sid,device)
+            run_seed=_run_seed(benchmark);augmented,names,augmented_parameters,bases,train_tokenizer,train,_,_=paper_v2._load_original_endpoint(workspace,benchmark,registry,_original_run_name(benchmark),sid,device);original_model,original_names,_,_,_,_,_,_=paper_v2._load_original_endpoint(workspace,benchmark,registry,_original_run_name(benchmark),sid,device)
             if names!=original_names:raise RuntimeError("E2URec coordinate mismatch")
             teacher_optimizer=torch.optim.AdamW(augmented_parameters,lr=float(grid["teacher_learning_rate"]),betas=(.9,.999),eps=1e-8,weight_decay=.01);augmented.train();teacher_begun=time.perf_counter()
             for step in range(int(grid["teacher_steps"])):
-                logical=e2urec._wrapped(forget,16,42,step,70_000);teacher_optimizer.zero_grad(set_to_none=True)
+                logical=e2urec._wrapped(forget,16,run_seed,step,70_000);teacher_optimizer.zero_grad(set_to_none=True)
                 for offset in range(0,16,4):
                     value=e2urec._batch(train,logical[offset:offset+4],device,train_tokenizer.pad_token_id);loss=runner.p1._sample_losses(augmented,value).mean()/4;loss.backward();del value,loss
                 teacher_optimizer.step()
@@ -244,11 +252,11 @@ def _e2urec_sweep(repo: Path, workspace: Path, config: dict[str, Any], benchmark
             for weight in grid["forget_weight"]:
                 current=None
                 try:
-                    current,current_names,current_parameters,current_bases,current_tokenizer,current_train,_,_=paper_v2._load_original_endpoint(workspace,benchmark,registry,"bota_short_original_seed42_v3",sid,device)
+                    current,current_names,current_parameters,current_bases,current_tokenizer,current_train,_,_=paper_v2._load_original_endpoint(workspace,benchmark,registry,_original_run_name(benchmark),sid,device)
                     if current_names!=names:raise RuntimeError("E2URec student coordinate mismatch")
                     optimizer=torch.optim.AdamW(current_parameters,lr=float(grid["student_learning_rate"]),betas=(.9,.999),eps=1e-8,weight_decay=.01);checkpoints=set(map(int,grid["checkpoints"]));begun=time.perf_counter();warmup=math.ceil(len(forget)/16);current.train()
                     for step in range(1,max(checkpoints)+1):
-                        fidx=e2urec._wrapped(forget,16,42,step-1,90_000);ridx=e2urec._wrapped(retain,16,42,step-1,110_000);optimizer.zero_grad(set_to_none=True)
+                        fidx=e2urec._wrapped(forget,16,run_seed,step-1,90_000);ridx=e2urec._wrapped(retain,16,run_seed,step-1,110_000);optimizer.zero_grad(set_to_none=True)
                         for offset in range(0,16,4):
                             fb=e2urec._batch(current_train,fidx[offset:offset+4],device,current_tokenizer.pad_token_id)
                             if step<=warmup:loss=e2urec.forget_loss_light(current,original_model,augmented,fb,2.0)

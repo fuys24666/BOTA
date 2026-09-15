@@ -1,0 +1,82 @@
+schema: bota-ali-stage9-crossseed-development-v1
+test_access_policy: forbidden
+parent_amendment:
+  path: configs/ali_stage0_amendment08_v1.json
+  amendment_id: ali-stage0-amendment-08-cross-seed-development-confirmation-v1
+  sha256: 7977a8a5bb4febd39537a07fe5848cef024438a1ae6c03c15ab14614a717b319
+stage7_audit:
+  path: docs/audits/ali_stage7_result_audit_v1.json
+  sha256: 9ed3ebba24af149c08811c0285d430099c963f303b660941c347e6d0c550fa47
+stage8_audit:
+  path: docs/audits/ali_stage8_result_audit_v1.json
+  sha256: 51a473b30e38d3ad71dbb1d2065ee34cafc4acc7737a84a45334e8dd4efa10bc
+benchmarks:
+  41:
+    seed: 41
+    name: bota_short_i02_seed41_v3
+    config: {path: configs/bota_short_benchmark_seed41_v3.yaml, sha256: 32e20d9e92daa36ac5d15e1e6dca85cafc49fe3967470b31f1afb511ed818f9c}
+    paper_config: {path: configs/bota_short_paper_seed41_v3.yaml, sha256: 8f8029dacde3dc9bce687612f6b893dfbc4166a7d7bef91457945c070399d079}
+    frozen_development_evaluation:
+      path: outputs/bota_short_multiseed_v3/seed41/paper/evaluations/bota_short_development_seed41_v3
+      manifest_sha256: 7cebbda3a45e919b01a87b35a3486a78ac3159efb658709b3e2085accd494beb
+      per_sample_sha256: 4235359d1eaa9f0e65a2d1e3e5b27ee8ff4099ad56ac08b6fbb3395cc8d057dc
+  42:
+    seed: 42
+    name: bota_short_i02_seed42_v3
+    config: {path: configs/bota_short_benchmark_seed42_v3.yaml, sha256: 9d64df16fbd5e2092c9718d000fac15f11f0473cb6eabe02bc7e4f6d839c4f33}
+    paper_config: {path: configs/bota_short_paper_seed42_v3.yaml, sha256: 4a502b1cf6fe32feb6e9bfed96d8d789a90438891a2438fb5e8f8943407a5d98}
+    frozen_development_evaluation:
+      path: outputs/bota_short_multiseed_v3/seed42/paper/evaluations/bota_short_development_seed42_v3
+      manifest_sha256: b397ff76dd69320deb34a93201788541e102bb7e49cbfb2f765da08fbfb5c65a
+      per_sample_sha256: 557dacb72f128f2d46f6085498f7cc82dae92d99a8c5aef9246b27915c4c56d3
+  43:
+    seed: 43
+    name: bota_short_i02_seed43_v3
+    config: {path: configs/bota_short_benchmark_seed43_v3.yaml, sha256: 53effde8212a9595387c2fe73809ee3e840568ae57918a73fb48483794626486}
+    paper_config: {path: configs/bota_short_paper_seed43_v3.yaml, sha256: c287e77ee83514bf7942603ece2e94c9139a6e635d614c66b9709cf54b068f17}
+    frozen_development_evaluation:
+      path: outputs/bota_short_multiseed_v3/seed43/paper/evaluations/bota_short_development_seed43_v3
+      manifest_sha256: aa3047d101edcec952c2c7b189c3563640b08722f88d74cb67203332c51ffc68
+      per_sample_sha256: 80fd3ceb00dad26ee10ac4754ebd8f966dd93f6345e241540decd886b92cae59
+development_partition:
+  namespace: ali-stage7-dev-split-v1
+  fit_parity: 0
+  select_parity: 1
+  fit_count: 9912
+  select_count: 10088
+  fit_index_sha256: 790a4f0e8f49cc472eed1c0ce92c058fb44243f2140ee64465cc501c670c8735
+  select_index_sha256: aa4feb4bb1b413682abb0bf866b1616066984ce41f359a5218c69fbd3ee3fa9f
+protocol:
+  selection_seed: 42
+  held_out_confirmation_seeds: [41, 43]
+  reported_seeds: [41, 42, 43]
+  scenarios: [L8, L4M4]
+  methods: [BOTA, IFRU, E2URec, NegGrad, PCGrad, RecEraser]
+  split: Development/Dev-Select
+  final_test: false
+selected_configurations:
+  BOTA: {candidate_id: bota_r1, response_scale: 1.0, online_optimizer_steps: 0}
+  IFRU: {candidate_id: ifru_p512_d0.1, relative_damping_ratio: 0.1, curvature_panel_samples: 512, cg_max_iterations: 40}
+  E2URec: {candidate_id: e2urec_w0.2_s200, teacher_steps: 1200, teacher_learning_rate: 0.00005, student_learning_rate: 0.001, forget_weight: 0.2, checkpoint: 200}
+  NegGrad: {candidate_id: neggrad_w0.05_s25, learning_rate: 0.001, forget_weight: 0.05, checkpoint: 25}
+  PCGrad: {candidate_id: pcgrad_lr0.0005_s25, learning_rate: 0.0005, checkpoint: 25}
+  RecEraser: {candidate_id: receraser_lr0.0005_e3, shards: 4, feature_dimensions: 32, learning_rate: 0.0005, epochs_per_slice: 3, attention_steps: 200, attention_learning_rate: 0.1}
+sisa:
+  stage7_status: NO_ELIGIBLE_CANDIDATE
+  rerun: false
+selection:
+  auc_damage_max: 0.005
+  logloss_damage_max: 0.01
+decision:
+  scope_seeds: [41, 43]
+  require_bota_utility_every_cell: true
+  require_bota_residual_below_one_every_cell: true
+  require_bota_mean_eu_below_each_baseline: true
+  failure_status: NOT_STABLE_NO_FINALTEST_AUTHORIZATION
+  success_status: STABLE_CONFIRMED
+output_root: outputs/ali_stage9_crossseed_development_v1
+runtime:
+  required_cuda_devices: 1
+  minimum_free_gib: 10.0
+  hard_peak_reserved_gib: 14.0
+  repository_must_be_clean: true

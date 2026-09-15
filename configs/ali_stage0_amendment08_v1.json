@@ -1,0 +1,90 @@
+{
+  "schema": "bota-ali-stage0-amendment-v1",
+  "amendment_id": "ali-stage0-amendment-08-cross-seed-development-confirmation-v1",
+  "amendment_number": 8,
+  "frozen_date": "2026-09-15",
+  "status": "FROZEN_BEFORE_STAGE9_EXECUTION",
+  "motivation": "Confirm the frozen Stage 7 baseline settings and frozen Stage 8 BOTA response scale across three model seeds on Development before deciding whether a new FinalTest evaluation is justified.",
+  "parent_preregistration": {
+    "path": "configs/ali_stage0_preregistration_v1.json",
+    "sha256": "4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0"
+  },
+  "frozen_stage7_boundary": {
+    "path": "docs/audits/ali_stage7_result_audit_v1.json",
+    "sha256": "9ed3ebba24af149c08811c0285d430099c963f303b660941c347e6d0c550fa47",
+    "status": "FROZEN_COMPLETE_STAGE7A"
+  },
+  "frozen_stage8_boundary": {
+    "path": "docs/audits/ali_stage8_result_audit_v1.json",
+    "sha256": "51a473b30e38d3ad71dbb1d2065ee34cafc4acc7737a84a45334e8dd4efa10bc",
+    "status": "FROZEN_COMPLETE_STAGE8",
+    "selected_bota_candidate": "bota_r1",
+    "response_scale": 1.0
+  },
+  "stage9_confirmation": {
+    "dataset": "MovieLens-1M",
+    "analysis_split": "Development/Dev-Select",
+    "selection_seed": 42,
+    "held_out_confirmation_seeds": [41, 43],
+    "reported_seeds": [41, 42, 43],
+    "request_scenarios": ["L8", "L4M4"],
+    "configuration_may_change_by_seed_or_scenario": false,
+    "finaltest_access": false,
+    "frozen_methods": {
+      "BOTA": "bota_r1",
+      "IFRU": "ifru_p512_d0.1",
+      "E2URec": "e2urec_w0.2_s200",
+      "NegGrad": "neggrad_w0.05_s25",
+      "PCGrad": "pcgrad_lr0.0005_s25",
+      "RecEraser": "receraser_lr0.0005_e3"
+    },
+    "sisa_policy": "Stage 7 found no eligible SISA configuration. No failed SISA candidate is promoted or rerun as a selected configuration; its no-eligible result remains part of the audit.",
+    "development_partition": {
+      "namespace": "ali-stage7-dev-split-v1",
+      "dev_fit_count": 9912,
+      "dev_select_count": 10088,
+      "dev_fit_index_sha256": "790a4f0e8f49cc472eed1c0ce92c058fb44243f2140ee64465cc501c670c8735",
+      "dev_select_index_sha256": "aa4feb4bb1b413682abb0bf866b1616066984ce41f359a5218c69fbd3ee3fa9f",
+      "policy": "The same frozen example partition is used for every model seed; only model/adaptation randomness changes."
+    },
+    "utility_guardrails": {
+      "overall_auc_damage_max": 0.005,
+      "overall_logloss_damage_max": 0.01
+    },
+    "stability_decision": {
+      "decision_scope": "held-out seeds 41 and 43 only",
+      "requirements": [
+        "BOTA passes both utility guardrails without prediction collapse in every held-out seed-by-scenario cell.",
+        "BOTA has normalized local residual below 1 in every held-out seed-by-scenario cell.",
+        "Across the four held-out seed-by-scenario cells, BOTA has lower unweighted mean E_U than each frozen eligible baseline."
+      ],
+      "selection_seed_role": "Seed 42 is reported for the three-seed aggregate but is excluded from the binary confirmation decision because it selected the settings.",
+      "failure_policy": "Report the full matrix and do not authorize a new FinalTest evaluation."
+    },
+    "required_reporting": [
+      "all six method by three seed by two scenario cells",
+      "E_U",
+      "D_U",
+      "normalized local residual",
+      "toward-exact rate",
+      "overall AUC",
+      "overall accuracy",
+      "overall log loss",
+      "utility eligibility and prediction-collapse flag",
+      "optimizer/HVP counts and wall time",
+      "held-out and all-three-seed aggregate comparisons"
+    ]
+  },
+  "conditional_finaltest_policy": {
+    "preregister_now": false,
+    "authorization_condition": "Stage 9 status is STABLE_CONFIRMED under the frozen rule above.",
+    "next_action_if_authorized": "Create and commit a new dated amendment that fixes the FinalTest endpoints, methods, metrics, aggregation, stopping rule and one-shot access policy before opening FinalTest.",
+    "prohibited_action": "Do not inspect or evaluate FinalTest while Stage 9 is running or before that later amendment is committed."
+  },
+  "interpretation_rules": [
+    "Stage 9 confirms fixed configurations; it performs no selection, retuning or request-specific calibration.",
+    "All completed and adverse outcomes must be retained and reported.",
+    "A stable Development result authorizes a separately preregistered FinalTest evaluation but does not itself establish test-set performance.",
+    "A failed confirmation cannot be repaired by silently changing a seed, scenario, baseline, response scale or decision rule."
+  ]
+}
