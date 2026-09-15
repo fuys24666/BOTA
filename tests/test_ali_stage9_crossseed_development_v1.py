@@ -23,3 +23,20 @@ def test_stage9_seed_specific_output_roots_do_not_collide():
 def test_stage7_helpers_resolve_run_seed():
     assert stage9.stage7._run_seed({"protocol": {"seed": 42, "run_seed": 41}}) == 41
     assert stage9.stage7._original_run_name({"protocol": {"seed": 42, "run_seed": 43}}) == "bota_short_original_seed43_v3"
+
+
+def test_csv_export_handles_mixed_stage8_and_stage9_fields_without_mutation():
+    import csv
+    import io
+    rows = [
+        {"method": "BOTA", "response_scale": 1.0, "offline_optimizer_steps": 200},
+        {"method": "IFRU", "hyperparameters": {"curvature_panel_samples": 512}, "compute_count": 44},
+    ]
+    fields, flat = stage9._csv_export(rows)
+    assert "offline_optimizer_steps" in fields and "compute_count" in fields
+    assert flat[0]["hyperparameters"] == '{"response_scale": 1.0}'
+    assert "hyperparameters" not in rows[0]
+    output = io.StringIO()
+    writer = csv.DictWriter(output, fieldnames=fields)
+    writer.writeheader(); writer.writerows(flat)
+    assert len(list(csv.DictReader(io.StringIO(output.getvalue())))) == 2

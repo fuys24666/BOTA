@@ -66,6 +66,18 @@ def _assert_no_test_access(value: Any, location: str = "root") -> None:
             _assert_no_test_access(item, f"{location}[{index}]")
 
 
+def _csv_export(rows: list[dict[str, Any]]) -> tuple[list[str], list[dict[str, Any]]]:
+    """Export heterogeneous Stage 7/8/9 rows without modifying source metrics."""
+    flat = []
+    for row in rows:
+        hyperparameters = row.get("hyperparameters")
+        if hyperparameters is None:
+            hyperparameters = {"response_scale": row["response_scale"]} if "response_scale" in row else {}
+        flat.append({**{key: value for key, value in row.items() if key != "hyperparameters"}, "hyperparameters": json.dumps(hyperparameters, sort_keys=True)})
+    fields = list(dict.fromkeys(key for row in flat for key in row))
+    return fields, flat
+
+
 def load_config(repo: Path, workspace: Path, path: Path) -> dict[str, Any]:
     value = yaml.safe_load(path.read_text(encoding="utf-8"))
     required = {"schema", "test_access_policy", "parent_amendment", "stage7_audit", "stage8_audit", "benchmarks", "development_partition", "protocol", "selected_configurations", "sisa", "selection", "decision", "output_root", "runtime"}
@@ -218,9 +230,9 @@ def execute(repo: Path, workspace: Path, config_path: Path, seed: int, method: s
         for row in rows:
             row["seed"] = seed; row["confirmation_role"] = "held_out"; row["frozen_configuration"] = True
         atomic_json(stage / "metrics.json", {"schema": SCHEMA, "seed": seed, "method": method, "candidate_id": SELECTED_IDS[method], "rows": rows, "finaltest_accessed": False, "test_accessed": False})
-        flat = [{**{key: value for key, value in row.items() if key != "hyperparameters"}, "hyperparameters": json.dumps(row["hyperparameters"], sort_keys=True)} for row in rows]
+        fields, flat = _csv_export(rows)
         with (stage / "metrics.csv").open("w", encoding="utf-8", newline="") as handle:
-            writer = csv.DictWriter(handle, fieldnames=list(flat[0])); writer.writeheader(); writer.writerows(flat)
+            writer = csv.DictWriter(handle, fieldnames=fields); writer.writeheader(); writer.writerows(flat)
         (stage / "report.md").write_text(f"# Stage 9 cross-seed Development confirmation\n\nSeed: `{seed}`; method: `{method}`; frozen candidate: `{SELECTED_IDS[method]}`.\n\nFinalTest was not opened.\n", encoding="utf-8", newline="\n")
         atomic_json(stage / "run_state.json", {"schema": SCHEMA, "status": "COMPLETED", "seed": seed, "method": method, "candidate_id": SELECTED_IDS[method], "candidate_cells": len(rows), "wall_time_seconds": time.perf_counter() - begun, "maximum_peak_reserved_gib": torch.cuda.max_memory_reserved() / 2**30, "finaltest_accessed": False, "test_accessed": False})
         atomic_json(stage / "contract.json", {"schema": SCHEMA, "config_sha256": sha256_file(config_path), "amendment_sha256": sha256_file(repo / config["parent_amendment"]["path"]), "stage7_audit_sha256": sha256_file(repo / config["stage7_audit"]["path"]), "stage8_audit_sha256": sha256_file(repo / config["stage8_audit"]["path"]), "git": git, "seed": seed, "method": method, "candidate_id": SELECTED_IDS[method], "split": "Development/Dev-Select", "finaltest_accessed": False, "test_accessed": False})
@@ -305,9 +317,9 @@ def summarize(repo: Path, workspace: Path, config_path: Path) -> dict[str, Any]:
     stage = destination.parent / ".work" / f"summary.{uuid.uuid4().hex}.stage"; stage.mkdir(parents=True)
     try:
         atomic_json(stage / "metrics.json", {"schema": SCHEMA, "rows": rows, "aggregates": aggregates, "sisa_stage7_status": "NO_ELIGIBLE_CANDIDATE", "finaltest_accessed": False, "test_accessed": False})
-        flat = [{**{key: value for key, value in row.items() if key != "hyperparameters"}, "hyperparameters": json.dumps(row["hyperparameters"], sort_keys=True)} for row in rows]
+        fields, flat = _csv_export(rows)
         with (stage / "metrics.csv").open("w", encoding="utf-8", newline="") as handle:
-            writer = csv.DictWriter(handle, fieldnames=list(flat[0])); writer.writeheader(); writer.writerows(flat)
+            writer = csv.DictWriter(handle, fieldnames=fields); writer.writeheader(); writer.writerows(flat)
         atomic_json(stage / "decision.json", decision)
         atomic_json(stage / "contract.json", {"schema": SCHEMA, "config_sha256": sha256_file(config_path), "amendment_sha256": sha256_file(repo / config["parent_amendment"]["path"]), "stage7_audit_sha256": sha256_file(repo / config["stage7_audit"]["path"]), "stage8_audit_sha256": sha256_file(repo / config["stage8_audit"]["path"]), "source_manifest_sha256": source_hashes, "selection_seed_source": "frozen Stage 7/8 artifacts", "split": "Development/Dev-Select", "finaltest_accessed": False, "test_accessed": False})
         report = ["# Stage 9 cross-seed Development confirmation", "", f"Decision: `{decision['status']}`.", "", f"FinalTest authorized for separate preregistration: `{'yes' if stable else 'no'}`.", "", "Seed 42 selected the settings and is reported but excluded from the binary confirmation decision.", "", "| Method | Three-seed mean E_U | Mean residual | Eligible cells |", "|---|---:|---:|---:|"]
