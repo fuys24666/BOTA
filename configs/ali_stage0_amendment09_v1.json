@@ -1,0 +1,85 @@
+{
+  "schema": "bota-ali-stage0-amendment-v1",
+  "amendment_id": "ali-stage0-amendment-09-post-confirmation-finaltest-v1",
+  "amendment_number": 9,
+  "frozen_date": "2026-09-15",
+  "status": "FROZEN_BEFORE_STAGE10_FINALTEST_ACCESS",
+  "motivation": "Stage 9 passed its frozen held-out-seed Development confirmation rule. Authorize one separately preregistered FinalTest re-evaluation of the already fixed endpoint cohort, without any further training or selection.",
+  "parent_preregistration": {
+    "path": "configs/ali_stage0_preregistration_v1.json",
+    "sha256": "4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0"
+  },
+  "frozen_confirmation_boundary": {
+    "path": "docs/audits/ali_stage9_result_audit_v1.json",
+    "sha256": "1300ef8f0669e1d7d63779329d5c1d79d29e399983f3a852f55963b9934dcb36",
+    "status": "FROZEN_COMPLETE_STAGE9",
+    "confirmation": "STABLE_CONFIRMED",
+    "endpoint_cells": 60,
+    "policy": "No model tensor, selected configuration, request population or Development outcome may change after this boundary."
+  },
+  "historical_test_exposure": {
+    "same_finaltest_was_previously_evaluated": true,
+    "description": "This is a new post-Development-tuning re-evaluation on the previously used ML-1M FinalTest cohort, not the original untouched one-shot evaluation and not an independently collected new holdout.",
+    "current_selection_policy": "Stage 7/8 settings and Stage 9 confirmation used only Development. No new Stage 10 test prediction is available when this amendment is frozen.",
+    "interpretation_limit": "The prior exposure must be disclosed. A new access ledger does not restore statistical independence or erase historical test exposure."
+  },
+  "stage10_finaltest": {
+    "dataset": "MovieLens-1M",
+    "split": "FinalTest",
+    "rows": 20000,
+    "lineage": "The last 20,000 eligible examples in the authoritative timestamp/user/movie-ordered ML-1M chronological reconstruction, validated exactly against test_10_simple.json after access reservation.",
+    "seeds": [41, 42, 43],
+    "scenarios": ["L8", "L4M4"],
+    "methods": ["Original", "Exact-Masked", "FullControl-P5", "Retain-Retrain-P5", "BOTA", "IFRU", "E2URec", "NegGrad", "PCGrad", "RecEraser"],
+    "frozen_selected_ids": {
+      "BOTA": "bota_r1",
+      "IFRU": "ifru_p512_d0.1",
+      "E2URec": "e2urec_w0.2_s200",
+      "NegGrad": "neggrad_w0.05_s25",
+      "PCGrad": "pcgrad_lr0.0005_s25",
+      "RecEraser": "receraser_lr0.0005_e3"
+    },
+    "endpoint_authority": "Use exactly the Stage 9 audit endpoint inventory. Seed 42 uses the evaluated Stage 8 response-scale-one adapter; seeds 41/43 use their frozen formal scale-one endpoints. The registered numerical reproduction gate is not an exact tensor-equality claim.",
+    "sisa_policy": "Report the frozen NO_ELIGIBLE_CANDIDATE decision. Do not promote a failed SISA setting, exclude adverse evaluated rows, or select a replacement using FinalTest.",
+    "training_or_optimizer_updates": 0,
+    "selection_or_calibration": false,
+    "inference_batch_size": 4,
+    "primary_quantity": "E_U: requested-user mean absolute Yes-probability error to the matched 200-step Exact-Masked endpoint.",
+    "required_metrics": [
+      "E_U and Original--Exact D_U",
+      "local residual E_U/D_U and user-cluster bootstrap 95% confidence interval",
+      "toward-exact rate",
+      "overall AUC, accuracy and binary log loss",
+      "Yes/No JSD and probability L2 RMS to Exact-Masked",
+      "mean answer loss",
+      "absolute requested-user error to Retain-Retrain-P5",
+      "Retain-Retrain-P5 residual using FullControl-P5 as its control and user-cluster bootstrap 95% confidence interval",
+      "requested-user example support and missing-user support",
+      "prediction-collapse and finiteness flags",
+      "fixed inference wall time, endpoint hashes and access ledger"
+    ],
+    "retain_retrain_role": "Separately labeled converged-endpoint sensitivity, reported alongside the matched-local comparison for every evaluated method; it is not hidden in an appendix or used to select endpoints.",
+    "aggregation": "Report all 60 seed/scenario/method cells. For each scenario and method, report mean and sample standard deviation across three model seeds. Also report an unweighted six-cell mean E_U for each method. User-cluster bootstrap intervals are conditional on each model seed and are not a substitute for seed variation.",
+    "bootstrap": {"unit": "authoritative_requested_user", "resamples": 2000, "confidence": 0.95, "seed_rule": "seed*100+scenario_index; sensitivity bootstrap adds 10000"},
+    "utility_guardrails": {"overall_auc_damage_max": 0.005, "overall_logloss_damage_max": 0.01},
+    "descriptive_confirmation_rule": "BOTA passes both utility guardrails without collapse and has local residual below 1 in all six cells, and its unweighted six-cell mean E_U is lower than each of the five fixed eligible baselines. Report each component even if the conjunction fails; no retry, retuning or selective reporting follows.",
+    "empty_support_policy": "If an entire fixed request has zero FinalTest support, fail the evaluation and retain the access-failure record. Missing individual-user support is reported; requests are never replaced."
+  },
+  "access_policy": {
+    "explicit_confirmation_switch_required": true,
+    "clean_committed_repository_required": true,
+    "preflight_may_materialize_test_rows": false,
+    "one_access_for_fixed_cohort": true,
+    "binding_ignores_run_name_and_git_commit": true,
+    "automatic_retry_or_recovery": false,
+    "failure_policy": "Keep a permanent access-failure record and prediction-call count. Do not automatically retry even under a different run name. Any infrastructure recovery requires a separate evidence-based amendment.",
+    "publication": "Atomically publish a complete evaluation only after all 60 cells, the full requested-user prediction inventory, metrics and hashes are written."
+  },
+  "interpretation_rules": [
+    "Do not change Stage 3--6 negative conclusions or broaden the 200-step local validity scope based on this re-evaluation.",
+    "All adverse results and all five eligible baseline comparisons must be retained.",
+    "This is behavioral matched-counterfactual approximation evaluation, not an attack-based privacy certificate or proof of arbitrary continuous deletion.",
+    "Report historical FinalTest exposure and distinguish this result from the original paper evaluation.",
+    "No paper claim or repository headline is automatically changed until the full Stage 10 audit is complete."
+  ]
+}

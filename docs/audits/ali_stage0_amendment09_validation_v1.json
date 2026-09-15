@@ -1,0 +1,34 @@
+{
+  "schema": "bota-ali-stage0-amendment09-validation-v1",
+  "status": "PASS_BEFORE_STAGE10_FINALTEST_ACCESS",
+  "validated_date": "2026-09-15",
+  "amendment_sha256": "161edb5cf514d889865bf3b259343e41e96fa1986ca92401b55657925051e798",
+  "stage9_audit_sha256": "1300ef8f0669e1d7d63779329d5c1d79d29e399983f3a852f55963b9934dcb36",
+  "cohort_binding_sha256": "af74c4538a2ec6f0c9babd5bef2db1fa0065424b6592c9097b9ea7e51be1a4bc",
+  "checks": {
+    "all_60_frozen_endpoint_hashes_verified": true,
+    "shared_checkpoint_and_pretrained_directory_hashes_verified": true,
+    "fixed_ab_cpu_coordinate_signatures_consistent": true,
+    "receraser_component_manifests_verified": true,
+    "synthetic_60_cell_metric_and_20_row_summary_pipeline_passed": true,
+    "one_shot_reservation_and_no_confirmation_guards_tested": true,
+    "heterogeneous_csv_export_tested": true,
+    "historical_finaltest_exposure_disclosed": true,
+    "preflight_finaltest_rows_materialized": 0,
+    "preflight_finaltest_loader_built": false,
+    "stage10_access_ledger_exists": false
+  },
+  "development_interface_smoke": {
+    "device": "cpu",
+    "seed": 41,
+    "scenario": "L8",
+    "methods": ["BOTA", "E2URec", "RecEraser"],
+    "development_indices": [0, 1, 2, 3],
+    "all_predictions_finite": true,
+    "scientific_metrics_or_selection_performed": false,
+    "optimizer_constructed": false,
+    "test_accessed": false
+  },
+  "tests": {"passed": 203, "skipped": 3, "failed": 0},
+  "test_accessed": false
+}

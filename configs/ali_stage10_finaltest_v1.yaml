@@ -1,0 +1,43 @@
+schema: bota-ali-stage10-finaltest-v1
+test_access_policy: separately_preregistered_one_shot_reevaluation
+parent_amendment:
+  path: configs/ali_stage0_amendment09_v1.json
+  amendment_id: ali-stage0-amendment-09-post-confirmation-finaltest-v1
+  sha256: 161edb5cf514d889865bf3b259343e41e96fa1986ca92401b55657925051e798
+stage9_audit:
+  path: docs/audits/ali_stage9_result_audit_v1.json
+  sha256: 1300ef8f0669e1d7d63779329d5c1d79d29e399983f3a852f55963b9934dcb36
+stage9_config:
+  path: configs/ali_stage9_crossseed_development_v1.yaml
+  sha256: 3210f9470049a61985bfb426be6e0d364489953dc38f48a78d0d71ef8002a668
+protocol:
+  seeds: [41, 42, 43]
+  scenarios: [L8, L4M4]
+  methods: [Original, Exact-Masked, FullControl-P5, Retain-Retrain-P5, BOTA, IFRU, E2URec, NegGrad, PCGrad, RecEraser]
+  split: FinalTest
+  rows: 20000
+  optimizer_updates: 0
+  historical_finaltest_exposure: true
+  request_replacement: false
+evaluation:
+  inference_batch_size: 4
+  bootstrap_unit: authoritative_requested_user
+  bootstrap_resamples: 2000
+  confidence: 0.95
+  auc_damage_max: 0.005
+  logloss_damage_max: 0.01
+  probability_collapse_std: 0.000001
+  aggregation: per_scenario_three_seed_mean_and_sample_std_plus_six_cell_mean_EU
+  primary: requested_user_mean_absolute_yes_probability_error_to_exact_masked
+access:
+  confirm_switch_required: true
+  one_fixed_cohort: true
+  automatic_retry: false
+  preflight_test_materialization: false
+  partial_publication: false
+output_root: outputs/ali_stage10_finaltest_v1
+runtime:
+  required_cuda_devices: 1
+  minimum_free_gib: 10.0
+  hard_peak_reserved_gib: 14.0
+  repository_must_be_clean: true
