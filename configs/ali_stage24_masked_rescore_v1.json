@@ -1,0 +1,27 @@
+{
+  "schema": "bota-ali-stage24-masked-rescore-v1",
+  "output_root": "outputs/ali_stage24_masked_rescore_v1",
+  "parent_root": "outputs/ali_stage23_pair_decomposition_v1",
+  "parent_protocol_sha256": "6881189659a15bd33d93788371cfa4c49eed36a07a98a7454c62dfed0d81d525",
+  "parent_summary_sha256": "c9b657ee4885454c2d033e6f24e381541c4b05efe0d967127a2dca1839c51d11",
+  "split": "Development",
+  "inference_batch_size": 4,
+  "chunk_size": 256,
+  "audit": {
+    "samples": 32,
+    "local_samples": 16,
+    "batch_sizes": [1, 4, 8],
+    "orders": ["length_sorted", "short_long_interleaved"],
+    "probability_atol": 0.00001,
+    "probability_rtol": 0.00001,
+    "loss_atol": 0.0001,
+    "loss_rtol": 0.00001
+  },
+  "mask": "encoder_input_ids_ne_tokenizer_pad_token_id",
+  "decoder_protocol": "unchanged_teacher_forced_targets",
+  "selection_performed": false,
+  "test_accessed": false,
+  "final_test_forbidden": true,
+  "optimizer_step_calls": 0,
+  "scope": "Repair Stage23 behavioral scoring only; preserve models, lambdas, all six contexts, cohorts, metrics and legacy artifacts. Historical baselines/ranking/attacks are not revalidated by this run."
+}

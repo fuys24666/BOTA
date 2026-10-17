@@ -1,0 +1,15 @@
+{
+  "amendment_id": "17-repair01",
+  "status": "SPECIFIED_BEFORE_STAGE18_EXECUTION",
+  "parent": "configs/ali_stage0_amendment17_v1.json",
+  "parent_sha256": "134adfbf8ecd71e36a5bc3fe8274604ef674154ec99c698090030e50902582be",
+  "reason": "v1 incorrectly required a legacy BOTA endpoint to match transport on the formal Original trajectory, without verifying that the legacy implementation used that same trajectory. v1 aborted before any Development predictions or lambda selection.",
+  "unchanged": "The complete lambda grid, one-round refinement, objective, utility gates, requests, data, fixed-A coordinate, historical checkpoint, batch order, confirmation seeds and no-reselection rule remain identical to Amendment17.",
+  "canonical_policy": "All candidates use batch-loss.backward gradients on the formal Original trajectory. Keep exact seed42 canonical equality to Original. Exact-Masked continues using the same batch-loss gradient convention. Do not switch to legacy per-sample gradient accumulation to force an irrelevant endpoint match.",
+  "replacement_gate": "Run an independent reference transport using p2b.advance_full_transports on the SAME canonical gradients and per-user sources. Require tensor-exact lambda1 theta/m/v equality at every step, including fine and confirmation phases. Legacy endpoint mismatch remains in a separate diagnostic record rather than being called reproduced.",
+  "evidence_gate": "Before v2 runs, verify hash-bound legacy replay diagnostics confirming that historical BOTA is reproduced and its canonical trajectory differs from Original. Do not infer the cause solely from the mismatch.",
+  "prior_information": "Before this repair, v1 exposed a passing canonical equality check, no numerical transport failures, and a failing lambda1 historical parameter comparison. No Development scores, search choice, or FinalTest data had been accessed by v1.",
+  "preservation": "Original v1 source/config/protocol and failed .work artifacts remain unchanged. v2 writes to outputs/ali_stage18_amazon_lambda_search_v2 and does not import partial v1 endpoints as validated scientific results.",
+  "interpretation": "Any new-vs-historical Amazon difference cannot be attributed solely to lambda tuning because the canonical numerical trajectory differs. Within v2, lambda0 versus tuned lambda is the controlled Fisher comparison.",
+  "test_accessed": false
+}

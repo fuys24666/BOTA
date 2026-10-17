@@ -1,0 +1,38 @@
+{
+  "schema": "bota-ali-stage18-amazon-lambda-search-v1",
+  "test_access_policy": "forbidden",
+  "benchmark_config": "configs/bota_short_amazon_movies_newuser_k2k4_v4.yaml",
+  "benchmark_name": "amz_new_k2k4_s42_v4",
+  "amendment": "configs/ali_stage0_amendment17_v1.json",
+  "output_root": "outputs/ali_stage18_amazon_lambda_search_v1",
+  "protocol": {
+    "selection_seed": 42,
+    "confirmation_seeds": [41, 43],
+    "scenarios": ["K2", "K4"],
+    "coarse_grid": [0, 1, 2, 4, 8, 16, 32, 64, 128, 256],
+    "maximum_lambda": 256,
+    "fine_rounds": 1,
+    "absolute_gain_minimum": 0.000001,
+    "relative_gain_minimum": 0.01,
+    "optimizer_steps": 200,
+    "batch_size": 16,
+    "evaluation_split": "Development",
+    "source_scaled": false,
+    "endpoint_interpolation": false,
+    "confirmation_controls": [0, 1, 64],
+    "confirmation_changes_selection": false,
+    "same_historical_checkpoint_and_order_across_seeds": true
+  },
+  "selection": {
+    "primary": "equal_scenario_mean_EU",
+    "auc_damage_max": 0.005,
+    "logloss_damage_max": 0.01,
+    "tie_break": "smaller_lambda",
+    "no_eligible_policy": "NO_ELIGIBLE_CANDIDATE"
+  },
+  "references": {
+    "Original-Short": "amz_new_orig_s42_v4",
+    "Retrain-Short": "amz_new_exact_s42_v4",
+    "BOTA-T2-Short": "amz_new_bota_s42_v4"
+  }
+}

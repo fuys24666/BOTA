@@ -1,0 +1,33 @@
+{
+  "schema": "bota-ali-stage19-amazon-k2-requests-v1",
+  "output_root": "outputs/ali_stage19_amazon_k2_requests_v1",
+  "test_access_policy": "forbidden",
+  "parent_config": "configs/ali_stage18_amazon_lambda_search_v2.json",
+  "amendment": "configs/ali_stage0_amendment18_v1.json",
+  "parent_summary_sha256": "306631e0a32dc01063a09e7b300b59e6a8e2ad520e542979f4868ff44859be0c",
+  "parent_selection_sha256": "3dab8d414e9d95bb1131dff5eea137c4e1659a708d308ae160d9c2058a6a6389",
+  "protocol": {
+    "seeds": [41, 42, 43],
+    "requests": 12,
+    "users_per_request": 2,
+    "composition": {"low": 1, "middle": 1},
+    "window_exposure_per_user": 2,
+    "minimum_development_per_user": 5,
+    "pairing_hash_salt": "bota-stage19-k2-frozen-v1",
+    "optimizer_steps": 200,
+    "batch_size": 16,
+    "scales": [0, 48, 64],
+    "primary_scale": 48,
+    "secondary_scale": 64,
+    "users_per_bank_shard": 8,
+    "bootstrap_resamples": 5000,
+    "bootstrap_seed": 190042,
+    "minimum_absolute_gain": 0.000001,
+    "minimum_relative_gain": 0.01,
+    "minimum_winning_requests": 8,
+    "auc_damage_max": 0.005,
+    "logloss_damage_max": 0.01,
+    "no_reselection": true,
+    "final_test": false
+  }
+}

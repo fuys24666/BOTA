@@ -1,0 +1,43 @@
+{
+  "amendment_id": "ali-stage0-amendment-13-bounded-lambda-search-and-ablation-v1",
+  "created_date": "2026-10-07",
+  "status": "SPECIFIED_BEFORE_STAGE14_EXECUTION",
+  "test_access_policy": "forbidden",
+  "parent_preregistration_sha256": "4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0",
+  "purpose": "One further bounded Development extension after Stage 13 lambda=16 boundary winner, plus matched three-seed no-Fisher ablation. Prior Development exposure is explicit; this is not an untouched holdout or proof of correct curvature.",
+  "invariants": "Original 200-step full-state AdamW recursion, unscaled deletion sources, fixed L8/L4M4 requests and Development/Dev-Select rows, same utility guards and equal-scenario mean E_U. Historical code/results stay read-only. No FinalTest.",
+  "coarse": {
+    "seed": 42,
+    "grid": [16, 32, 64, 128],
+    "additional_runs": [0, 1],
+    "reproduction": "At each phase reproduce lambda=1 and 16 against Stage 13 E_U/D_U/AUC/logloss within max(1e-8,0.001*abs(old)), plus the formal-adapter lambda=1 gate. Reproduce seed-42 lambda=0 against its frozen historical row before merging. Lambda=0 is a no-feedback ablation, not a scaled deletion source."
+  },
+  "selection": "Both requests must satisfy AUC damage<=0.005, logloss damage<=0.01 and no prediction collapse. Minimize equal-scenario mean E_U; ties nearest 1 then candidate ID. Merge unchanged historical Stage 13 rows with new >16 candidates; rerun controls and ablation are not duplicated in selection.",
+  "budget_gate": {
+    "reference": "Frozen seed-42 Stage 13 lambda=16 equal-scenario mean E_U",
+    "absolute_EU_reduction_minimum": 0.000001,
+    "relative_EU_reduction_minimum": 0.01,
+    "rule": "Both must pass. Engineering continuation thresholds, not significance or a universal scientific-materiality criterion."
+  },
+  "fine": {
+    "trigger": "Coarse winner is 32 or 64 and passes the budget gate.",
+    "grid_rule": "32 -> [24,48]; 64 -> [48,96]. Freeze before execution; run the two arithmetic midpoints once with controls 1/16.",
+    "maximum_rounds": 1
+  },
+  "stopping": [
+    "Hard cap 128: a winner there remains an unresolved boundary optimum; no automatic expansion.",
+    "No fine scan for a boundary winner or insufficient gain. No additional fine round.",
+    "If final screen winner is >16 and passes the budget gate, freeze it for confirmation; otherwise retain 16 as the ablation/reference target and do not rerun a new >16 winner on confirmation seeds.",
+    "Even if search stops or confirmation fails, report all outcomes and complete the no-Fisher ablation."
+  ],
+  "confirmation_and_ablation": {
+    "seeds": [41, 43],
+    "always_run": [0, 1, 16],
+    "conditional_run": "Frozen >16 winner only if the screen passes the budget gate; never reselect on these seeds.",
+    "confirmation_pass": "Winner and lambda=16 reference utility-eligible/non-collapsed in both requests; all winner residuals<1; mean E_U strictly below lambda=16 separately in each seed. Report every individual cell regression. Lambda=0 is not an eligibility gate for this tuning comparison.",
+    "ablation": "Use fresh seed-42 coarse lambda=0 and fresh seeds41/43 lambda=0. Report paired E_U/residual/utility/Toward-Exact differences to lambda=16 and, if triggered, the fixed final winner, for all three seeds and all six request cells. Preserve target failures; never silently substitute 16 for a failed winner. Zero denominators yield null relative gains. These are descriptive comparisons, not significance tests.",
+    "no_new_winner": "Still run 0/1/16 on 41/43 and report three-seed 0-vs-16 ablation; confirmation status is not triggered, not failed."
+  },
+  "diagnostics": "Retain endpoint parameter-update norm, cosine and relative L2 to Exact-Masked for every finite candidate. These are diagnostic-only, not selection inputs or privacy guarantees.",
+  "failures": "Known nonfinite/singular tangent errors invalidate new candidates and are retained. Nonfinite cross-seed lambda=0 is a failed ablation row. Failures of lambda=1/16 controls, seed42 lambda0 reproduction, IO, OOM, software or integrity abort the affected cell. No clipping, rescue tuning, overwrite, or automatic FinalTest authorization."
+}

@@ -1,0 +1,75 @@
+{
+  "schema": "bota-ali-stage15-ranking-v1",
+  "test_access_policy": "forbidden",
+  "output_root": "outputs/ali_stage15_ranking_v1",
+  "protocol": {
+    "split": "Development/Dev-Select",
+    "response_scale": 64,
+    "seeds": [
+      41,
+      42,
+      43
+    ],
+    "scenarios": [
+      "L8",
+      "L4M4"
+    ],
+    "methods": [
+      "Original",
+      "Exact-Masked",
+      "BOTA64",
+      "BOTA1",
+      "FullControl-P5",
+      "Retain-Retrain-P5",
+      "IFRU",
+      "E2URec",
+      "NegGrad",
+      "PCGrad",
+      "RecEraser"
+    ],
+    "candidate_mode": "all_eligible_DevSelect_positives_plus_100_unobserved",
+    "negative_count": 100,
+    "sampling_namespace": "ali-stage15-ranking-v1",
+    "catalogue": "items_observed_before_Development",
+    "history": "last_10_before_first_Development_event_per_user",
+    "exclude": "all_user_observations_through_Development_end",
+    "positive": "DevSelect_rating_ge_4_not_in_preDevelopment_history_in_catalogue",
+    "no_positive": "exclude_from_macro_and_report",
+    "insufficient_negatives": "use_all_and_report",
+    "ks": [
+      5,
+      10,
+      20
+    ],
+    "primary": "sampled_NDCG@10",
+    "secondary": "NDCG@5/20_and_Recall@5/10/20",
+    "tie_break": "ascending_movie_id",
+    "aggregation": "macro_user_then_seed_mean_sample_sd",
+    "score": "first_token_PYes_over_PYes_plus_PNo;ensemble_mix_token_mass_first",
+    "inference_batch_size": 4,
+    "optimizer_updates": 0,
+    "hyperparameter_selection": false,
+    "final_test": false
+  },
+  "bindings": {
+    "configs/ali_stage14_lambda_search_v1.json": "8c4bf1d6b78f90d98207332ab4da2a09961182dcde7e1ed8d71ec28ffc0ba11b",
+    "configs/ali_stage9_crossseed_development_v1.yaml": "3210f9470049a61985bfb426be6e0d364489953dc38f48a78d0d71ef8002a668",
+    "docs/audits/ali_stage9_result_audit_v1.json": "1300ef8f0669e1d7d63779329d5c1d79d29e399983f3a852f55963b9934dcb36",
+    "configs/ali_stage0_amendment13_v1.json": "725fc23b080b934b2d6dced1b515abf53fd9d72c33c01ee78c47f7fc0cb9c853",
+    "configs/ali_stage0_amendment14_v1.json": "5f28920e62143f8aa0f78cb67899df3db9c59b0c848f227c789d191b23380a8e"
+  },
+  "stage14_manifests": {
+    "cells/fine/s42_L8": "c3b152e204ee8d6115d742c7994cb0e503003b97cc5a3aabda8799d112f8ea04",
+    "cells/fine/s42_L4M4": "434ea36849675390dc6f5754004b639e32e9c317de6ea218176989c1d0eb0fd8",
+    "protocol": "d01d2c3e0574a797d336caff21a180b4fc671e506f8a9642c41cb60a5fcb1532",
+    "coarse": "bb6bccf06fdc177570bc0c774d83dc685c605278d0b974cc5e7d03d9c35deeba",
+    "selection": "b9d6fedbaa8936f046baced0cfa0cfff8ecdf8ec268a37cc14268597dcb87269",
+    "summary": "82aa7af959eab8d099dc2720033a2869baa5d5a1e9edb59bf25fed2813f80dda",
+    "cells/confirm/s41_L8": "a0fd342b3698fa2d84ff26f0358cee0198258b372fb7fcf97f94ea896a0926f7",
+    "cells/confirm/s41_L4M4": "a17f3270933a4e712c34267c84d89f59944fa1082a559ffa852b960d6b0c5e2f",
+    "cells/coarse/s42_L8": "7fc114cfe6717182fc405a4975354836eb69e8a46b05c3da209e15d90eaade00",
+    "cells/coarse/s42_L4M4": "0624b83af9b614abc3d3279d5a93d49232a20b8c3fd7fdf0290ddd6350aacccf",
+    "cells/confirm/s43_L8": "5e15ef5d5a2a6658a4e3a478386c383c5749064f5b38e1adeac215c0dc2b8ade",
+    "cells/confirm/s43_L4M4": "1cf34e7435d9a7d2f999b791fea0291926b8dc668234953a92f74d7261ca173f"
+  }
+}

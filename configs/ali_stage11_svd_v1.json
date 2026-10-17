@@ -1,0 +1,15 @@
+{
+  "schema": "bota-ali-stage11-svd-v1",
+  "seeds": [41, 42, 43],
+  "bank_shape": [256, 884736],
+  "ranks": [4, 8, 16, 32, 64, 128, 192, 256],
+  "test_access_policy": "forbidden",
+  "stage6_audit_sha256": "e6b6226f5524ce895593171d871fbc3571cb852f2703ec667ef10d8076e41100",
+  "stage5_audit_sha256": "2911cfe2fc63a51c307655552b64e3f11b725ca9f90bec5c4a366ba30e601c55",
+  "parent_preregistration_sha256": "4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0",
+  "amendment": "configs/ali_stage0_amendment10_v1.json",
+  "negative_eigenvalue_relative_tolerance": 1e-10,
+  "numerical_eigenvalue_relative_threshold": 1e-12,
+  "fp32_endpoint_reproduction_relative_tolerance": 1e-5,
+  "output_root": "outputs/ali_stage11_svd_v1"
+}

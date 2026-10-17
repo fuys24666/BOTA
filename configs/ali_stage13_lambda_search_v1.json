@@ -1,0 +1,39 @@
+{
+  "schema": "bota-ali-stage13-lambda-search-v1",
+  "test_access_policy": "forbidden",
+  "amendment": {"path": "configs/ali_stage0_amendment12_v1.json", "sha256": "f436a6b83e05727c42afd7c2ea0ce56bae29bbf1e2e9612acfe4bec128456d74"},
+  "stage8_config": {"path": "configs/ali_stage8_bota_response_sweep_v1.yaml", "sha256": "5b5e9cc3c47129268d6cf18565c14e4dcc684ad3fd6f4680d1d89975f1bd65f0"},
+  "stage9_config": {"path": "configs/ali_stage9_crossseed_development_v1.yaml", "sha256": "3210f9470049a61985bfb426be6e0d364489953dc38f48a78d0d71ef8002a668"},
+  "stage12_config": {"path": "configs/ali_stage12_lambda_extension_v1.json", "sha256": "54f6d87d9ca0db9a47b3bb6bd471b78a065236ffb76b49cba1fa61abc1bf9c41"},
+  "stage12_code": {"path": "src/bota_short_benchmark/ali_stage12_lambda_extension_v1.py", "sha256": "18a5b3f2974f8219bbf29b0780f73e6d82a29f34be3f096547af6e7589490e81"},
+  "parent_manifests": {
+    "protocol": "333c5f8516fe819f593b457b58514e05ed0ca4a1efd892f8e763d2226dace335",
+    "selection": "55d5e45c2c903e32b2c1f4e4609a83f99b524e01cebf8f77253b786edce9c2a1",
+    "summary": "6541f44b305c5a43899992cf8aded8f4e454b91913df2ac63dfbfe268d135252",
+    "cells/s41_L8": "a67c576b1814a037c8337972609a6aab953c1c51b2f92f67a31d3725902c0edf",
+    "cells/s41_L4M4": "ef6258f28414bc751bdba82636ac89b6f41833bcdac7ad995fb8846726c2c1e5",
+    "cells/s42_L8": "1f8f8037e1100f9a185967183d923fefeb306330eb5ef7551d9af8c271937777",
+    "cells/s42_L4M4": "efa7572a84981343c48bb712692986488f76f2cf9e1063e663f4f668be8a44c1",
+    "cells/s43_L8": "d0d5f9476777601f53ac8dd451ee15ad321202c922eea90db906e0fc95f0e1aa",
+    "cells/s43_L4M4": "2bc6273be8094a104f9e688ca68ae5aec7ed85acaf9a66693cca017cbf45301f"
+  },
+  "protocol": {
+    "selection_seed": 42,
+    "confirmation_seeds": [41, 43],
+    "scenarios": ["L8", "L4M4"],
+    "coarse_grid": [2.0, 4.0, 8.0, 16.0],
+    "maximum_lambda": 16.0,
+    "fine_rounds": 1,
+    "controls": [1.0, 2.0],
+    "absolute_gain_minimum": 0.000001,
+    "relative_gain_minimum": 0.01,
+    "optimizer_steps": 200,
+    "split": "Development/Dev-Select",
+    "final_test": false,
+    "source_scaled": false,
+    "endpoint_interpolation": false,
+    "reproduction_atol": 1e-8,
+    "reproduction_rtol": 0.001
+  },
+  "output_root": "outputs/ali_stage13_lambda_search_v1"
+}

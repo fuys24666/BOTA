@@ -1,0 +1,105 @@
+{
+  "amendment_id": "ali-stage0-amendment-15-frozen-lambda64-finaltest-v1",
+  "created_date": "2026-10-08",
+  "status": "SPECIFIED_BEFORE_STAGE16_FINALTEST_ACCESS",
+  "parent_amendment": {
+    "path": "configs/ali_stage0_amendment14_v1.json",
+    "sha256": "5f28920e62143f8aa0f78cb67899df3db9c59b0c848f227c789d191b23380a8e"
+  },
+  "purpose": "One separately frozen evaluation of Development-selected lambda=64, joint counterfactual/P5/ranking report; no further tuning.",
+  "protocol": {
+    "seeds": [
+      41,
+      42,
+      43
+    ],
+    "scenarios": [
+      "L8",
+      "L4M4"
+    ],
+    "methods": [
+      "Original",
+      "Exact-Masked",
+      "BOTA64",
+      "BOTA1",
+      "BOTA0",
+      "FullControl-P5",
+      "Retain-Retrain-P5",
+      "IFRU",
+      "E2URec",
+      "NegGrad",
+      "PCGrad",
+      "RecEraser"
+    ],
+    "split": "FinalTest",
+    "binary_rows": 20000,
+    "lanes": [
+      "binary",
+      "ranking"
+    ],
+    "response_scale": 64,
+    "ablation_scales": [
+      0,
+      1
+    ],
+    "optimizer_updates": 0,
+    "hyperparameter_selection": false,
+    "historical_finaltest_exposure": true,
+    "request_replacement": false,
+    "primary": "binary_requested_user_mean_absolute_error_to_ExactMasked",
+    "binary_utility_guards": {
+      "auc_damage_max": 0.005,
+      "logloss_damage_max": 0.01
+    },
+    "bootstrap_resamples": 2000,
+    "bootstrap_unit": "authoritative_requested_user",
+    "ranking": {
+      "positive": "all_FinalTest_rating_ge_4_unseen_before_FinalTest_in_catalogue",
+      "catalogue": "items_observed_before_FinalTest",
+      "history": "last_10_before_first_FinalTest_event_per_user",
+      "negatives": 100,
+      "namespace": "ali-stage15-ranking-v1",
+      "exclude": "all_user_observations_through_FinalTest_end",
+      "ks": [
+        5,
+        10,
+        20
+      ],
+      "primary": "sampled_NDCG@10",
+      "secondary": "NDCG@5/20_Recall@5/10/20",
+      "no_positive": "exclude_from_macro_and_report",
+      "insufficient_negatives": "use_all_and_report",
+      "tie_break": "ascending_movie_id",
+      "groups": [
+        "all",
+        "requested",
+        "retained"
+      ],
+      "new_acceptance_threshold": null
+    },
+    "selection_on_results": false,
+    "inference_batch_size": 4,
+    "resume": "explicit_same_seal_only;reuse_completed_cells;restart_incomplete_cells;no_new_cohort",
+    "publication": "all_144_cells_required_for_combined_summary",
+    "legacy_reproduction": {
+      "atol": 1e-8,
+      "rtol": 0.001,
+      "fields": [
+        "E_U",
+        "D_U",
+        "overall_auc",
+        "overall_log_loss",
+        "p5_retrain_residual"
+      ]
+    }
+  },
+  "reporting": [
+    "Preserve historical FinalTest exposure; this is not a new independent holdout.",
+    "All seeds, requests, methods, failures, missing-user coverage, absolute and normalized effects are mandatory.",
+    "Retain unchanged Stage15 artifacts and all lambda-search results. Lambda0/1 are controls, never candidates for post-test selection.",
+    "New NDCG results are descriptive ranking utility, not a selection criterion or a privacy test.",
+    "Exact-Masked and separately stopped Retain-Retrain-P5 are distinct targets.",
+    "Original source-hash seal, not a forced Git commit; old pre-Stage16 preregistrations are unchanged."
+  ],
+  "recovery": "Explicit Resume is authorized only for infrastructure continuation using identical sealed code, configuration, models, cohort and candidate set; all completed cells reused. Keep failures. Never reset access ledger or discard unfavorable cells. Any code/protocol change after test access requires a separate documented amendment."
+}

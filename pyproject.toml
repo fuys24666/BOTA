@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "bota-unlearning"
 version = "0.1.0"
-description = "Blockwise optimizer-aware trajectory amortization for online user unlearning"
+description = "Optimizer-aware trajectory amortization for short-window matched-counterfactual user deletion"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

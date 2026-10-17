@@ -1,0 +1,3 @@
+# Frozen experiments validate source bytes, including line endings.
+# Preserve working-tree bytes; never automatically normalize this snapshot.
+* -text

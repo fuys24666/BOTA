@@ -1,0 +1,31 @@
+{
+  "schema": "bota-ali-stage22-ifru-numerical-v1",
+  "status": "SPECIFIED_BEFORE_STAGE22_MODEL_EXECUTION",
+  "output_root": "outputs/ali_stage22_ifru_numerical_v1",
+  "parent_root": "outputs/ali_stage21_amazon_seed43_v1",
+  "parent_hashes": {
+    "protocol": "2a341ea0c1b2c3bf124c2060ddcf9304a9d9cc87e2323001e0e1d63a93070b02",
+    "comparison/IFRU": "eca4bbf076d7a3435a19b6664a086dc48aa087497575891246e74843e0fcc100"
+  },
+  "seed": 43,
+  "requests": ["A1", "A2", "A3"],
+  "historical_status": {"A1": "NUMERICAL_SOLVER_FAILURE", "A2": "NUMERICAL_SOLVER_FAILURE", "A3": "OK"},
+  "panel_samples": 1024,
+  "panel_seed": 43,
+  "batch_size": 8,
+  "damping_ratio": 0.1,
+  "power_iterations": 12,
+  "power_tolerance": 0.0001,
+  "cg": {"relative_tolerance": 0.0001, "absolute_tolerance": 1e-10, "max_iterations": 40, "residual_explosion_factor": 1000.0, "pap_tolerance": 1e-14},
+  "variants": ["legacy", "monitor", "restart5"],
+  "restart_interval": 5,
+  "probe_scales": [0.0001, 0.01, 100.0],
+  "probe_seed": 220043,
+  "diagnostic_only": true,
+  "selection_performed": false,
+  "test_accessed": false,
+  "final_test_forbidden": true,
+  "apply_solutions": false,
+  "optimizer_steps": 0,
+  "interpretation": "Numerical diagnostics only. No baseline replacement, tuning, behavioral or privacy conclusion. FP64 vector algebra does not imply FP64 model HVP. Nonstationarity is descriptive, not a convergence test."
+}

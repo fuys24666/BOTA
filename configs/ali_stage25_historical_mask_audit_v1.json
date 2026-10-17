@@ -1,0 +1,22 @@
+{
+  "schema": "bota-ali-stage25-historical-mask-audit-v1",
+  "output_root": "outputs/ali_stage25_historical_mask_audit_v1",
+  "lambda": {"ML1M": 64, "Amazon": 48},
+  "ablation_lambda": 0,
+  "optimizer_updates": 0,
+  "hyperparameter_selection": false,
+  "all_candidate_resweep": false,
+  "missing_weights": "report_unavailable_never_retrain_or_mix_legacy_scores",
+  "finaltest": "separate_scope_explicit_confirmation_identical_stage16_cohort",
+  "inference_batch_size": 4,
+  "audit": {"samples": 32, "local_samples": 16, "batch_sizes": [1, 4, 8], "orders": ["length_sorted", "short_long_interleaved"], "probability_atol": 0.00001, "probability_rtol": 0.00001, "loss_atol": 0.0001, "loss_rtol": 0.00001},
+  "parents": {
+    "ali_stage14_lambda_search_v1/protocol/contract.json": "9e8291d6543e5e9599dc48d5d1379da2d502bca102925d3d557f069f32fc0ac6",
+    "ali_stage15_ranking_v1/protocol/contract.json": "c21189293ed7d1529307ae7d93c5f6809d367b77a1d59167f9168410330fdc7c",
+    "ali_stage16_finaltest_v1/protocol/contract.json": "dda213a200712a03616a7fa51506ef48274e805d64f59011488b2b9a6eceb35a",
+    "ali_stage18_amazon_lambda_search_v2/protocol/result.json": "b452dd9122852bd129443da35c8bef43fca3b066cbfdf47ae2b60114151612d3",
+    "ali_stage20_amazon_baselines_v1/protocol/result.json": "6396351ee9ef283675824e9a8d06627307f2a5a097560bd14e95a051b4f1cd96",
+    "ali_stage21_amazon_seed43_v1/protocol/result.json": "2a341ea0c1b2c3bf124c2060ddcf9304a9d9cc87e2323001e0e1d63a93070b02",
+    "ali_stage24_masked_rescore_v1/summary/result.json": "adfce41bd1098eac9ca360825fa99fbdba1573be32a879e9f5a8cd3314c6a279"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "bota-ali-stage23-pair-decomposition-v1",
+  "status": "SPECIFIED_BEFORE_STAGE23_MODEL_EXECUTION",
+  "output_root": "outputs/ali_stage23_pair_decomposition_v1",
+  "datasets": ["Amazon", "ML1M"],
+  "seeds": [41, 42, 43],
+  "lambda": {"Amazon": 48, "ML1M": 64},
+  "ablation_lambda": 0,
+  "pairs_per_dataset": 3,
+  "amazon_pair_rule": "unchanged_Stage20_A1_A2_A3_for_all_three_seeds",
+  "ml_pair_rule": "resolve_L4M4_public_hash_to_actual_user_then_hash_sort_each_role_take_first_three_zip_low_middle",
+  "optimizer_steps": 200,
+  "batch_size": 16,
+  "control_replay": "fresh_no_deletion_must_tensor_exact_match_historical_Original",
+  "evaluation": {"split": "Development", "all_requested_user_samples": true, "matched_samples_per_user": 5, "nonrequested_control_samples": 512, "selection_salt": "stage23-metadata-only-v1", "inference_batch_size": 4},
+  "ratio_norm_floor": 1e-12,
+  "stop_policy": "retain_all_numerical_failures;stop_on_reference_or_identity_failure;no_retuning_or_replacement_requests",
+  "test_accessed": false,
+  "final_test_forbidden": true,
+  "selection_performed": false,
+  "diagnostic_only": true,
+  "parent_bindings": {
+    "outputs/ali_stage17_lambda64_suite_v1/protocol/contract.json": "a29fa31f08a741da6adadb80a332c8c634a27f06e1392f7d0f225a937c2c395c",
+    "outputs/ali_stage20_amazon_baselines_v1/protocol/result.json": "6396351ee9ef283675824e9a8d06627307f2a5a097560bd14e95a051b4f1cd96",
+    "outputs/ali_stage21_amazon_seed43_v1/protocol/result.json": "2a341ea0c1b2c3bf124c2060ddcf9304a9d9cc87e2323001e0e1d63a93070b02"
+  }
+}

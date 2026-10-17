@@ -1,0 +1,35 @@
+{
+  "schema": "bota-ali-stage12-lambda-extension-v1",
+  "test_access_policy": "forbidden",
+  "amendment": {
+    "path": "configs/ali_stage0_amendment11_v1.json",
+    "sha256": "3de028bc06b38ccc14e659e86169cf7e76cbbbd82c25d3c52e6a9cbf4de7f3b6"
+  },
+  "stage8_config": {
+    "path": "configs/ali_stage8_bota_response_sweep_v1.yaml",
+    "sha256": "5b5e9cc3c47129268d6cf18565c14e4dcc684ad3fd6f4680d1d89975f1bd65f0"
+  },
+  "stage9_config": {
+    "path": "configs/ali_stage9_crossseed_development_v1.yaml",
+    "sha256": "3210f9470049a61985bfb426be6e0d364489953dc38f48a78d0d71ef8002a668"
+  },
+  "stage8_audit": {
+    "path": "docs/audits/ali_stage8_result_audit_v1.json",
+    "sha256": "51a473b30e38d3ad71dbb1d2065ee34cafc4acc7737a84a45334e8dd4efa10bc"
+  },
+  "protocol": {
+    "selection_seed": 42,
+    "confirmation_seeds": [41, 43],
+    "scenarios": ["L8", "L4M4"],
+    "new_grid": [1.0, 1.5, 2.0],
+    "merged_grid": [0.0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0],
+    "optimizer_steps": 200,
+    "split": "Development/Dev-Select",
+    "final_test": false,
+    "source_scaled": false,
+    "endpoint_interpolation": false,
+    "reproduction_atol": 1e-8,
+    "reproduction_rtol": 0.001
+  },
+  "output_root": "outputs/ali_stage12_lambda_extension_v1"
+}

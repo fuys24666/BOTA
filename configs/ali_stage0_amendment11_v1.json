@@ -1,0 +1,32 @@
+{
+  "amendment_id": "ali-stage0-amendment-11-lambda-extension-development-v1",
+  "created_date": "2026-10-07",
+  "status": "SPECIFIED_BEFORE_STAGE12_EXECUTION",
+  "parent_preregistration_sha256": "4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0",
+  "test_access_policy": "forbidden",
+  "purpose": "Reviewer-motivated extension after seeing the Stage 8 boundary optimum; not a previously unseen confirmatory analysis.",
+  "parameter": "lambda multiplies empirical-Fisher feedback inside each AdamW tangent recursion; it does not scale deletion sources or interpolate the final adapter.",
+  "screen": {
+    "seed": 42,
+    "scenarios": ["L8", "L4M4"],
+    "split": "Development/Dev-Select",
+    "historical_grid": [0, 0.25, 0.5, 0.75, 1],
+    "newly_executed_grid": [1, 1.5, 2],
+    "merged_grid": [0, 0.25, 0.5, 0.75, 1, 1.5, 2],
+    "selection": "Reuse frozen Stage 8 rows, append 1.5 and 2 only. Require utility eligibility and no prediction collapse in both scenarios, minimize equal-scenario mean E_U, ties nearest 1 then candidate ID. Rerun 1 is a reproduction control, not a second candidate.",
+    "reproduction": "Require the inherited formal adapter gate, and seed-42 rerun-1 E_U, D_U, AUC and logloss within max(1e-8, 0.001*abs(old)) of frozen Stage 8. Gate failure blocks selection, not a negative scientific result."
+  },
+  "confirmation": {
+    "trigger": "Only if a scale above 1 wins; freeze selection before execution.",
+    "seeds": [41, 43],
+    "candidates": "Frozen winner and lambda=1 only, both L8 and L4M4.",
+    "pass": "Winner must satisfy utility and non-collapse guards and residual<1 in every cell; its equal-scenario mean E_U must be strictly smaller than lambda=1 separately in each confirmation seed. Report all cell-level regressions.",
+    "interpretation": "Cross-seed Development confirmation; these seeds and this split have prior evaluation history, not an untouched holdout."
+  },
+  "reporting": [
+    "Retain every candidate, failed numerical outcome, utility guard failure and cell-level regression.",
+    "Nonfinite transport or predictions invalidate that candidate; IO, OOM, integrity or software errors abort execution and remain incomplete.",
+    "A lambda=2 winner remains a boundary optimum. No automatic grid expansion, no universal optimality claim.",
+    "FinalTest is forbidden, even if confirmation passes; no historical result/configuration is replaced."
+  ]
+}

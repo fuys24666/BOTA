@@ -1,0 +1,65 @@
+{
+  "amendment_id": "ali-stage0-amendment-14-frozen-development-ranking-v1",
+  "created_date": "2026-10-08",
+  "status": "SPECIFIED_BEFORE_STAGE15_EXECUTION",
+  "parent_amendment": {
+    "path": "configs/ali_stage0_amendment13_v1.json",
+    "sha256": "725fc23b080b934b2d6dced1b515abf53fd9d72c33c01ee78c47f7fc0cb9c853"
+  },
+  "purpose": "Supplementary ranking utility at frozen lambda=64; not another response-strength search, not privacy verification and not FinalTest authorization.",
+  "protocol": {
+    "split": "Development/Dev-Select",
+    "response_scale": 64,
+    "seeds": [
+      41,
+      42,
+      43
+    ],
+    "scenarios": [
+      "L8",
+      "L4M4"
+    ],
+    "methods": [
+      "Original",
+      "Exact-Masked",
+      "BOTA64",
+      "BOTA1",
+      "FullControl-P5",
+      "Retain-Retrain-P5",
+      "IFRU",
+      "E2URec",
+      "NegGrad",
+      "PCGrad",
+      "RecEraser"
+    ],
+    "candidate_mode": "all_eligible_DevSelect_positives_plus_100_unobserved",
+    "negative_count": 100,
+    "sampling_namespace": "ali-stage15-ranking-v1",
+    "catalogue": "items_observed_before_Development",
+    "history": "last_10_before_first_Development_event_per_user",
+    "exclude": "all_user_observations_through_Development_end",
+    "positive": "DevSelect_rating_ge_4_not_in_preDevelopment_history_in_catalogue",
+    "no_positive": "exclude_from_macro_and_report",
+    "insufficient_negatives": "use_all_and_report",
+    "ks": [
+      5,
+      10,
+      20
+    ],
+    "primary": "sampled_NDCG@10",
+    "secondary": "NDCG@5/20_and_Recall@5/10/20",
+    "tie_break": "ascending_movie_id",
+    "aggregation": "macro_user_then_seed_mean_sample_sd",
+    "score": "first_token_PYes_over_PYes_plus_PNo;ensemble_mix_token_mass_first",
+    "inference_batch_size": 4,
+    "optimizer_updates": 0,
+    "hyperparameter_selection": false,
+    "final_test": false
+  },
+  "provenance": "Existing Development data and seeds have been used before. No claim of a fresh untouched holdout. Raw ratings are read for established train/Development lineage reconstruction, but the FinalTest slice is not materialized and processed test/prediction files are forbidden.",
+  "candidates": "Per user use every eligible rating>=4 Dev-Select item, plus 100 deterministic SHA256-ordered previously unobserved items sampled without replacement from the pre-Development observed catalogue. Exclude all interactions known through Development end from the negative pool, including Dev-Fit and nonselected positives. Never consult future FinalTest interactions. All candidate prompts use the same pre-Development last-10 history. No-positive users are excluded with explicit coverage; do not impute zero or silently drop requested users.",
+  "interpretation": "Unobserved sampled candidates have assumed zero relevance, not verified dislike. Sampled NDCG is not full-catalogue NDCG and should not be compared directly to papers using different candidate protocols. Ranking utility does not prove privacy deletion. No ranking threshold selects lambda or authorizes FinalTest.",
+  "fairness": "Same candidate identities, prompt histories, K values, scoring and tie rule for all seeds, scenarios and methods. Retain fixed Stage7/9 baselines and P5 references; SISA remains no eligible candidate. Report BOTA64 and BOTA1, with all adverse results retained.",
+  "execution": "No optimizer/backward/HVP calls. Atomic per-endpoint publication, complete-score retention and CPU metric recomputation. Code, data, selection and checkpoint hashes bind reuse. Failures keep diagnostics; no rescue tuning, candidate substitution or overwrite.",
+  "reference": "https://research.google/pubs/on-sampled-metrics-for-item-recommendation/"
+}

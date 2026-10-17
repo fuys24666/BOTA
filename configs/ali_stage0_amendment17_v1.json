@@ -1,0 +1,13 @@
+{
+  "amendment_id": "17",
+  "status": "SPECIFIED_BEFORE_STAGE18_EXECUTION",
+  "scope": "Amazon Movies and TV FS empirical-Fisher response-strength calibration only",
+  "parent_policy": "Existing preregistrations and MovieLens Stage 17 artifacts remain read-only. This separate amendment does not relabel old results.",
+  "search": "Seed 42 coarse lambda=0,1,2,4,8,16,32,64,128,256. Select a shared K2/K4 lambda by mean absolute requested-user probability error subject to both utility gates and no prediction collapse in each scenario. Exact ties prefer smaller lambda.",
+  "fine_rule": "At most one fine round: only when the eligible coarse winner is internal, positive, and improves over eligible lambda=0 by at least 1e-6 absolute AND 1% relative mean EU. Evaluate the arithmetic midpoint on each side using adjacent coarse grid values; retain all coarse candidates when selecting. If zero is ineligible, no fine round. Boundary winner, no eligible candidate, or negligible improvement stops refinement. Never expand above 256 automatically.",
+  "confirmation": "Freeze seed-42 selection before seeds 41/43; compare selected lambda with 0,1,64 without selecting again. Confirmation passes only if selected is eligible in all four seed-request cells, has at least 1e-6 absolute and 1% relative mean EU improvement over zero in EACH confirmation seed, and no request EU exceeds its zero comparator by more than 1e-6. Report all failures; no post-confirmation fallback selection.",
+  "data": "Reuse frozen historical Amazon checkpoint, adaptation data, order, and label-blind K2/K4 requests. Evaluate all 3840 existing Development samples, with 10/20 requested-user samples for K2/K4. No gradient updates on Development. This previously used Development cohort is calibration evidence, not a new holdout. Cross-seed changes fixed-A initialization and runtime seed only, not historical pretraining, cohort, or order.",
+  "boundaries": "No FinalTest, no NDCG-based selection, no baseline tuning, no learning-rate/rank/source scaling, no clipping/shrinkage to rescue numerical failures. Numerical candidate failures stay in the table; OOM/programming failures abort. Best means within the registered search, not a global optimum or proven generalization.",
+  "integrity": "Hash source/config/data/reference assets before Full; preserve immutable atomic units and frozen decisions for verified restart. Seed42 canonical must reproduce Original exactly and lambda1 must reproduce the historical BOTA update within fixed alignment tolerances before evaluation.",
+  "test_accessed": false
+}

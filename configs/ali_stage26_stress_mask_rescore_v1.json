@@ -1,0 +1,23 @@
+{
+  "schema": "bota-ali-stage26-stress-mask-rescore-v1",
+  "lambda": 64,
+  "optimizer_updates": 0,
+  "selection_performed": false,
+  "test_accessed": false,
+  "inference_batch_size": 4,
+  "missing_weights": "report_only_never_reconstruct",
+  "primary_ablations": ["BOTA0", "FM0", "FM64"],
+  "historical_lambda1": "archive_only_not_rescored",
+  "scope": "Stage17 full Development binary; frozen Stage15 ranking; original member/nonmember attack cohorts",
+  "unaffected_part": "verify_and_reuse_parameter_SVD_storage_latency_no_remeasurement",
+  "audit": {
+    "samples": 32,
+    "local_samples": 16,
+    "batch_sizes": [1, 4, 8],
+    "orders": ["length_sorted", "short_long_interleaved"],
+    "probability_atol": 0.00001,
+    "probability_rtol": 0.00001,
+    "loss_atol": 0.0001,
+    "loss_rtol": 0.00001
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "bota-ali-stage21-amazon-seed43-v1",
+  "output_root": "outputs/ali_stage21_amazon_seed43_v1",
+  "parent_root": "outputs/ali_stage20_amazon_baselines_v1",
+  "parent_hashes": {
+    "protocol": "6396351ee9ef283675824e9a8d06627307f2a5a097560bd14e95a051b4f1cd96",
+    "all_selections": "d816966bea634ac88f2b6b7e14d56cd33a96e20412ba0d1703d0e940390767f8",
+    "summary": "39cd339cc3976cb49d5eeaa83d5d40004a802be63b76efd3fe858c7c4c9704d7"
+  },
+  "seed": 43,
+  "calibration_seed": 42,
+  "primary_lambda": 48,
+  "ablation_lambda": 0,
+  "requests": ["A1", "A2", "A3"],
+  "methods": ["IFRU", "E2URec", "NegGrad", "PCGrad", "SISA", "RecEraser"],
+  "original_bank": "outputs/ali_stage18_amazon_lambda_search_v2/banks/confirm_43",
+  "test_access_policy": "forbidden",
+  "retune": false,
+  "preserve_parent_results": true,
+  "retain_ineligible_diagnostics": true,
+  "amendment": "configs/ali_stage0_amendment20_v1.json"
+}

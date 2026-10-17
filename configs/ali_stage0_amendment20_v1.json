@@ -1,0 +1,13 @@
+{
+  "schema": "bota-stage21-followup-amendment-v1",
+  "status": "SPECIFIED_BEFORE_STAGE21_EXECUTION",
+  "motivation": "User-requested seed43 follow-up after viewing Stage20 seed42 outcomes; not a prospectively selected independent validation seed.",
+  "selection": "No retuning: inherit all six frozen Stage20 choices including explicitly ineligible PCGrad/SISA diagnostics. BOTA lambda48 and source-only lambda0.",
+  "fixed": ["A1/A2/A3 identities", "canonical training order", "historical pretrained checkpoint", "Dev-Fit/Dev-Select indices", "local support", "scoring rules", "utility gates", "all hyperparameters"],
+  "changed": ["model run seed and fixed-A seed to43", "baseline minibatch RNG to43", "partition and shard training seed to43"],
+  "interpretation": "Same cohorts and historical pretrained checkpoint; model/algorithm seed sensitivity, not independent users or a separately pretrained backbone. Historical seed41/42/43 results remain reportable and unmodified.",
+  "reporting": "Report all 30 rows including failures; compare BOTA against Original, source-only and all baseline endpoints. No choosing requests, seeds or parameters using this outcome.",
+  "final_test_forbidden": true,
+  "test_accessed": false,
+  "resume": "Verified completed units reused. Interrupted gradient/IFRU/transport units restart; partition runs resume from completed shard with RNG state. No automatic retuning or fallback."
+}

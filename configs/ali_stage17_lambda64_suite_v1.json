@@ -1,0 +1,109 @@
+{
+  "schema": "bota-ali-stage17-lambda64-suite-v1",
+  "protocol": {
+    "dataset": "MovieLens-1M",
+    "lambda": 64,
+    "seeds": [
+      41,
+      42,
+      43
+    ],
+    "test_access_policy": "forbidden",
+    "selection": false,
+    "primary_ablation": [
+      "FS0",
+      "FS1",
+      "FS64",
+      "FM0",
+      "FM64"
+    ],
+    "primary_requests": [
+      "L8",
+      "L4M4"
+    ],
+    "stronger_seed": 42,
+    "stronger_requests": "all_nine_frozen_Stage2",
+    "stronger_attack_interpretation": [
+      "high_k4"
+    ],
+    "sequential_sizes": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "sequential_orders": "same_20_Stage5_cells_per_seed;deduplicate_identical_unions",
+    "horizon_steps": 1200,
+    "horizon_schedule": "same_Stage3_six_P5_epoch_orders",
+    "bank_sizes": [
+      12,
+      32,
+      64,
+      128,
+      256
+    ],
+    "bank_chunk_size": 32,
+    "storage_representations": [
+      "FP32",
+      "FP16",
+      "INT8_per_vector",
+      "INT8_per_block4096",
+      "topq_0.0625",
+      "topq_0.03125",
+      "topq_0.015625",
+      "shared_low_rank_r4",
+      "shared_low_rank_r8",
+      "shared_low_rank_r16",
+      "shared_low_rank_r32",
+      "shared_low_rank_r64"
+    ],
+    "storage_gate": {
+      "minimum_compression": 16,
+      "maximum_relative_parameter_residual_increase": 0.1
+    },
+    "storage_behavior": "all_12_representations_at_256;no_candidate_selection",
+    "svd": "float64_Gram;raw_and_row_normalized;fixed_256_users",
+    "behavior_split": "full_Development_20000",
+    "ranking": "frozen_Stage15_DevSelect_candidates",
+    "ranking_is_separate_query_set": true,
+    "bootstrap_resamples": 2000,
+    "bootstrap_seed": 42,
+    "attack_scores": [
+      "negative_answer_loss",
+      "confidence",
+      "negative_entropy",
+      "absolute_yes_no_margin"
+    ],
+    "attack_signal_minimum": 0.02,
+    "auc_damage_max": 0.005,
+    "logloss_damage_max": 0.01,
+    "numerical_failures": "retain_explicit_outcomes;never_clip_or_shrink_lambda;no_success_only_summary",
+    "latency": {
+      "bank_sizes": [
+        12,
+        256
+      ],
+      "warmup": 20,
+      "repeats": 1000,
+      "semantics": "compose_materialize_fsync_publish_reload_verify",
+      "excluded": "bank_build,cold_load,network,fallback,production_service"
+    },
+    "reuse": "unchanged_original_exact_and_calibrated_baselines_with_hashes;no_retraining_of_controls",
+    "legacy_position_relay": {
+      "seed": 42,
+      "isolated_historical_runtime": true,
+      "lambda": 64,
+      "relay": "same_frozen_v1_L8_600_distinct_slots_carry_theta_m_v",
+      "position": "corrected_P3C5F_three_strata_four_independent_200step_windows",
+      "position_metrics": "parameter_fidelity_only_same_as_historical_protocol",
+      "relay_metrics": "parameter_and_full_Development_behavior_same_as_historical_protocol"
+    },
+    "cost_analysis": "dedicated_FS64_12user_build;256user_8chunks;historical_Stage5_exact_timing_break_even_no_fallback",
+    "other_dataset": "not_authorized_in_this_stage"
+  },
+  "bindings": {
+    "docs/audits/ali_stage16_result_audit_v1.json": "eebc4f307282eefa45d9f68bfb171a3eacd79f20e3b232cd5052ac422d7bf143",
+    "configs/ali_stage0_amendment15_v1.json": "b20699de5dd91b255515b75d76e88332f652fbeb3479b3871b7c332a158c1c41",
+    "configs/ali_stage0_amendment16_v1.json": "d0e9ea826a19528f864df7571f9a5a7e9ae6a7606af9e64ba972227169803ba8"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "stage21-repair01",
+  "reason": "IFRU A1 false_residual_convergence rejected the CG endpoint; previously the unhandled numerical rejection aborted all methods.",
+  "policy": "Keep solver, tolerances, damping, panels and selected configurations unchanged. Record this explicit rejection as a failed cell with no endpoint; continue subsequent requests. Unexpected errors still abort. Failed comparators never count as BOTA wins. No fabricated zero error or fabricated compute count.",
+  "migrations": {
+    "src/bota_short_benchmark/ali_stage21_amazon_seed43_v1.py": {
+      "before": "36392e8ff5c790c5cce8c0b17bb9b4791e7e67a03de9e3b09dc72007103b939a",
+      "after": "ac43f2e82ca32a2fbc3188bf0880e4a6bd1d42f5f636575285447a4a1a66557d"
+    },
+    "src/bota_short_benchmark/ali_stage21_amazon_seed43_kernel_v1.py": {
+      "before": "f742c60c3d5b37ef78b260e7593888ea64f8fca6656879396dddcbfc2bcfaf85",
+      "after": "11ebcaab998c93bd86cdee9d80f5650c874495f7a8d0ab1b0a4c6120b1ddd4df"
+    }
+  },
+  "repair_validator_sha256": "f62206bd2571bf6adc97389de83dbe2e2a1d32e371456e5684b21b447e4121c2",
+  "original_protocol_unchanged": true,
+  "existing_completed_artifacts_reused": true,
+  "test_accessed": false
+}

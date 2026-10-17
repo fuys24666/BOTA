@@ -1,0 +1,43 @@
+{
+  "amendment_id": "ali-stage0-amendment-12-bounded-lambda-search-v1",
+  "created_date": "2026-10-07",
+  "status": "SPECIFIED_BEFORE_STAGE13_EXECUTION",
+  "test_access_policy": "forbidden",
+  "parent_preregistration_sha256": "4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0",
+  "purpose": "Bounded, reviewer-motivated Fisher-response sensitivity and calibration after the Stage 12 boundary winner at lambda=2. This is not an untouched confirmatory dataset or proof of Fisher curvature accuracy.",
+  "invariants": "Same 200-step full AdamW recursion, unscaled deletion sources, L8/L4M4 requests, Development/Dev-Select partition, utility guards and equal-scenario mean E_U objective. No FinalTest access, new baselines or historical replacement.",
+  "coarse": {
+    "seed": 42,
+    "grid": [2, 4, 8, 16],
+    "additional_control": 1,
+    "controls": "Rerun 1 and 2; require both to match frozen Stage 12 E_U/D_U/AUC/logloss within max(1e-8,0.001*abs(old)), and require the inherited formal-adapter gate at 1. Rerun controls are never duplicate selection candidates.",
+    "selection": "Both requests must pass AUC damage<=0.005, logloss damage<=0.01 and no prediction collapse. Minimize equal-scenario mean E_U, ties nearest 1 then candidate ID."
+  },
+  "budget_gate": {
+    "absolute_EU_reduction_minimum": 0.000001,
+    "relative_EU_reduction_minimum": 0.01,
+    "reference": "Frozen seed-42 Stage 12 lambda=2 equal-scenario mean E_U",
+    "rule": "Both thresholds must pass. This is an engineering continuation threshold, not a statistical-significance or scientific-materiality claim."
+  },
+  "fine": {
+    "trigger": "Coarse winner is 4 or 8 and passes the budget gate.",
+    "grid_rule": "Exactly the two arithmetic midpoints to its adjacent coarse grid values: winner 4 -> [3,6], winner 8 -> [6,12]. Freeze this decision before running fine candidates. Neighboring utility/numerical failures remain reported; an interior feasible winner is not proof of a smooth turning point.",
+    "maximum_rounds": 1,
+    "additional_controls": [1, 2]
+  },
+  "final_selection": "Merge seven frozen Stage 12 candidates with new 4/8/16 and at most two fine candidates. Preserve all rows, including failures. Same utility/tie rules. Freeze final selection before cross-seed confirmation.",
+  "stopping": [
+    "No lambda above 16; if 16 wins, flag an unresolved boundary optimum. No automatic expansion.",
+    "No fine scan for a boundary winner, lambda=2 winner, or a gain below the budget gate.",
+    "If final winner adds no budget-gate-passing benefit over 2, do not run new cross-seed confirmation; keep Stage 12 as the existing reference while reporting the raw screen winner.",
+    "At most one fine round; do not move its interval after seeing its results."
+  ],
+  "confirmation": {
+    "seeds": [41, 43],
+    "grid": "Frozen final winner plus controls 1 and 2, once per seed/request.",
+    "pass": "All winner cells utility-eligible and non-collapsed with residual<1. Both controls eligible. Mean E_U strictly below each control separately in each seed. Report all cell regressions and absolute/relative gains; no reselection from confirmation data.",
+    "interpretation": "Previously evaluated Development seeds, not independent untouched holdouts. No automatic FinalTest authorization."
+  },
+  "failures": "Known numerical failures invalidate and retain the candidate. Failure of either reproduction control, OOM, software, IO or integrity errors abort that cell; preserve incomplete diagnostics. No clipping, silent dropping, rescue tuning or overwrites.",
+  "diagnostics": "Report per-request parameter-update norm, cosine and relative L2 to Exact-Masked at the final endpoint; descriptive only, never selection inputs or privacy guarantees."
+}

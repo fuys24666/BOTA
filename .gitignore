@@ -53,3 +53,9 @@ configs/local/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Local release products and manuscript-review working notes
+dist/
+build/
+*.egg-info/
+docs/audits/stage17_final_20261011/

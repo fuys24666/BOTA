@@ -1,0 +1,22 @@
+{
+  "schema": "bota-ali-stage26b-focused-rescore-v1",
+  "lambda": 64,
+  "optimizer_updates": 0,
+  "selection_performed": false,
+  "test_accessed": false,
+  "inference_batch_size": 4,
+  "methods": ["Original", "Exact-Masked", "BOTA64", "Uncompressed-FS64"],
+  "binary_scope": "all 133 original groups; full 20000 Development examples",
+  "attack_scope": "six primary seed-request groups and all nine stronger requests; formal stronger interpretation high_k4 only",
+  "ranking": "not evaluated; do not infer stress ranking from main results",
+  "seeds_and_requests": "identical to frozen full Stage26 plan; no result-based selection",
+  "missing_weights": "report_only_never_reconstruct",
+  "unaffected_part": "verify_and_reuse_parameter_SVD_storage_latency_no_remeasurement",
+  "audit": {
+    "samples": 32, "local_samples": 16,
+    "batch_sizes": [1, 4, 8],
+    "orders": ["length_sorted", "short_long_interleaved"],
+    "probability_atol": 0.00001, "probability_rtol": 0.00001,
+    "loss_atol": 0.0001, "loss_rtol": 0.00001
+  }
+}

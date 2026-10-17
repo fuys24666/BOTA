@@ -1,0 +1,21 @@
+{
+  "schema": "bota-ali-stage0-amendment-v1",
+  "amendment_id": "Amendment19",
+  "status": "SPECIFIED_BEFORE_STAGE20_EXECUTION",
+  "created_date": "2026-10-12",
+  "purpose": "Restore the historical single-seed Amazon exploratory baseline comparison with bounded Development calibration and three metadata-selected new K2 requests.",
+  "prior_evidence": "Stage18 and Stage19 have already been inspected. This follow-up is specified afterwards and is not a fresh holdout or independent cross-seed validation.",
+  "seed": 42,
+  "bota_primary_lambda": 48,
+  "bota_ablation_lambda": 0,
+  "bota_reselection": false,
+  "baseline_selection_requests": ["K2", "K4"],
+  "new_comparison_users": [[702, 758], [302, 354], [132, 64]],
+  "new_request_selection": "Exclude all Stage18/19 requested users, then take the first three low/middle pairs in the existing metadata hash order, with two adaptation exposures and at least five Development samples per user.",
+  "selection_rule": "One configuration per baseline minimizes equally weighted K2/K4 mean absolute counterfactual error subject to both requests passing AUC damage <= 0.005 and LogLoss damage <= 0.01, finite predictions and no collapse. Ties use compute count then candidate id.",
+  "attention_fit": "RecEraser fits attention on a frozen Development subset excluding all calibration and comparison requested users. All selection and comparison metrics use the disjoint common Dev-Select subset.",
+  "all_reporting": "Retain all candidates, failures, selections and all three requests. If no eligible configuration exists, mark the method NO_ELIGIBLE_CANDIDATE and additionally evaluate the lowest-error finite candidate as an explicitly ineligible diagnostic; do not describe it as calibrated-successful.",
+  "prior_results_preserved": true,
+  "final_test_forbidden": true,
+  "test_accessed": false
+}

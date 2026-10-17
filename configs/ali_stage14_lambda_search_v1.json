@@ -1,0 +1,75 @@
+{
+  "schema": "bota-ali-stage14-lambda-search-v1",
+  "test_access_policy": "forbidden",
+  "amendment": {
+    "path": "configs/ali_stage0_amendment13_v1.json",
+    "sha256": "725fc23b080b934b2d6dced1b515abf53fd9d72c33c01ee78c47f7fc0cb9c853"
+  },
+  "stage8_config": {
+    "path": "configs/ali_stage8_bota_response_sweep_v1.yaml",
+    "sha256": "5b5e9cc3c47129268d6cf18565c14e4dcc684ad3fd6f4680d1d89975f1bd65f0"
+  },
+  "stage9_config": {
+    "path": "configs/ali_stage9_crossseed_development_v1.yaml",
+    "sha256": "3210f9470049a61985bfb426be6e0d364489953dc38f48a78d0d71ef8002a668"
+  },
+  "stage13_config": {
+    "path": "configs/ali_stage13_lambda_search_v1.json",
+    "sha256": "fffb00465049de89f4393cc175edfc762aad7e8561a2cc47f687c02349b80dc6"
+  },
+  "stage13_code": {
+    "path": "src/bota_short_benchmark/ali_stage13_lambda_search_v1.py",
+    "sha256": "506aad28c7ee32c41f9a449ce3bd88ce31a1c1152a29f13362f178c11c16dc5d"
+  },
+  "parent_manifests": {
+    "summary": "a4bcc32de0aad66d7eae29cf68bddf6aa4d157632f0482fee7436a3d11bb03f0",
+    "coarse": "ef12fcfd752816bedf99f48abbe247118cd9a06519d18681006e21d4bdb00f3d",
+    "cells/coarse/s42_L8": "40e4b950adf40131e57265a47796d90713d0bd285b01c85b951bcd9315c05f84",
+    "cells/confirm/s43_L8": "585659bbd904776fadbdb34ed9465c65f2185d02a4b9d0d941b4154a07408b93",
+    "cells/confirm/s41_L8": "7ecc93927334f9ac7a47785744f02d33ae619b734b1723ae4557c3726c7f920b",
+    "protocol": "4c80aed80d9393cb9e743d065445d8512f61dd5ccfef6327f6d5f5ad53237fda",
+    "selection": "c0c8c4d390f773e06b106dac47ec4256f875d54286d0c291f6dc88ee0371615b",
+    "cells/confirm/s41_L4M4": "2f7ed7650158c49e4cbc3e1f1129e717c45c97cf544b3f9515fdae1e10b79dfe",
+    "cells/confirm/s43_L4M4": "adcdd7d8a5f73fecd7d7c4f6399cbda04ee2b852c9459df4393312b13ac354a8",
+    "cells/coarse/s42_L4M4": "dcc28eefc11e7c277795ab4c119d2b9fbfe2ff97ca2f9498d1f33b559f70542b"
+  },
+  "protocol": {
+    "selection_seed": 42,
+    "confirmation_seeds": [
+      41,
+      43
+    ],
+    "scenarios": [
+      "L8",
+      "L4M4"
+    ],
+    "coarse_grid": [
+      16,
+      32,
+      64,
+      128
+    ],
+    "maximum_lambda": 128,
+    "fine_rounds": 1,
+    "controls": [
+      1,
+      16
+    ],
+    "absolute_gain_minimum": 0.000001,
+    "relative_gain_minimum": 0.01,
+    "optimizer_steps": 200,
+    "split": "Development/Dev-Select",
+    "final_test": false,
+    "source_scaled": false,
+    "endpoint_interpolation": false,
+    "reproduction_atol": 1e-8,
+    "reproduction_rtol": 0.001,
+    "ablation_scale": 0,
+    "ablation_seeds": [
+      41,
+      42,
+      43
+    ]
+  },
+  "output_root": "outputs/ali_stage14_lambda_search_v1"
+}

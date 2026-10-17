@@ -1,0 +1,103 @@
+{
+  "schema": "bota-ali-stage16-finaltest-v1",
+  "output_root": "outputs/ali_stage16_finaltest_v1",
+  "protocol": {
+    "seeds": [
+      41,
+      42,
+      43
+    ],
+    "scenarios": [
+      "L8",
+      "L4M4"
+    ],
+    "methods": [
+      "Original",
+      "Exact-Masked",
+      "BOTA64",
+      "BOTA1",
+      "BOTA0",
+      "FullControl-P5",
+      "Retain-Retrain-P5",
+      "IFRU",
+      "E2URec",
+      "NegGrad",
+      "PCGrad",
+      "RecEraser"
+    ],
+    "split": "FinalTest",
+    "binary_rows": 20000,
+    "lanes": [
+      "binary",
+      "ranking"
+    ],
+    "response_scale": 64,
+    "ablation_scales": [
+      0,
+      1
+    ],
+    "optimizer_updates": 0,
+    "hyperparameter_selection": false,
+    "historical_finaltest_exposure": true,
+    "request_replacement": false,
+    "primary": "binary_requested_user_mean_absolute_error_to_ExactMasked",
+    "binary_utility_guards": {
+      "auc_damage_max": 0.005,
+      "logloss_damage_max": 0.01
+    },
+    "bootstrap_resamples": 2000,
+    "bootstrap_unit": "authoritative_requested_user",
+    "ranking": {
+      "positive": "all_FinalTest_rating_ge_4_unseen_before_FinalTest_in_catalogue",
+      "catalogue": "items_observed_before_FinalTest",
+      "history": "last_10_before_first_FinalTest_event_per_user",
+      "negatives": 100,
+      "namespace": "ali-stage15-ranking-v1",
+      "exclude": "all_user_observations_through_FinalTest_end",
+      "ks": [
+        5,
+        10,
+        20
+      ],
+      "primary": "sampled_NDCG@10",
+      "secondary": "NDCG@5/20_Recall@5/10/20",
+      "no_positive": "exclude_from_macro_and_report",
+      "insufficient_negatives": "use_all_and_report",
+      "tie_break": "ascending_movie_id",
+      "groups": [
+        "all",
+        "requested",
+        "retained"
+      ],
+      "new_acceptance_threshold": null
+    },
+    "selection_on_results": false,
+    "inference_batch_size": 4,
+    "resume": "explicit_same_seal_only;reuse_completed_cells;restart_incomplete_cells;no_new_cohort",
+    "publication": "all_144_cells_required_for_combined_summary",
+    "legacy_reproduction": {
+      "atol": 1e-8,
+      "rtol": 0.001,
+      "fields": [
+        "E_U",
+        "D_U",
+        "overall_auc",
+        "overall_log_loss",
+        "p5_retrain_residual"
+      ]
+    }
+  },
+  "test_access_policy": "explicit_separately_sealed_reevaluation",
+  "bindings": {
+    "configs/ali_stage0_amendment14_v1.json": "5f28920e62143f8aa0f78cb67899df3db9c59b0c848f227c789d191b23380a8e",
+    "configs/ali_stage15_ranking_v1.json": "6d67615c01b8e8988b1bd46dd044cdf9bb356e68036ea109569dd54086b2c17e",
+    "configs/ali_stage14_lambda_search_v1.json": "8c4bf1d6b78f90d98207332ab4da2a09961182dcde7e1ed8d71ec28ffc0ba11b",
+    "docs/audits/ali_stage15_result_audit_v1.json": "1b993f1c1183a53503425327ae5aa5d21ad27bbdeee2a7d000599d1288f3eaf0",
+    "docs/audits/ali_stage9_result_audit_v1.json": "1300ef8f0669e1d7d63779329d5c1d79d29e399983f3a852f55963b9934dcb36",
+    "configs/ali_stage0_amendment15_v1.json": "b20699de5dd91b255515b75d76e88332f652fbeb3479b3871b7c332a158c1c41"
+  },
+  "legacy_result": {
+    "path": "outputs/ali_stage10_finaltest_v1/evaluations/ali_stage10_finaltest_v1",
+    "manifest_sha256": "c4a5ff2b820caa613275ceec520a1e18c37b88a8d91720371c7c267500b02384"
+  }
+}

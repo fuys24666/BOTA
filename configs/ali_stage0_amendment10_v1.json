@@ -1,0 +1,15 @@
+{
+  "amendment_id": "ali-stage0-amendment-10-storage-spectrum-diagnostic-v1",
+  "created_date": "2026-10-07",
+  "status": "SPECIFIED_BEFORE_STAGE11_ANALYSIS",
+  "parent_preregistration_sha256": "4e043587f6b18e80e77f19eb2bb57de4aca694b08d88565d530663e50d2c34a0",
+  "purpose": "Post-hoc mechanistic diagnosis of the already reported Stage 6 compression failure, not a new confirmatory test or replacement selection.",
+  "inputs": "Frozen Stage 6 banks and metrics; frozen Stage 5 public request hashes and parameter endpoints only.",
+  "test_access_policy": "forbidden",
+  "training_and_inference": "forbidden",
+  "original_stage6_decision": "Preserve FROZEN_NEGATIVE_RESULT and the failed 16x storage / 10% residual-increase gate; do not authorize Stage 6B.",
+  "analyses": ["uncentered raw Gram spectrum", "row-normalized direction spectrum excluding zero rows", "entropy effective rank with p_i=sigma_i/sum(sigma)", "stable rank", "90/95/99 percent squared-singular-value energy ranks", "norm and pairwise cosine distributions", "rank-truncated bank and two registered query errors"],
+  "ranks": [4, 8, 16, 32, 64, 128, 192, 256],
+  "reporting": "All three seeds and both queries. Numerical failure is reported, never silently dropped. No result-dependent rank grid expansion.",
+  "interpretation_limits": ["A large query residual increase does not establish orthogonality.", "A broad spectrum constrains this tested shared linear representation, not all compression or amortized unlearning methods.", "These are parameter-space diagnostics, not behavioral or privacy guarantees.", "A new analysis protocol does not erase previous exposure to the failed screen."]
+}
