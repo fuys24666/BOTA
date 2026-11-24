@@ -6,7 +6,7 @@ Research code for **BOTA: Offline Trajectory Amortization for Short-Window User 
 
 BOTA moves request-specific reconstruction work into the offline adaptation trajectory. It propagates slot-preserving deletion sources through the parameter and moment states of AdamW, with a calibrated empirical-Fisher response, and stores terminal per-user impact vectors. Supported online requests compose these vectors and publish an Adapter with **zero optimizer steps**.
 
-This source snapshot is prepared on **2026-10-17**, through **Stage 27**, for the current manuscript. Start with [the current reproduction map](docs/CURRENT_CODE_SNAPSHOT.md). Historical protocols are retained for provenance and dependencies; their old score tables are not the current manuscript results.
+The [manuscript result tables](results/README.md) contain the per-seed MovieLens and Amazon comparisons and the per-setting serving measurements. They accompany the Stage 27 implementation and frozen protocols from October 17, 2026. See the [reproduction map](docs/CURRENT_CODE_SNAPSHOT.md) for the experimental inputs and entry points.
 
 ## Current evidence
 
@@ -77,10 +77,10 @@ Rerunning the same command resumes verified units where supported; the interrupt
 ## Preparing a clean source snapshot
 
 ```powershell
-python scripts/release/prepare_source_snapshot.py --output-dir C:\python\BOTA_release_20261017
+python scripts/release/prepare_source_snapshot.py --output-dir ../BOTA_release_20261124
 ```
 
-This creates a source ZIP, SHA-256 manifest, Git path list and upload guide outside the repository. It does not stage, commit, fetch, push or change visibility. The ZIP excludes datasets, weights, outputs, credentials and local paper-review screenshots. Checks are a targeted audit, not a guarantee that arbitrary future files contain no sensitive information. Review the file list before upload.
+This creates a ZIP, SHA-256 manifest, Git path list and upload guide outside the repository. The archive includes the four aggregate CSVs listed in the [result index](results/README.md). Raw experiment directories, datasets, model weights and prediction caches are excluded. Review the file list before upload.
 
 `.gitattributes` preserves file bytes because archived protocol checks include source hashes. Do not apply blanket line-ending conversion or formatting to frozen experimental files.
 

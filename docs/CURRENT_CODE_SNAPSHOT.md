@@ -1,10 +1,8 @@
-# Current code snapshot — 2026-10-17
+# Reproducing the manuscript results
 
-This is an untagged source snapshot through Stage 27, not a claim that a new
-GitHub release has already been published. The package version is unchanged.
-`CITATION.cff` omits the superseded release date/version rather than presenting
-current files as the September release. Software authorship is not inferred
-from provisional manuscript authorship.
+The November 24, 2026 manuscript tables were exported from the archived runs
+of the October 17 Stage 27 implementation. The [result index](../results/README.md)
+lists their units, cohorts and source files.
 
 ## Current result routes
 
@@ -25,7 +23,7 @@ not current headline results. Historical audits remain timestamped records.
 From the repository root in the configured environment:
 
 ```powershell
-$ExperimentWorkspace = 'C:\python\E2URec-main'
+$ExperimentWorkspace = (Resolve-Path '..\E2URec-main').Path
 .\scripts\bota_if\run_ali_stage25_historical_mask_audit_v1.ps1 `
   -Mode Preflight -Scope Development -Workspace $ExperimentWorkspace
 .\scripts\bota_if\run_ali_stage26b_focused_rescore_v1.ps1 `
@@ -34,7 +32,9 @@ $ExperimentWorkspace = 'C:\python\E2URec-main'
   -Mode Preflight -Workspace $ExperimentWorkspace
 ```
 
-Preflight can write inventory/audit reports in the workspace but does not train.
+The example assumes the experiment workspace is beside the BOTA checkout. If it
+is elsewhere, set `$ExperimentWorkspace` to that directory. Preflight can write
+inventory/audit reports in the workspace but does not train.
 Read each runbook before `Full`. FinalTest uses
 `run_ali_stage25_loader_repair01.ps1 -Scope FinalTest -ConfirmFinalTest` with
 the appropriate mode, not a patch to the diagnostics loader's general test guard.
@@ -52,8 +52,9 @@ records rather than selecting successful cells.
 - Parent `outputs/.../protocol/` contracts and selected-configuration records.
 - Frozen models/banks and caches explicitly reused by a stage.
 
-See `docs/ARTIFACTS.md`, configs and individual runbooks. Later scripts consume
-earlier modules and audit JSON files. The source archive is not a results bundle.
+See [ARTIFACTS.md](ARTIFACTS.md), the configs and individual runbooks. The
+aggregate measurements in `results/` can be inspected directly. Rescoring the
+archived endpoints requires the original experiment workspace.
 A reproduction with different asset hashes needs its own declared protocol;
 do not weaken hash guards to claim identity with the archived experiment.
 

@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
+import io
 import json
 import re
 import subprocess
@@ -14,6 +16,22 @@ ROOT_FILES = {'.gitattributes', '.gitignore', 'README.md', 'CITATION.cff',
               'LICENSE', 'THIRD_PARTY.md', 'pyproject.toml', 'requirements.txt'}
 ROOT_DIRS = {'.github', 'configs', 'scripts', 'src', 'tests', 'docs', 'data_preprocess'}
 PLACEHOLDERS = {'data/README.md', 'checkpoints/README.md', 'pretrained_models/README.md'}
+RESULT_FILES = {
+    'results/README.md',
+    'results/movielens_primary.csv',
+    'results/movielens_fisher.csv',
+    'results/amazon_comparison.csv',
+    'results/serving_latency.csv',
+}
+METRIC_COLUMNS = (
+    'dataset,split,seed,request,method,calibration_status,status,utility_eligible,'
+    'local_samples,utility_samples,D_U,E_U,local_residual,toward_exact_rate,'
+    'overall_auc,overall_acc,overall_log_loss'
+).split(',')
+TIMING_COLUMNS = (
+    'seed,request,bank_users,warmup_repetitions,timed_repetitions,mean_ms,p50_ms,p95_ms,'
+    'bank_build_seconds,historical_exact_replay_seconds,amortization_break_even_requests'
+).split(',')
 SUFFIXES = {'.py', '.ps1', '.md', '.json', '.yaml', '.yml', '.txt', '.toml', '.cff'}
 MAX_BYTES = 5 * 1024 * 1024
 SECRET_PATTERNS = {
@@ -40,7 +58,7 @@ def allowed(name: str) -> bool:
         return False
     if any(x in p.parts for x in ('__pycache__', '.pytest_cache', '.git')):
         return False
-    return (name in ROOT_FILES or name in PLACEHOLDERS or
+    return (name in ROOT_FILES or name in PLACEHOLDERS or name in RESULT_FILES or
             (p.parts[0] in ROOT_DIRS and p.suffix.lower() in SUFFIXES))
 
 
@@ -56,7 +74,12 @@ def inventory() -> list[str]:
 def inspect_bytes(name: str, data: bytes) -> None:
     if len(data) > MAX_BYTES:
         raise ValueError(f'File exceeds source-size limit: {name}')
-    data.decode('utf-8-sig')  # This snapshot contains text source only.
+    decoded = data.decode('utf-8-sig')
+    if name in RESULT_FILES and name.endswith('.csv'):
+        columns = TIMING_COLUMNS if name == 'results/serving_latency.csv' else METRIC_COLUMNS
+        rows = csv.reader(io.StringIO(decoded, newline=''), strict=True)
+        if next(rows, None) != columns or any(len(row) != len(columns) for row in rows):
+            raise ValueError(f'Unexpected aggregate result columns: {name}')
     for label, pattern in SECRET_PATTERNS.items():
         if re.search(pattern, data):
             raise ValueError(f'Potential sensitive content ({label}): {name}; value suppressed')
@@ -139,7 +162,7 @@ def package(output: Path) -> None:
     history = history_audit()
     contents = {name: source_bytes(name) for name in inventory()}
     output.mkdir(parents=True, exist_ok=True)
-    archive = output / 'BOTA_source_20261017_stage27.zip'
+    archive = output / 'BOTA_source_20261124_stage27.zip'
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
         for name, data in contents.items():
             z.writestr('BOTA/' + name, data)
@@ -150,7 +173,7 @@ def package(output: Path) -> None:
             if z.read('BOTA/' + name) != data:
                 raise ValueError(f'ZIP byte mismatch: {name}')
     manifest = {
-        'snapshot': '2026-10-17 / Stage 27',
+        'snapshot': '2026-11-24 / Stage 27 code and manuscript result tables',
         'head_before_upload': git('rev-parse', 'HEAD').decode().strip(),
         'history_audit': history,
         'archive_sha256': hashlib.sha256(archive.read_bytes()).hexdigest(),
@@ -164,7 +187,6 @@ def package(output: Path) -> None:
     guide = f'''# Local GitHub upload — prepared source snapshot
 
 Nothing has been staged, committed or pushed. Review README and source_manifest.json.
-Keep the repository private unless you intentionally decide otherwise.
 Run these blocks one at a time in PowerShell; stop on any unexpected result.
 
 ```powershell
@@ -192,7 +214,7 @@ git diff --cached --ignore-space-at-eol
 After reviewing the staged changes:
 
 ```powershell
-git commit -m "Update BOTA code and evaluation protocols through Stage 27"
+git commit -m "Add aggregate manuscript results and reproduction instructions"
 if ($LASTEXITCODE -ne 0) {{ throw 'Commit failed; do not continue.' }}
 git fetch origin
 if ($LASTEXITCODE -ne 0) {{ throw 'Fetch failed; check authentication/network.' }}

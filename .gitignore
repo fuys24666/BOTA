@@ -38,6 +38,11 @@ tmp/
 *.out
 *.csv
 *.tsv
+# Manuscript tables contain only aggregate evaluation or timing measurements.
+!/results/movielens_primary.csv
+!/results/movielens_fisher.csv
+!/results/amazon_comparison.csv
+!/results/serving_latency.csv
 wandb/
 runs/
 

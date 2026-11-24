@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import importlib.util
 import hashlib
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -23,10 +25,31 @@ def test_release_keeps_required_code_and_audits(name):
 @pytest.mark.parametrize('name', [
     '.env', 'data/users.json', 'outputs/metrics.json', 'checkpoints/model.pt',
     'docs/audits/stage17_final_20261011/statistics.json', 'docs/review.png',
-    '../private.py', 'src/__pycache__/module.pyc',
+    '../private.py', 'src/__pycache__/module.pyc', 'results/predictions.csv',
+    'results/extra.json', 'docs/metrics.csv',
 ])
 def test_release_excludes_local_artifacts(name):
     assert not SNAPSHOT.allowed(name)
+
+
+def test_release_includes_reviewed_result_files():
+    for name in SNAPSHOT.RESULT_FILES:
+        assert SNAPSHOT.allowed(name)
+        SNAPSHOT.inspect_bytes(name, (ROOT / name).read_bytes())
+
+
+def test_result_export_rejects_extra_columns():
+    header = ','.join(SNAPSHOT.METRIC_COLUMNS + ['users'])
+    with pytest.raises(ValueError, match='Unexpected aggregate result columns'):
+        SNAPSHOT.inspect_bytes('results/movielens_primary.csv', header.encode())
+
+
+def test_manuscript_summary_reproduces_reported_results():
+    script = ROOT / 'scripts/release/summarize_manuscript_results.py'
+    output = subprocess.check_output([sys.executable, '-I', str(script)], text=True)
+    for value in ('0.3207', '0.2264', '37.8%', '54.3%', '51.3%', '60.8%',
+                  '3/6', '42.583-43.396 ms', '42.448-44.117 ms'):
+        assert value in output
 
 
 def test_release_rejects_sensitive_content_without_echoing_it():
