@@ -1,0 +1,3 @@
+request,users,low_frequency_users,middle_frequency_users,high_frequency_users,window_interactions,deleted_slots,window_fraction,window_exposures_min,window_exposures_max,global_train_frequency_min,global_train_frequency_max,development_examples_min,development_examples_max
+L8,8,8,0,0,3200,8,0.0025,1,1,2,10,13,113
+L4M4,8,4,4,0,3200,8,0.0025,1,1,2,17,13,114
