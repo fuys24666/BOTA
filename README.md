@@ -4,6 +4,8 @@
 
 Research code for **BOTA: Offline Trajectory Amortization for Short-Window User Deletion in Language-Model Recommenders**.
 
+[Read the preprint on Zenodo (v1)](https://doi.org/10.5281/zenodo.24519524)
+
 BOTA moves request-specific reconstruction work into the offline adaptation trajectory. It propagates slot-preserving deletion sources through the parameter and moment states of AdamW, with a calibrated empirical-Fisher response, and stores terminal per-user impact vectors. Supported online requests compose these vectors and publish an Adapter with **zero optimizer steps**.
 
 The [manuscript result tables](results/README.md) contain the per-seed MovieLens and Amazon comparisons and the per-setting serving measurements. They accompany the Stage 27 implementation and frozen protocols from October 17, 2026. See the [reproduction map](docs/CURRENT_CODE_SNAPSHOT.md) for the experimental inputs and entry points.
@@ -86,6 +88,8 @@ This creates a ZIP, SHA-256 manifest, Git path list and upload guide outside the
 
 ## Citation and license
 
-Software metadata is in [CITATION.cff](CITATION.cff). The manuscript is a draft; final bibliographic and authorship metadata should be confirmed before a publication release. Cite the upstream E2URec pipeline separately when using its preprocessing or checkpoint lineage; see [THIRD_PARTY.md](THIRD_PARTY.md).
+Fu, Yusen, Ali Anaissi, and Ali Braytee (2026). *BOTA: Offline Trajectory Amortization for Short-Window User Deletion in Language-Model Recommenders*. Zenodo, version 1. [doi:10.5281/zenodo.24519524](https://doi.org/10.5281/zenodo.24519524)
+
+Software metadata is in [CITATION.cff](CITATION.cff). If you use the upstream E2URec preprocessing or checkpoint lineage, cite that pipeline separately. See [THIRD_PARTY.md](THIRD_PARTY.md).
 
 Code is licensed under [MIT](LICENSE). Data and pretrained model licenses remain those of their respective providers.
